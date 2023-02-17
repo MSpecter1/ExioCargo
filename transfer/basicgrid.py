@@ -10,7 +10,7 @@ def createBasic():
             list = [(x * 39) + n, "NAN"]
             v.append(list)
         for s in range(12):
-            list = [(x * 39) + 27 + s, "SHIP"]
+            list = [(x * 39) + 27 + s, "UNUSED"]
             v.append(list)
 
     for x in range(3):
@@ -21,7 +21,7 @@ def createBasic():
             list = [156 + (x * 39) + 24 + n, "NAN"]
             v.append(list)
         for s in range(12):
-            list = [156 + (x * 39) + 27 + s, "SHIP"]
+            list = [156 + (x * 39) + 27 + s, "UNUSED"]
             v.append(list)
 
     for b in range(24):
@@ -33,7 +33,7 @@ def createBasic():
     v.append([299, "NAN"])
 
     for s in range(12):
-        list = [300 + s, "SHIP"]
+        list = [300 + s, "UNUSED"]
         v.append(list)
 
     for u in range(39):

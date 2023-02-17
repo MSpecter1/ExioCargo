@@ -5,8 +5,6 @@ def printGrid(vec):
         for i in range(39):
             if vec[(row * 39) + i][1] == "NAN":
                 print(chr(0x2588), end = " ")
-            elif vec[(row * 39) + i][1] == "SHIP":
-                print("S", end = " ")
             elif vec[(row * 39) + i][1] == "BUFFER":
                 print("B", end = " ")
             elif vec[(row * 39) + i][1] == "TRUCK":
