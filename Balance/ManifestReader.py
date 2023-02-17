@@ -11,6 +11,15 @@ class container:
     def getName(self):
         return self.name
 
+    def getRow(self):
+        return self.x
+    
+    def getCol(self):
+        return self.y
+
+    def getWeight(self):
+        return self.weight
+
 class manifest_reader:
     manifest = None
     
