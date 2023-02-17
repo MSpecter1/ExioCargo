@@ -13,6 +13,8 @@ def printGrid(vec):
                 print("T", end = " ")
             elif vec[(row * 39) + i][1] == "UNUSED":
                 print("U", end = " ")
+            elif vec[(row * 39) + i][1] == "CRANE":
+                print("H", end = " ")
             else:
                 print("C", end = " ")   #container
         print()
