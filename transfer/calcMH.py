@@ -13,6 +13,7 @@ def calcTotalMH(grid, offContainers, loadContainers):    #'grid' refers to the c
                     cost += 100
                     # TODO: calculate the nearest cell that the containers can go
                 aboveLoc += 39
+
             # print("cost for v[", cell, "] is: ", cost)
 
     for container in loadContainers:

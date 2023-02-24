@@ -64,7 +64,7 @@ def expandMoves(self):
                 newIsGrabbing = container
                 newLoadContainers.remove(container)
                 ret.append(createGrid.newGrid(newGrid, newDepth, newOffContainers, newLoadContainers, newIsGrabbing))
-        elif(grid[cranePos - 39][1] != ("UNUSED" or "TRUCK" or "NAN")):       #CRANE_GRAB
+        elif((grid[cranePos - 39][1] != "UNUSED") and (grid[cranePos - 39][1] != "TRUCK") and (grid[cranePos - 39][1] != "NAN")):       #CRANE_GRAB
             newGrid = copy.deepcopy(grid)
             newDepth = copy.deepcopy(createGrid.newGrid.getDepth(self))
             newDepth += 1

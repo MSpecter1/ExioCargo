@@ -35,7 +35,9 @@ solution = any
 pq = PriorityQueue()
 pq.put(PriorityEntry((start.getDepth() + calcTotalMH(start.getGrid(), offContainers, loadContainers)), start))
 
-mh = start.getDepth() + calcTotalMH(start.getGrid(), offContainers, loadContainers)
+# mh = start.getDepth() + calcTotalMH(start.getGrid(), offContainers, loadContainers)
+hmap = {}
+hmap[createGrid.newGrid.calcHash(start)] = None
 
 while pq:
     node = pq.get()
@@ -49,11 +51,14 @@ while pq:
     for n in nodes:
         # pq.put((n.getDepth() + calcTotalMH(n.getGrid(), n.getOffContainers(), n.getLoadContainers)), n)
         tempMH = createGrid.newGrid.getDepth(n) + calcTotalMH(createGrid.newGrid.getGrid(n), createGrid.newGrid.getOffContainers(n), createGrid.newGrid.getLoadContainers(n))
-        if mh != tempMH:
-            mh = tempMH
+        hash = createGrid.newGrid.calcHash(n)
+        if hash not in hmap:
+            hmap[hash] = None
+            pq.put(PriorityEntry(tempMH, n))
+            # if mh != tempMH:
+            #     mh = tempMH
             print("\nPutting the following grid with MH of ", tempMH, " into PQ:")
             printGrid(createGrid.newGrid.getGrid(n))
-        pq.put(PriorityEntry(tempMH, n))
 
 #priorityentry BS taken from https://stackoverflow.com/questions/40205223/priority-queue-with-tuples-and-dicts
 
