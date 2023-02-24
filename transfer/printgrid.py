@@ -1,7 +1,7 @@
 # class printGrid:
     
 def printGrid(vec):
-    for row in range(8, -1, -1):
+    for row in range(9, -1, -1):
         for i in range(39):
             if vec[(row * 39) + i][1] == "NAN":
                 print(chr(0x2588), end = " ")

@@ -44,7 +44,9 @@ def createBasic():
         list = [351 + u, "UNUSED"]
         v.append(list)
 
-    v[378] = [378, "CRANE"]
+    # v[339] = [339, "CRANE"]
+    v[343] = [343, "CRANE"]
+
 
     return v
 

@@ -3,7 +3,7 @@ import ManifestReader
 def modifyGrid(list):
     reader = ManifestReader.manifest_reader()
 
-    reader.set_manifest("transfer\ShipCase1.txt")
+    reader.set_manifest("transfer\ShipCase4.txt")
     containers = reader.read_manifest()
 
     for c in containers:
