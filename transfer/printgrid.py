@@ -10,7 +10,7 @@ def printGrid(vec):
             elif vec[(row * 39) + i][1] == "TRUCK":
                 print("T", end = " ")
             elif vec[(row * 39) + i][1] == "UNUSED":
-                print("U", end = " ")
+                print("_", end = " ")
             elif vec[(row * 39) + i][1] == "CRANE":
                 print("H", end = " ")
             else:
