@@ -40,9 +40,14 @@ hmap = {}
 hmap[createGrid.newGrid.calcHash(start)] = None
 
 while pq:
+    print("\n\n\n\n\n\n\n\n\n\n\n")
     node = pq.get()
     # print(type(node))
     curr = node.getData()
+    print("Previous move:")
+    print("MH of ", createGrid.newGrid.getDepth(curr) + calcTotalMH(createGrid.newGrid.getGrid(curr), createGrid.newGrid.getOffContainers(curr), createGrid.newGrid.getLoadContainers(curr)))
+    printGrid(createGrid.newGrid.getGrid(curr))
+    print("Possible moves:")
     # print(node.getData())
     if isGoalState(createGrid.newGrid.getGrid(curr), createGrid.newGrid.getOffContainers(curr), createGrid.newGrid.getLoadContainers(curr), createGrid.newGrid.getIsGrabbing(curr)):
         solution = node
