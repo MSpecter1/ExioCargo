@@ -21,7 +21,7 @@ shipGrid = [
 #        self.weight = weight #depth of the node
 #        self.button =  tk.Button(root, text="", height=5, width=10, bg='white',activebackground='lightgrey', command=lambda row=i, column=j: print(row, column))
 
-timer = 300
+timer = 150
 # Define a function to start the loop
 def on_start():
    global running
@@ -31,7 +31,6 @@ def on_start():
 def on_stop():
    global running
    running = False
-
 
 button_grid = []
 def buildShipGrid(shipGrid): #building a dummy grid
@@ -55,6 +54,12 @@ def buildShipGrid(shipGrid): #building a dummy grid
                 button_row.append(button)
 
         button_grid.append(button_row)
+
+def computeRow(y):
+    return y + ((-2 * y) + 8)
+
+def computeCol(x):
+    return x-1
 
 def maxY(slot1, slot2):
     slot1_row, slot1_col = slot1
@@ -99,20 +104,6 @@ def maxY(slot1, slot2):
     
     print("Max height/row:", moveUp)
     return moveUp
-            # print(c, r)
-            # print(button_grid[r][c].cget('bg'), r, c)
-
-#TODO: def animateX(): <-- create function to create an array of the full x movement we can use to loop through (horizontal/x Manhattan Distance of the movement); NOTE: when moving in X direction, we use the max height generated from animateY() and stay on this Y coordinate value
-#TODO: def animateY(): <-- a bit more complex... let's say we want to move Container A from (x1, y1) to (x2, y2)... Find if any button in between (x1,y1) and (x2,y2) is stacked higher than y1's current height. if it is, then we must move +1 higher than this button. The function should return the array of the step by step y movement AND also returns the max height of y + 1 to be used for animateX().
-
-#TODO: In summary, our animation will first go/run through the array from returned for animateY() and display it on screen (it stays on the same x1 value while the Y value changes). After it finishes the Y array, it will run through the X array returned from animateX() using the max height or the max Y value of Y array (it stays on the same Y value while the X value changes).
-
-        
-def computeRow(y):
-    return y + ((-2 * y) + 8)
-
-def computeCol(x):
-    return x-1
 
 def animateUp(y, slot1): # combine animateDown here 
     row, col = slot1
@@ -130,14 +121,10 @@ def animateUp(y, slot1): # combine animateDown here
         lightButton.update()
         root.after(timer)
 
-    # if running == False:  #add condition for when user hits "Next", stop the loop so it can go to next step's new animation
-    #     break
 
 def animateHorizontal(slot1, slot2, moveMaxHeight):
     slot1_row, slot1_col = slot1
     slot2_row, slot2_col = slot2
-    # print("1", slot1_row, slot1_col)
-    # print("2", slot2_row, slot2_col)
 
     # Condition 1: move left to right; if slot1_col < slot2_col
     if slot1_col < slot2_col:
@@ -167,19 +154,19 @@ def maxDown(slot2, moveMaxHeight):
     slot2_row, slot2_col = slot2
     
     downLimit = 7
-    for i in range(moveMaxHeight, 8):
+    for i in range(moveMaxHeight, 8): #move from maxHeight to last row to search for next blue/USED or black/NAN block
         if(button_grid[i][slot2_col].cget('bg') == "blue" or button_grid[i][slot2_col].cget('bg') == "black"):
-                downLimit = i
-                break
-    print("downLimit", downLimit-1)
-    return downLimit-1
+                downLimit = i-1
+                break # break out of loop once we find the first blue/USED or black/NAN block
+    print("downLimit", downLimit)
+    return downLimit
 
 # stay in slot2_col, move down from moveMaxHeight to next below blue box in the same slot2_col column
 # to find the next below blue box, start from moveMaxHeight then check for each box[i++][col]
 def animateDown(slot2, moveMaxHeight, moveMaxDown):
     slot2_row, slot2_col = slot2
 
-    for i in range(moveMaxHeight+1, moveMaxDown+1):
+    for i in range(moveMaxHeight+1, moveMaxDown+1): # move animation from maxHeight to the maxDown (i.e. the first blue or black box maxHeight)
         lightButton = button_grid[i][slot2_col]
         lightButton.config(bg="light sky blue")
         lightButton.update()
@@ -188,7 +175,12 @@ def animateDown(slot2, moveMaxHeight, moveMaxDown):
         lightButton.update()
         root.after(timer)
     
+def updateNextGrid(slot2): # updates the 8x12 grid to reflect the current step's move/task has been completed once the user presses "Next"
+    slot2_row, slot2_col = slot2
 
+    updateSlot2Button = button_grid[slot2_row][slot2_col]
+    updateSlot2Button.config(bg="blue")
+    updateSlot2Button.update()
 
 def main():
     buildShipGrid(shipGrid)
@@ -198,8 +190,8 @@ def main():
     # Move container from (2, 3) to (2, 10) => (6, 2) to (6, 9)
     # manifest/ship coord (a,b): (2,3) --> UI_X =  a + (-2a + 8), UI_Y = b - 1
 
-    # pair1 = (2, 10) #(2, 3)
-    # pair2 = (3, 12) #(2, 10)
+    # pair1 = (2, 10) # (2, 3)
+    # pair2 = (3, 12) # (2, 10)
 
     pair1 = (2, 3)
     pair2 = (2, 10)
@@ -231,19 +223,17 @@ def main():
         animateDown(slot2, moveMaxHeight, moveMaxDown)
         if running == False:  #add condition for when user hits "Next", stop the loop so it can go to next step's new animation
             break       
-
     
-    # pairChangeButtonColor((1+6, 2+1), (1+6,6+1))
-    
-    print("Broke out of animation loop!") #break out of loop from pairChangeButtonColor((0,0), (3,3))
+    updateNextGrid(slot2)
+    print("Broke out of animation loop!") #break out of loop
     root.mainloop()
 
 if __name__ == '__main__':
     main()
 
-#TODO: NEED AN updateGrid() FUNCTION FOR WHEN AFTER WE PERFORM A MOVEMENT/STEP WE UPDATE THE GRID TO REFLECT THE MOVED CONTAINER TO ITS NEW POSITION IN THE NEXT STEP
-
-# are you guys using a 2D matrix or array to build your grid? and is your 2D array filled with container objects?
+#TODO 1: perform some conversion that takes Michael's (col, row) coordinates and then converts it to Manifest's coordinate format
+#TODO 2: create a function that reads in a Manifest text file to create the 8x12 2D array named "shipGrid" 
+#TODO 3: add a grid for displaying the buffer (can probably just do this in main() or outside main())
 
 '''
 PLAN for function buildShipGrid(): use position in matrix (x, y) as the unique ID for each slot <-- will update this function buildShipGrid() once manifest reader is finalized or try asking them tmrw about it
@@ -252,37 +242,4 @@ PLAN for function buildShipGrid(): use position in matrix (x, y) as the unique I
 2) Take in my button array. Loop through button array/grid and for each slot (i and j or (x,y) position), 
     if buttonArray[i][j] == manifestArray[i][j]: 
         GET manifestArray[i][j].name and set the buttonArray[i][j]'s or tk.Button(root, text="", ...) the text= manifestArray[i][j].name
-
-
-'''
-
-
-#NOTE: when you read in manifest positions to build the shipGrid matrix/2D array, we need to use -2x+8 (to the manifest coord) to find x value and add 1 to y value (it's bc manifest counts it differently from python)
-'''
-def pairChangeButtonColor(pair1, pair2):
-    a, b = pair1
-    print(a, b)
-    c, d = pair2
-    print(c, d)
-
-    while True:
-        button1 = button_grid[a][b]
-        button1.config(bg="pink")
-        button1.update()
-        # time.sleep(1)
-        # apparently it's recommended to use .after() instead of time.sleep() bc it could interfere with mainloop(); https://stackoverflow.com/questions/39555463/tkinter-how-to-stop-a-loop-with-a-stop-button
-        root.after(700) 
-        button1.config(bg="white")
-        button1.update()
-
-        button2 = button_grid[c][d]
-        button2.config(bg="pink")
-        button2.update()
-        # time.sleep(1)
-        root.after(700)
-        button2.config(bg="white")
-        button2.update()
-
-        if running == False:  #add condition for when user hits "Next", stop the loop so it can go to next step's new animation
-            break       
 '''
