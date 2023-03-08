@@ -1,25 +1,10 @@
 import tkinter as tk
 import time
+import GUIManifestReader
+import numpy as np
 
 root = tk.Tk()
 running = True
-
-shipGrid = [
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], # row 0
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], # row 1
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], # row 2
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], # row 3
-                [0, 0, 0, 0, 0, 0, "GREEN", 0, 0, 0, 0, 0], # row 4
-                [0, 0, 0, 0, 0, 0, "RED", 0, 0, 0, 0, 0], # row 5
-                ["NAN", 0, "BLUE", 0, 0, "GREEN", "BLUE", 0, 0, 0, 0, "NAN"], # row 6
-                ["NAN", "NAN", "RED", "ORANGE", 0, "BLUE", "GREEN", 0, 0, "RED", "NAN", "NAN"] # row 7                
-                ]
-
-# class Container: 
-#     def __init__(self, name, weight, button):
-#        self.name = name #h should be set to 0 for Uniform Cost Search
-#        self.weight = weight #depth of the node
-#        self.button =  tk.Button(root, text="", height=5, width=10, bg='white',activebackground='lightgrey', command=lambda row=i, column=j: print(row, column))
 
 timer = 150
 # Define a function to start the loop
@@ -33,27 +18,24 @@ def on_stop():
    running = False
 
 button_grid = []
-def buildShipGrid(shipGrid): #building a dummy grid
+containers_arr = GUIManifestReader.read_manifest("ShipCase1.txt")
+def buildShipGrid(): #building a dummy grid
+    global containers_2D
+    containers_2D = list(np.reshape(containers_arr, (8,12)))
+
+    containers_2D.reverse()
     for i in range(8):
         button_row = []
         for j in range(12):
-
-            if(shipGrid[i][j] == 0): #0 means "UNUSED"
-                button = tk.Button(root, text=f"({i},{j})", height=5, width=10, bg='white',activebackground='lightgrey', command=lambda row=i, column=j: print(row, column))
-                button.grid(row=i, column=j)
-                button_row.append(button)
-
-            elif(shipGrid[i][j] == "NAN"):
-                button = tk.Button(root, text="", height=5, width=10, bg='black',activebackground='black', command=lambda row=i, column=j: print(row, column))
-                button.grid(row=i, column=j)
-                button_row.append(button)
-
-            else:
-                button = tk.Button(root, text=shipGrid[i][j] + f"({i},{j})", height=5, width=10, bg='blue',activebackground='lightgrey', command=lambda row=i, column=j: print(row, column))
-                button.grid(row=i, column=j)
-                button_row.append(button)
-
+            container = containers_2D[i][j]
+            print(f"({container.x}, {container.y})", container.weight, container.name, container.button.cget('text'))
+            container.button.config(text=container.name + f"({i},{j})", command=lambda row=i, column=j, container_x=container.x, container_y=container.y, container_weight=container.weight, container_name=container.name: print("row:", row, "column:", column, "ManifestX:", container_x, "ManifestY:", container_y, "Name:", container_name, "Weight:", container_weight))
+            container.button.update()
+            button = container.button
+            button.grid(row=i, column=j)
+            button_row.append(button)
         button_grid.append(button_row)
+
 
 def computeRow(y):
     return y + ((-2 * y) + 8)
@@ -76,7 +58,8 @@ def maxY(slot1, slot2):
         maxRow = 100
         for c in range(slot1_col, slot2_col+1): # moving horizontally X
             for r in range(slot2_row, -1, -1): # moving vertically Y
-                # print(button_grid[r][c].cget('bg'), r, c)
+
+                print(r,c)
                 if(button_grid[r][c].cget('bg') != "white" and button_grid[r][c].cget('bg') != "black"): #Find the max Y or row; decrements from slot1's row to the top/0th row
                     # print(button_grid[r][c].cget('bg'), r, c)
                     if(r < maxRow):
@@ -114,7 +97,7 @@ def animateUp(y, slot1): # combine animateDown here
         # print('enter')
         # prevButton = button_grid[i][col]
         lightButton = button_grid[i][col]
-        lightButton.config(bg="light sky blue")
+        lightButton.config(bg="blue")
         lightButton.update()
         root.after(timer)
         lightButton.config(bg="white")
@@ -131,7 +114,7 @@ def animateHorizontal(slot1, slot2, moveMaxHeight):
         print("Condition 1: moveRight")
         for i in range(slot1_col, slot2_col+1):
             lightButton = button_grid[moveMaxHeight][i]
-            lightButton.config(bg="light sky blue")
+            lightButton.config(bg="blue")
             lightButton.update()
             root.after(timer)
             lightButton.config(bg="white")
@@ -143,7 +126,7 @@ def animateHorizontal(slot1, slot2, moveMaxHeight):
         print("Condition 2: moveLeft")
         for i in range(slot1_col, slot2_col-1, -1):
             lightButton = button_grid[moveMaxHeight][i]
-            lightButton.config(bg="light sky blue")
+            lightButton.config(bg="blue")
             lightButton.update()
             root.after(timer)
             lightButton.config(bg="white")
@@ -168,22 +151,28 @@ def animateDown(slot2, moveMaxHeight, moveMaxDown):
 
     for i in range(moveMaxHeight+1, moveMaxDown+1): # move animation from maxHeight to the maxDown (i.e. the first blue or black box maxHeight)
         lightButton = button_grid[i][slot2_col]
-        lightButton.config(bg="light sky blue")
+        lightButton.config(bg="blue")
         lightButton.update()
         root.after(timer)
         lightButton.config(bg="white")
         lightButton.update()
         root.after(timer)
     
-def updateNextGrid(slot2): # updates the 8x12 grid to reflect the current step's move/task has been completed once the user presses "Next"
+def updateNextGrid(slot1, slot2): # updates the 8x12 grid to reflect the current step's move/task has been completed once the user presses "Next"
+    slot1_row, slot1_col = slot1
     slot2_row, slot2_col = slot2
 
     updateSlot2Button = button_grid[slot2_row][slot2_col]
-    updateSlot2Button.config(bg="blue")
+    new_button_slot2name = containers_2D[slot1_row][slot1_col].name
+    updateSlot2Button.config(bg="blue", text=new_button_slot2name+f"({slot2_row}, {slot2_col})")
     updateSlot2Button.update()
 
+    updateSlot1Button = button_grid[slot1_row][slot1_col]
+    updateSlot1Button.config(bg="white", text="UNUSED"+f"({slot1_row}, {slot1_col})")
+    updateSlot1Button.update()
+
 def main():
-    buildShipGrid(shipGrid)
+    buildShipGrid()
     button = tk.Button(root, text="Next",activebackground='lightgrey', height=1, width=8, command=on_stop)
     button.grid(row=9, column=6)
     # (row, col) => (y, x)
@@ -193,8 +182,11 @@ def main():
     # pair1 = (2, 10) # (2, 3)
     # pair2 = (3, 12) # (2, 10)
 
-    pair1 = (2, 3)
-    pair2 = (2, 10)
+    # pair1 = (2, 3)
+    # pair2 = (2, 10)
+
+    pair1 = (1, 3)
+    pair2 = (1, 7)
 
     pair1R, pair1C = pair1
     pair2R, pair2C = pair2
@@ -224,16 +216,17 @@ def main():
         if running == False:  #add condition for when user hits "Next", stop the loop so it can go to next step's new animation
             break       
     
-    updateNextGrid(slot2)
+    updateNextGrid(slot1,slot2)
     print("Broke out of animation loop!") #break out of loop
     root.mainloop()
 
 if __name__ == '__main__':
     main()
 
-#TODO 1: perform some conversion that takes Michael's (col, row) coordinates and then converts it to Manifest's coordinate format
-#TODO 2: create a function that reads in a Manifest text file to create the 8x12 2D array named "shipGrid" 
-#TODO 3: add a grid for displaying the buffer (can probably just do this in main() or outside main())
+#TODO 1: perform some conversion that takes Michael's (col, row) coordinates and then converts it to Manifest's coordinate format (maybe create a sample file of what Michael's output path file would look like)
+#TODO 2: add a grid for displaying the buffer (can probably just do this in main() or outside main())
+#TODO 3: figure out how to make the animation stop immediately and go to the next grid (updateNextGrid()) when the user prints the "Next" button; right now, when the user presses the "Next" button, the animation has to finish its move first before updating to the next new grid/before (i.e. updateNextGrid) which is not very time-efficient
+#TODO 4: make the containers different colors where there is a unique color for each container_name (question: do i have to consider the weight too? like if they two containers have the same name but different weights, do i color them differently or the same color?)
 
 '''
 PLAN for function buildShipGrid(): use position in matrix (x, y) as the unique ID for each slot <-- will update this function buildShipGrid() once manifest reader is finalized or try asking them tmrw about it
