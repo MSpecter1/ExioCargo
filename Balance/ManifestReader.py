@@ -1,15 +1,27 @@
 class container:
-    def __init__(self, name, x, y, weight):
+    container = False
+    nan = False
+
+    def __init__(self, name, x, y, weight, container, nan):
+    # def __init__(self, name, x, y, weight):
         self.name = name
         self.x = x-1
         self.y = y-1
         self.weight = weight
+        self.container = container
+        self.nan = nan
 
     def display_info(self):
         print("Position: [",self.x,",", self.y,"], Weight:", self.weight ,"kg, Name:",self.name)
 
     def getName(self):
         return self.name
+    
+    def __eq__(self, other):
+        # return (self.name==other.name and self.weight == other.weight and self.x == other.x and self.y == other.y)
+        return (self.name==other.name and self.weight == other.weight)   
+    def __lt__(self, other):
+        return self.weight < other.weight
 
     def getRow(self):
         return self.x
@@ -43,13 +55,16 @@ class manifest_reader:
                 w=int(line[10:15])
                 # Name
                 n=(line[18:])
-                # create container
-                containers.append(container(n,x,y,w))
-        return containers
-                
 
-# test = manifest_reader()
-# test.set_manifest("Balance\ShipCase1.txt")
-# containers = test.read_manifest()
-# for c in containers:
-#     c.display_info()
+                c=False
+                nan = False
+                if w != 0:
+                    c = True
+                if n == 'NAN' and w==0:
+                    nan = True
+
+                containers.append(container(n,x,y,w,c,nan))
+
+                # create container
+                # containers.append(container(n,x,y,w))
+        return containers
