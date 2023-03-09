@@ -1,10 +1,11 @@
 class newGrid:
-    def __init__(self, grid, depth, offContainers, loadContainers, isGrabbing):
+    def __init__(self, grid, depth, offContainers, loadContainers, isGrabbing, parentNode):
         self.grid = grid
         self.depth = depth
         self.offContainers = offContainers
         self.loadContainers = loadContainers
         self.isGrabbing = isGrabbing
+        self.parentNode = parentNode
 
     def getGrid(self):
         return self.grid
@@ -20,6 +21,12 @@ class newGrid:
 
     def getIsGrabbing(self):
         return self.isGrabbing
+
+    def setParentNode(self, node):
+        self.parentNode = node
+
+    def getParentNode(self):
+        return self.parentNode
 
     def calcHash(self):
         ret = 0
