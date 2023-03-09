@@ -183,7 +183,7 @@ class ShipState:
         avg_cost = 0
         sum_cost = 0
         con_cnt = 0
-
+        # move_list = []
         for c in self.containers:
             if c.container:
                 con_cnt+=1
@@ -199,14 +199,14 @@ class ShipState:
 
                     target = self.state[current_row][current_row_h_left]
                     if target.container and target!=c:
+                        # move_list.append(target)
                         overlap_cnt+=1
 
                     heightNeeded = current_row
                     for c2 in self.containers:
-                        if (c2.container or c2.nan) and c2.y in range(min(c.y+1, current_row_h_left),max(c.y+1, current_row_h_left)) and c2 != c:
+                        if (c2.container or c2.nan) and c2.y in range(min(c.y, current_row_h_left),max(c.y, current_row_h_left)) and c2 != c:
                             # print(c.y+1, current_row_h_left)
                             if c2.x+1>heightNeeded:
-                                # print('\t', c.name, c2.name)
                                 heightNeeded = c2.x+1
                     if heightNeeded<current_row:
                         heightNeeded = current_row
@@ -215,7 +215,7 @@ class ShipState:
                     current_row_h_left -= 1
                     left = False
                 else:
-                    h_cost += abs(current_row_h_right - c.y)
+                    # h_cost += abs(current_row_h_right - c.y)
                     total += abs(current_row_h_right - c.y)
                     if current_row != c.x:
                         # h_cost+= 2*(abs(current_row-c.x))
@@ -225,11 +225,12 @@ class ShipState:
 
                     target = self.state[current_row][current_row_h_right]
                     if target.container and target!=c:
+                        # move_list.append(target)
                         overlap_cnt+=1
 
                     heightNeeded = current_row
                     for c2 in self.containers:
-                        if (c2.container or c2.nan) and c2.y in range(min(c.y+1, current_row_h_right),max(c.y+1, current_row_h_right)) and c2 != c:
+                        if (c2.container or c2.nan) and c2.y in range(min(c.y, current_row_h_right),max(c.y, current_row_h_right)) and c2 != c:
                             if c2.x+1>heightNeeded:
                                 # print('\t', c2.name)
                                 heightNeeded = c2.x+1
@@ -248,7 +249,11 @@ class ShipState:
                     current_row += 1
                     current_row_h_left = 6
                     current_row_h_right = 7
-
+        # temp = 0
+        # for c in move_list:
+        #     temp+=c
+        # print(temp/len(move_list))
+        # h_cost+= temp/len(move_list)
         h_cost+=sum_cost
         avg_cost = sum_cost / con_cnt
         h_cost+= avg_cost * overlap_cnt
