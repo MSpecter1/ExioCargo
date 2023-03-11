@@ -1,9 +1,14 @@
 import ManifestReader
+import os
 
 def modifyGrid(list, filename):
     reader = ManifestReader.manifest_reader()
 
-    reader.set_manifest("transfer\\" + filename + ".txt")
+    path = '../ExioCargo/tests/' + filename + '.txt'
+    fileName = os.path.abspath(path)
+    # relative paths taken from Nicholas Jones on https://stackoverflow.com/questions/918154/relative-paths-in-python
+
+    reader.set_manifest(fileName)
     containers = reader.read_manifest()
 
     for c in containers:
@@ -12,6 +17,3 @@ def modifyGrid(list, filename):
         list[index] = [index, ManifestReader.container.getName(c)]
     
     return list
-
-    # for c in containers:
-        # ManifestReader.container.display_info(c)
