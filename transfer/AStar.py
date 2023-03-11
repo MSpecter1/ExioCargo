@@ -19,8 +19,10 @@ class PriorityEntry(object):
     def getData(self):
         return self.data
 
+filename = "ShipCase5"
+
 v = createBasic()
-v = modifyGrid(v)
+v = modifyGrid(v, filename)
 offContainers = ["Hen", "Pig"]
 loadContainers = ["Nat", "Rat"]
 start = createGrid.newGrid(v, 0, offContainers, loadContainers, "", None, "")
@@ -114,7 +116,7 @@ if(solution):
     while stack:
         str = stack.pop() + stack.pop() + " " + stackNames.pop()
         output.append(str)
-    f = open("TestingOutput.txt", "w")
+    f = open(filename + "GUIPathOutput.txt", "w")
     f.write(output.pop(0))
     while output:
         f.write("\n")
