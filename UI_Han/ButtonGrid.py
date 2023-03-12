@@ -55,7 +55,7 @@ def pathReader(file):
             print(path_arr[i])
 
 button_grid = []
-containers_arr = GUIManifestReader.read_manifest("ShipCase4.txt")
+containers_arr = GUIManifestReader.read_manifest("DummyManifest.txt")
 def buildShipGrid():
     global containers_2D
     containers_2D = list(np.reshape(containers_arr, (8,12)))
@@ -107,6 +107,7 @@ def maxY(slot1, slot2):
     print("slot2's row:", slot2_row)
     print("slot2's col:", slot2_col)
 
+    # row_start = slot1_row
 
 #if there's nothing obstructing the horizontal path between slot1 and slot2, then just move horizontally...
     # Condition 1: move left to right; if slot1_col < slot2_col
@@ -119,44 +120,28 @@ def maxY(slot1, slot2):
                 print(r,c)
                 if(button_grid[r][c].cget('bg') != "white" and button_grid[r][c].cget('bg') != "black"): #Find the max Y or row; decrements from slot1's row to the top/0th row
                     # print(button_grid[r][c].cget('bg'), r, c)
-                    if(r < maxRow):
+                    if(r <= maxRow):
                         maxRow = r
+                        # row_start = maxRow
                         moveUp = maxRow-1
                         print("MAXX height/row:", maxRow)
-                    
-                    if(slot1_row == r and maxRow >= r):
-                        print("mememe")
-                        moveUp = r-1
-                        print("TF",moveUp)
+                        
+                # print("new start", row_start)
 
     # Condition 2: move right to left; if slot1_col > slot2_col // here, instead of incrementing the c/col we, decrement it up to slot2_col
     if slot1_col > slot2_col: #TODO: TEST & FIX THIS NEXT
         print("Condition 2")
         maxRow = slot1_row
-        for c in range(slot1_col, slot2_col-1, -1): # moving horizontally X
+        for c in range(slot1_col-1, slot2_col-1, -1): # moving horizontally X
             for r in range(slot1_row, -1, -1): # moving vertically Y
-                # print("r,c", r, c)
+                print(r,c)
                 if(button_grid[r][c].cget('bg') != "white" and button_grid[r][c].cget('bg') != "black"): #Find the max Y or row; decrements from slot1's row to the top/0th row
                     # print(button_grid[r][c].cget('bg'), r, c)
-                    if(r < maxRow):
+                    if(r <= maxRow):
                         maxRow = r
+                        moveUp = maxRow-1  # move 1 up above current slot1 container
                         print("MAXX height/row:", maxRow)
-        moveUp = maxRow-1 # move 1 up above current slot1 container
 
-    # if(moveUp == maxRow): #if it's all white space and no containers are blocking in between, just set the max height to row2's row value
-    #     moveUp = slot2_row
-
-    # if maxRow > 1: #maxRow>1
-    #     moveUp = maxRow-1
-    # else:
-    #     moveUp = maxRow
-    
-    # if maxRow == slot1_row:
-    #     moveUp = maxRow
-    #     print("ENTER//", "move up by", moveUp, "maxrow", maxRow)
-    # else:
-    #     print("NO")
-    #     moveUp = maxRow-1 # move 1 up above current slot1 container
 
     if moveUp == -1: # if nothing in the between slot1 and slot2 is found to be taller than either slot1 or slot2's height, just set it to slot1's height
         moveUp = slot1_row
@@ -209,7 +194,7 @@ def animateHorizontal(slot1, slot2, moveMaxHeight):
         if moveMaxHeight == slot1_row: #TEMPORARY POSSIBLY: case where the container being moved is on the very first row (which is already the maxHeight), good example of this scenario is ShipCase4
             slot1_col-=1
             # print("WAT", slot1_row, slot1_col)
-        print("Condition 2: moveLeft")
+        # print("Condition 2: moveLeft")
         for i in range(slot1_col, slot2_col-1, -1):
             lightButton = button_grid[moveMaxHeight][i]
             lightButton.config(bg="blue")
@@ -279,7 +264,7 @@ def main():
     # pair1 = (2, 3)
     # pair2 = (2, 10)
 
-    pathReader("ShipCase4GUIPathOutput.txt")
+    pathReader("DummyGUIOutput.txt")
     
     # path_arr = []
     # path_arr.append((pair1, pair2, "hello")) #DELETE THIS AFTER TESTING
