@@ -1,3 +1,5 @@
+#this ButtonGrid modifies the maxY function to not go up if there's nothing next to it 
+
 import tkinter as tk
 import time
 import GUIManifestReader
@@ -9,6 +11,7 @@ running = True
 
 timer = 150
 path_arr = []
+
 # Define a function to start the loop
 def on_start():
    global running
@@ -18,7 +21,6 @@ def on_start():
 def on_stop():
    global running
    running = False
-   #TODO: call updateNextGrid() in here instead of main()
 
 def pathReader(file):
     print("PATH READER")
@@ -54,7 +56,7 @@ def pathReader(file):
 
 button_grid = []
 containers_arr = GUIManifestReader.read_manifest("ShipCase4.txt")
-def buildShipGrid(): #building a dummy grid
+def buildShipGrid():
     global containers_2D
     containers_2D = list(np.reshape(containers_arr, (8,12)))
 
@@ -63,19 +65,21 @@ def buildShipGrid(): #building a dummy grid
         button_row = []
         for j in range(12):
             container = containers_2D[i][j]
-            print(f"({container.x}, {container.y})", container.weight, container.name, container.button.cget('text'))
+            # print(f"({container.x}, {container.y})", container.weight, container.name, container.button.cget('text'))
             container.button.config(text=container.name + f"({i},{j})", command=lambda row=i, column=j, container_x=container.x, container_y=container.y, container_weight=container.weight, container_name=container.name: print("row:", row, "column:", column, "ManifestX:", container_x, "ManifestY:", container_y, "Name:", container_name, "Weight:", container_weight))
             container.button.update()
             button = container.button
             button.grid(row=i, column=j)
             button_row.append(button)
         button_grid.append(button_row)
-    
-    # check button_grid before updateNextGrid() occurs
-    # for i in range(len(button_grid)):
+
+    # check containers_2D before updateNextGrid() occurs
+    # print("containers_2D BEFORE UPDATE")
+    # for i in range(len(containers_2D)):
     #     print("ROW", i)
     #     for j in range(12):
-    #         print("COL",j, button_grid[i][j].cget("bg"))
+    #         print("COL",j, containers_2D[i][j].button.cget('bg'), containers_2D[i][j].button.cget("text"), containers_2D[i][j].name)
+
 
     #TEST DELETE LATER
     # r=1
@@ -94,7 +98,7 @@ def computeCol(x):
     return x-1
 
 def maxY(slot1, slot2):
-    moveUp = 0
+    moveUp = -1
     slot1_row, slot1_col = slot1
     print("slot1's row:", slot1_row)
     print("slot1's col:", slot1_col)
@@ -103,28 +107,34 @@ def maxY(slot1, slot2):
     print("slot2's row:", slot2_row)
     print("slot2's col:", slot2_col)
 
-    #Condition 1: move left to right; if slot1_col < slot2_col
+
+#if there's nothing obstructing the horizontal path between slot1 and slot2, then just move horizontally...
+    # Condition 1: move left to right; if slot1_col < slot2_col
     if slot1_col < slot2_col:
         print("Condition 1")
         maxRow = slot1_row
-        for c in range(slot1_col, slot2_col+1): # moving horizontally X
-            for r in range(8): # moving vertically Y
+        for c in range(slot1_col+1, slot2_col+1): # moving horizontally X
+            for r in range(slot1_row, -1, -1): # moving vertically Y
 
-                # print(r,c)
+                print(r,c)
                 if(button_grid[r][c].cget('bg') != "white" and button_grid[r][c].cget('bg') != "black"): #Find the max Y or row; decrements from slot1's row to the top/0th row
                     # print(button_grid[r][c].cget('bg'), r, c)
                     if(r < maxRow):
                         maxRow = r
+                        moveUp = maxRow-1
                         print("MAXX height/row:", maxRow)
-        moveUp = maxRow-1 # move 1 up above current slot1 container
+                    
+                    if(slot1_row == r and maxRow >= r):
+                        print("mememe")
+                        moveUp = r-1
+                        print("TF",moveUp)
 
-
-    #TODO: Condition 2: move right to left; if slot1_col > slot2_col // here, instead of incrementing the c/col we, decrement it up to slot2_col
-    if slot1_col > slot2_col: 
+    # Condition 2: move right to left; if slot1_col > slot2_col // here, instead of incrementing the c/col we, decrement it up to slot2_col
+    if slot1_col > slot2_col: #TODO: TEST & FIX THIS NEXT
         print("Condition 2")
         maxRow = slot1_row
         for c in range(slot1_col, slot2_col-1, -1): # moving horizontally X
-            for r in range(8): # moving vertically Y
+            for r in range(slot1_row, -1, -1): # moving vertically Y
                 # print("r,c", r, c)
                 if(button_grid[r][c].cget('bg') != "white" and button_grid[r][c].cget('bg') != "black"): #Find the max Y or row; decrements from slot1's row to the top/0th row
                     # print(button_grid[r][c].cget('bg'), r, c)
@@ -133,14 +143,25 @@ def maxY(slot1, slot2):
                         print("MAXX height/row:", maxRow)
         moveUp = maxRow-1 # move 1 up above current slot1 container
 
-    if(moveUp == 99): #if it's all white space and no containers are blocking in between, just set the max height to row2's row value
-        moveUp = slot2_row
+    # if(moveUp == maxRow): #if it's all white space and no containers are blocking in between, just set the max height to row2's row value
+    #     moveUp = slot2_row
 
-    if moveUp > 0: #maxRow>1
-        moveUp = maxRow-1
-    else:
-        moveUp = maxRow
+    # if maxRow > 1: #maxRow>1
+    #     moveUp = maxRow-1
+    # else:
+    #     moveUp = maxRow
     
+    # if maxRow == slot1_row:
+    #     moveUp = maxRow
+    #     print("ENTER//", "move up by", moveUp, "maxrow", maxRow)
+    # else:
+    #     print("NO")
+    #     moveUp = maxRow-1 # move 1 up above current slot1 container
+
+    if moveUp == -1: # if nothing in the between slot1 and slot2 is found to be taller than either slot1 or slot2's height, just set it to slot1's height
+        moveUp = slot1_row
+
+
     print("Max height/row:", moveUp)
     return moveUp
 
@@ -184,7 +205,7 @@ def animateHorizontal(slot1, slot2, moveMaxHeight):
             root.after(timer)
 
     # Condition 2: move right to left; if slot1_col > slot2_col
-    if slot1_col > slot2_col:
+    if slot1_col > slot2_col: 
         if moveMaxHeight == slot1_row: #TEMPORARY POSSIBLY: case where the container being moved is on the very first row (which is already the maxHeight), good example of this scenario is ShipCase4
             slot1_col-=1
             # print("WAT", slot1_row, slot1_col)
@@ -236,7 +257,6 @@ def updateNextGrid(slot1, slot2): # updates the 8x12 grid to reflect the current
     updateSlot1Button = button_grid[slot1_row][slot1_col]
     updateSlot1Button.config(bg="white", text="UNUSED"+f"({slot1_row}, {slot1_col})")
     updateSlot1Button.update()
-    #TODO: CHECK IF button_grid IS ALSO UPDATED, NOT ONLY THE GUI GRID RUN FOR LOOP THROUGH BUTTON_GRID AND MAKE A COMPARISON BETWEEN ITS ARRAY CONTENTS AND THEIR POSITIONS BEFORE THE .update() AND AFTER THE .update()
 
 
 def main():
@@ -250,15 +270,20 @@ def main():
     # pair1 = (2, 10) # (2, 3)
     # pair2 = (3, 12) # (2, 10)
 
-    pair1 = (1, 3)
-    pair2 = (1, 7)
+    # pair1 = (1, 3)
+    # pair2 = (1, 7)
 
-    pair1 = (8, 5)
-    pair2 = (2, 6)
+    # pair1 = (8, 5)
+    # pair2 = (2, 6)
+
+    # pair1 = (2, 3)
+    # pair2 = (2, 10)
 
     pathReader("ShipCase4GUIPathOutput.txt")
+    
     # path_arr = []
-    # path_arr.append((pair1, pair2, "Pig"))
+    # path_arr.append((pair1, pair2, "hello")) #DELETE THIS AFTER TESTING
+    # path_arr.append(())
     for i in range(len(path_arr)):
         print("\n\nSTEP", i, path_arr[i])
         slot1R, slot1C = path_arr[i][0]
@@ -291,24 +316,16 @@ def main():
                 updateNextGrid(slot1,slot2)       # TODO: replace "break" with updateNextGrid(slot1,slot2) here
                 on_start()
                 break
-            
     
-        # #TODO: CHECK IF button_grid IS ALSO UPDATED, NOT ONLY THE GUI GRID RUN FOR LOOP THROUGH BUTTON_GRID AND MAKE A COMPARISON BETWEEN ITS ARRAY CONTENTS AND THEIR POSITIONS BEFORE THE .update() AND AFTER THE .update() <-- YES, it does update
-        # for i in range(len(button_grid)):
-        #     print("ROW", i)
-        #     for j in range(12):
-        #         print("COL",j, button_grid[i][j].cget("bg"))
-        
     print("Broke out of animation loop!") #break out of loop
     root.mainloop()
 
 if __name__ == '__main__':
     main()
 
-#TODO 1: perform some conversion that takes Michael's (col, row) coordinates and then converts it to Manifest's coordinate format (maybe create a sample file of what Michael's output path file would look like)
-#TODO 2: add a grid for displaying the buffer (can probably just do this in main() or outside main())
-#TODO 3: figure out how to make the animation stop immediately and go to the next grid (updateNextGrid()) when the user prints the "Next" button; right now, when the user presses the "Next" button, the animation has to finish its move first before updating to the next new grid/before (i.e. updateNextGrid) which is not very time-efficient
-#TODO 4: make the containers different colors where there is a unique color for each container_name (question: do i have to consider the weight too? like if they two containers have the same name but different weights, do i color them differently or the same color?)
+#TODO 1: add a grid for displaying the buffer (can probably just do this in main() or outside main())
+#TODO 2: figure out how to make the animation stop immediately and go to the next grid (updateNextGrid()) when the user prints the "Next" button; right now, when the user presses the "Next" button, the animation has to finish its move first before updating to the next new grid/before (i.e. updateNextGrid) which is not very time-efficient
+#TODO 3: make the containers different colors where there is a unique color for each container_name (question: do i have to consider the weight too? like if they two containers have the same name but different weights, do i color them differently or the same color?)
 
 '''
 PLAN for function buildShipGrid(): use position in matrix (x, y) as the unique ID for each slot <-- will update this function buildShipGrid() once manifest reader is finalized or try asking them tmrw about it
