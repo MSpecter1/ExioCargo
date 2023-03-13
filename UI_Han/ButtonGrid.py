@@ -54,14 +54,17 @@ frameTopRight.pack(side=TOP, padx=10, pady=20)
 
 # frameForRight = Frame(frameRight, bg="pink")
 # frameForRight.pack(side=TOP, expand=1)
-stepsLabel = Label(frameTopRight,
-                  text = "STEP", bg="white").place(x=250, y=13,anchor=NW)
+
+logCommentLabel = Label(frameTopRight,
+                  text = "Log Comment").place(x=20, y=80)
+logCommentEntry = Entry(frameTopRight, width=30).place(x=110, y=80)         # logCommentEntry = Text(frameTopRight, width=30, height=8).place(x=110, y=80) 
+logCommentSubmit = Button(frameTopRight,text="Submit Comment").place(x=300, y=80)  # Button(frameTopRight,text="Submit").place(x=215, y=213)
 
 # Bottom Right Frame 
 frameBotRight= Frame(root, width=500, height=500,bg="pink")
 frameBotRight.pack(side=TOP, padx=10, pady=20)
 buffer_frame = Frame(frameBotRight, bg="light grey") #ship_bg_frame
-buffer_frame.pack(side=TOP, expand=1,padx=4,pady=10) #RIGHT
+buffer_frame.pack(side=TOP, expand=1,padx=4,pady=5) #RIGHT
 
 
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -127,7 +130,8 @@ def createBuffer():
 
 def pathReader(file):
     print("PATH READER")
-
+    global numSteps
+    numSteps = 0
     with open(file) as f:
         while True:
                 line = f.readline()
@@ -151,11 +155,13 @@ def pathReader(file):
                 slot1 = (slot1_row, slot1_col)
                 slot2 = (slot2_row, slot2_col)
 
+                numSteps+=1
                 path_arr.append((slot1, slot2, n))
                 print("slot1 row,col:", slot1, "// slot2 row,col:", slot2, "Name:", n)
 
         for i in range(len(path_arr)):
             print(path_arr[i])
+        print("Total number of steps:", numSteps)
 
 button_grid = []
 containers_arr = read_manifest("ShipCase4.txt")
@@ -372,6 +378,8 @@ def main():
     # path_arr.append(())
     for i in range(len(path_arr)):
         print("\n\nSTEP", i, path_arr[i])
+        stepsLabel = Label(frameTopRight, text = f"STEP {i+1} OF {numSteps}", bg="white", font=("Arial", 12)).place(x=285, y=13) 
+        operationLabel = Label(frameTopRight, text = f"Move container {path_arr[i][2]} from {path_arr[i][0]} to {path_arr[i][1]}", bg="white",font=("Arial", 12)).place(x=205, y=45)
         slot1R, slot1C = path_arr[i][0]
         slot2R, slot2C = path_arr[i][1]
         name = path_arr[i][2]
