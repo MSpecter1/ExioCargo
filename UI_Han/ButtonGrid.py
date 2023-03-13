@@ -1,5 +1,3 @@
-#this ButtonGrid modifies the maxY function to not go up if there's nothing next to it 
-
 import tkinter as tk
 import time
 import GUIManifestReader
@@ -55,7 +53,7 @@ def pathReader(file):
             print(path_arr[i])
 
 button_grid = []
-containers_arr = GUIManifestReader.read_manifest("DummyManifest.txt")
+containers_arr = GUIManifestReader.read_manifest("ShipCase4.txt")
 def buildShipGrid():
     global containers_2D
     containers_2D = list(np.reshape(containers_arr, (8,12)))
@@ -73,12 +71,12 @@ def buildShipGrid():
             button_row.append(button)
         button_grid.append(button_row)
 
-    # check containers_2D before updateNextGrid() occurs
-    # print("containers_2D BEFORE UPDATE")
-    # for i in range(len(containers_2D)):
-    #     print("ROW", i)
-    #     for j in range(12):
-    #         print("COL",j, containers_2D[i][j].button.cget('bg'), containers_2D[i][j].button.cget("text"), containers_2D[i][j].name)
+    #check containers_2D before updateNextGrid() occurs
+    print("containers_2D BEFORE UPDATE")
+    for i in range(len(containers_2D)):
+        print("ROW", i)
+        for j in range(12):
+            print("COL",j, containers_2D[i][j].button.cget('bg'), containers_2D[i][j].button.cget("text"), containers_2D[i][j].name, "weight:", containers_2D[i][j].weight, "row:", containers_2D[i][j].x, "col:", containers_2D[i][j].y)
 
 
     #TEST DELETE LATER
@@ -235,14 +233,22 @@ def updateNextGrid(slot1, slot2): # updates the 8x12 grid to reflect the current
     slot2_row, slot2_col = slot2
 
     updateSlot2Button = button_grid[slot2_row][slot2_col]
-    new_button_slot2name = containers_2D[slot1_row][slot1_col].name
-    updateSlot2Button.config(bg="blue", text=new_button_slot2name+f"({slot2_row}, {slot2_col})")
+    slot2Container = containers_2D[slot2_row][slot2_col]
+    slot1_name = containers_2D[slot1_row][slot1_col].name # assign slot1's name to slot2's button text and to update container_2D
+    slot1_weight = containers_2D[slot1_row][slot1_col].weight # update container_2D's slot2 weight
+    slot2Container.name = slot1_name
+    slot2Container.weight = slot1_weight
+    updateSlot2Button.config(bg="blue", text=slot1_name+f"({slot2_row},{slot2_col})")
     updateSlot2Button.update()
 
     updateSlot1Button = button_grid[slot1_row][slot1_col]
-    updateSlot1Button.config(bg="white", text="UNUSED"+f"({slot1_row}, {slot1_col})")
+    slot1Container = containers_2D[slot1_row][slot1_col]
+    slot1Container.name = "UNUSED"
+    slot1Container.weight = 0
+    updateSlot1Button.config(bg="white", text="UNUSED"+f"({slot1_row},{slot1_col})")
     updateSlot1Button.update()
 
+    
 
 def main():
     buildShipGrid()
@@ -264,7 +270,7 @@ def main():
     # pair1 = (2, 3)
     # pair2 = (2, 10)
 
-    pathReader("DummyGUIOutput.txt")
+    pathReader("ShipCase4GUIPathOutput.txt")
     
     # path_arr = []
     # path_arr.append((pair1, pair2, "hello")) #DELETE THIS AFTER TESTING
@@ -301,6 +307,14 @@ def main():
                 updateNextGrid(slot1,slot2)       # TODO: replace "break" with updateNextGrid(slot1,slot2) here
                 on_start()
                 break
+
+        print("--containers_2D AFTER UPDATE")
+        for i in range(len(containers_2D)):
+            print("ROW", i)
+            for j in range(12):
+                print("COL",j, containers_2D[i][j].button.cget('bg'), containers_2D[i][j].button.cget("text"), containers_2D[i][j].name, "weight:", containers_2D[i][j].weight, "row:", containers_2D[i][j].x, "col:", containers_2D[i][j].y)
+
+            
     
     print("Broke out of animation loop!") #break out of loop
     root.mainloop()
