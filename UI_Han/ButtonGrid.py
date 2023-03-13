@@ -1,9 +1,12 @@
 import tkinter as tk
+from tkinter import *
 import time
-import GUIManifestReader
+# import GUIManifestReader
 import numpy as np
 
 root = tk.Tk()
+# root.attributes('-fullscreen', True)
+root.state("zoomed") # when window opens, it fills up whole screen
 global running
 running = True
 
@@ -19,6 +22,108 @@ def on_start():
 def on_stop():
    global running
    running = False
+
+# Left Frame
+frame = Frame(root)
+frame.pack(side=LEFT, pady=20)
+
+ship_bg_frame = Frame(frame, bg="grey")  #
+ship_bg_frame.pack(side=TOP, expand=1)
+
+ship_frame = Frame(ship_bg_frame, bg="white")
+ship_frame.pack(side=LEFT, expand=1, padx=10, pady=10)
+
+nextButton_bg_frame = Frame(frame, bg="light grey")  #
+nextButton_bg_frame.pack(side=BOTTOM, expand=1, fill=X)
+
+nextButton_frame = Frame(nextButton_bg_frame)#ship_bg_frame
+nextButton_frame.pack(side=BOTTOM, pady=10)
+
+
+# buffer_frame = Frame(frame, bg="light grey") #ship_bg_frame
+# buffer_frame.pack(side=TOP, expand=1,padx=4,pady=10) #RIGHT
+
+
+
+# frameForRight = Frame(frameRight, bg="pink")
+# frameForRight.pack(side=TOP, expand=1)
+
+# Top Right Frame
+frameTopRight = Frame(root, width=700, height=500,bg="grey")
+frameTopRight.pack(side=TOP, padx=10, pady=20)
+
+# frameForRight = Frame(frameRight, bg="pink")
+# frameForRight.pack(side=TOP, expand=1)
+stepsLabel = Label(frameTopRight,
+                  text = "STEP", bg="white").place(x=250, y=13,anchor=NW)
+
+# Bottom Right Frame 
+frameBotRight= Frame(root, width=500, height=500,bg="pink")
+frameBotRight.pack(side=TOP, padx=10, pady=20)
+buffer_frame = Frame(frameBotRight, bg="light grey") #ship_bg_frame
+buffer_frame.pack(side=TOP, expand=1,padx=4,pady=10) #RIGHT
+
+
+#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+class container:
+    def __init__(self, name, x, y, weight):
+        self.name = name
+        self.x = x
+        self.y = y
+        self.weight = weight
+
+        if(self.name == "UNUSED"):
+                self.button = tk.Button(ship_frame, text=name, height=4, width=7, bg='white',activebackground='lightgrey')
+
+        elif(self.name == "NAN"):
+                self.button = tk.Button(ship_frame, text="NAN", height=4, width=7, bg='black',activebackground='black')
+
+        else:
+                self.button = tk.Button(ship_frame, text=name, height=4, width=7, bg='blue',activebackground='lightgrey')
+
+    def display_info(self):
+        print("Position: [",self.x,",", self.y,"], Weight:", self.weight ,"kg, Name:",self.name)
+
+    def getName(self):
+        return self.name
+
+
+def read_manifest(file):
+        containers = []
+        with open(file) as f:
+            # Per line
+            while True:
+                line = f.readline()
+                if not line:
+                    break
+                line=line.strip()
+                # X
+                x=int(line[1:3]) 
+                # Y
+                y=int(line[4:6])
+                # Weight - kilograms
+                w=int(line[10:15])
+                # Name
+                n=(line[18:])
+                # create container
+                containers.append(container(n,x,y,w))
+        print(len(containers))
+        # for i in range(len(containers)):
+        #     print(containers[i].name, containers[i].weight)
+
+        return containers
+#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------  
+buffer_grid = []
+def createBuffer():
+    for i in range(4):
+        buffer_row = []
+        for j in range(24):
+            global button
+            buffbutton = tk.Button(buffer_frame, text=f"{j}", height=1, width=2, bg='white')
+            buffbutton.grid(row=i, column=j)
+            buffer_row.append(buffbutton)
+        buffer_grid.append(buffer_row)
+
 
 def pathReader(file):
     print("PATH READER")
@@ -53,7 +158,7 @@ def pathReader(file):
             print(path_arr[i])
 
 button_grid = []
-containers_arr = GUIManifestReader.read_manifest("ShipCase4.txt")
+containers_arr = read_manifest("ShipCase4.txt")
 def buildShipGrid():
     global containers_2D
     containers_2D = list(np.reshape(containers_arr, (8,12)))
@@ -77,17 +182,6 @@ def buildShipGrid():
         print("ROW", i)
         for j in range(12):
             print("COL",j, containers_2D[i][j].button.cget('bg'), containers_2D[i][j].button.cget("text"), containers_2D[i][j].name, "weight:", containers_2D[i][j].weight, "row:", containers_2D[i][j].x, "col:", containers_2D[i][j].y)
-
-
-    #TEST DELETE LATER
-    # r=1
-    # c=5
-    # testContainer= containers_2D[r][c]
-    # testContainer.button.config(text=testContainer.name + f"({r},{c})", bg='blue', command=lambda row=i, column=j, container_x=testContainer.x, container_y=testContainer.y, container_weight=testContainer.weight, container_name=testContainer.name: print("row:", row, "column:", column, "ManifestX:", container_x, "ManifestY:", container_y, "Name:", container_name, "Weight:", container_weight))
-    # testButton = testContainer.button
-    # testButton.grid(row=r, column=c)
-    # testContainer.button.update()
-    # root.after(800)
 
 def computeRow(y):
     return y + ((-2 * y) + 8)
@@ -251,9 +345,10 @@ def updateNextGrid(slot1, slot2): # updates the 8x12 grid to reflect the current
     
 
 def main():
-    buildShipGrid()
-    button = tk.Button(root, text="Next",activebackground='lightgrey', height=1, width=8, command=on_stop)
-    button.grid(row=9, column=6)
+    buildShipGrid()    
+    createBuffer()
+    button = tk.Button(nextButton_frame, text="Next",activebackground='lightgrey', height=1, width=8, command=on_stop)
+    button.grid(row=0, column=0)
     # (row, col) => (y, x)
     # Move container from (2, 3) to (2, 10) => (6, 2) to (6, 9)
     # manifest/ship coord (a,b): (2,3) --> UI_X =  a + (-2a + 8), UI_Y = b - 1
@@ -327,10 +422,27 @@ if __name__ == '__main__':
 #TODO 3: make the containers different colors where there is a unique color for each container_name (question: do i have to consider the weight too? like if they two containers have the same name but different weights, do i color them differently or the same color?)
 
 '''
-PLAN for function buildShipGrid(): use position in matrix (x, y) as the unique ID for each slot <-- will update this function buildShipGrid() once manifest reader is finalized or try asking them tmrw about it
+ship_bg_frame = Frame(root, bg="grey", width=300, height=400)  #
+ship_bg_frame.pack(side=TOP, expand=1)
 
-1) Take in 2D array generated from Alex or Michael's manifest reader. I believe it should be a 2D array of container objects (with attributes for the name and weight)
-2) Take in my button array. Loop through button array/grid and for each slot (i and j or (x,y) position), 
-    if buttonArray[i][j] == manifestArray[i][j]: 
-        GET manifestArray[i][j].name and set the buttonArray[i][j]'s or tk.Button(root, text="", ...) the text= manifestArray[i][j].name
+ship_frame = Frame(ship_bg_frame, bg="white", width=400, height=400)
+ship_frame.pack(side=LEFT, expand=1, padx=10, pady=10)
+
+nextButton_bg_frame = Frame(root, bg="light grey", height=5, width=5)  #
+nextButton_bg_frame.pack(side=BOTTOM, expand=1)
+
+nextButton_frame = Frame(nextButton_bg_frame, bg="light grey", height=1, width=2)
+nextButton_frame.pack(side=LEFT, padx=700, expand=1)
+
+# buffer_bg_frame = Frame(root, bg="grey", width=300, height=300)  #
+# buffer_bg_frame.pack(side=LEFT, expand=1)
+
+buffer_frame = Frame(ship_bg_frame, bg="light grey")
+buffer_frame.pack(side=RIGHT, padx=4)
+# buffer_bg_frame = Frame(root, bg="grey", width=300, height=300)  #
+# buffer_bg_frame.pack(side=LEFT, expand=1)
+
+# buffer_frame = Frame(buffer_bg_frame, bg="light grey", height=300, width=300)
+# buffer_frame.pack(side=LEFT, expand=1)
 '''
+
