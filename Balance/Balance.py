@@ -188,6 +188,7 @@ class ShipState:
             if c.container:
                 con_cnt+=1
                 total = 0
+                local_overlap = 0
                 if left:
                     # h_cost += abs(current_row_h_left - c.y)
                     total += abs(current_row_h_left - c.y)
@@ -201,6 +202,9 @@ class ShipState:
                     if target.container and target!=c:
                         # move_list.append(target)
                         overlap_cnt+=1
+                        local_overlap += 1
+                    if local_overlap == 0:
+                        h_cost+=0
 
                     heightNeeded = current_row
                     for c2 in self.containers:
@@ -227,6 +231,9 @@ class ShipState:
                     if target.container and target!=c:
                         # move_list.append(target)
                         overlap_cnt+=1
+                        local_overlap += 1
+                    if local_overlap == 0:
+                        h_cost+=0
 
                     heightNeeded = current_row
                     for c2 in self.containers:
@@ -472,7 +479,7 @@ class CraneOperations:
             ship_state.crane_h = targetH
             ship_state.crane_v = targetV+1
 
-            ship_state.solution.append('('+str("%02d"%(containerV+1))+','+str("%02d"%(containerH+1))+')('+str("%02d"%(container_to_move.x+1))+','+str("%02d"%(container_to_move.y+1))+') '+str(container_to_move.name)) # Manifest Format
+            ship_state.solution.append('('+str("%02d"%(containerV+1))+','+str("%02d"%(containerH+1))+')('+str("%02d"%(container_to_move.x+1))+','+str("%02d"%(container_to_move.y+1))+') '+str("%04d"%ship_state.crane_movement_cells)+' '+str(container_to_move.name)) # Manifest Format
             # ship_state.solution.append('('+str("%02d"%containerH)+','+str("%02d"%containerV)+')('+str("%02d"%container_to_move.y)+','+str("%02d"%container_to_move.x)+') '+str(container_to_move.name)) # Horizontal First
             # ship_state.solution.append('\tDEBUG ONLY - COST: '+str(total_cost))
 
@@ -522,8 +529,8 @@ class CargoSearch:
             cur = self.frontier.get() #gets top of queue and pops
             remove_np_array(self.frontier_list, cur)
 
-            print("State to expand:", cur)
-            cur.print_state()
+            # print("State to expand:", cur)
+            # cur.print_state()
 
             #CHECK FOR GOAL
             self.bop.checkBalance(cur)
@@ -534,7 +541,7 @@ class CargoSearch:
                 print("Depth: ",cur.depth)
                 print("Total Time: ", time.time() - start_time)
                 cur.OutputManifest()
-                return 0
+                return cur
             
             self.explored.append(cur)
 
@@ -616,7 +623,7 @@ class CargoSearch:
                 print("Depth: ",cur.depth)
                 print("Total Time: ", time.time() - start_time)
                 cur.OutputManifest()
-                return 0
+                return cur
             
             self.explored.append(cur)
 
@@ -665,8 +672,9 @@ p.enable()
 # test_search.search(test_state, "Balance\ShipCase1.txt")
 # test_search.search(test_state, "Balance\ShipCase2.txt")
 # test_search.search(test_state, "Balance\ShipCase3.txt")
-# test_search.search(test_state, "Balance\ShipCase4.txt")
-test_search.search(test_state, "Balance\ShipCase5.txt")
+test = test_search.search(test_state, "Balance\ShipCase4.txt")
+print('SOL: ', test.solution)
+# test_search.search(test_state, "Balance\ShipCase5.txt")
 # test_search.search(test_state, "Balance\ShipCase6TEST.txt")
 # test_search.search(test_state, "Balance\ShipCase4TEST.txt")
 p.disable()
