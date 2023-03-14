@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import *
+import ntplib
 import time
 # import GUIManifestReader
 import numpy as np
@@ -128,7 +129,7 @@ def createBuffer():
         buffer_grid.append(buffer_row)
 
 
-def pathReader(file):
+def pathReader(file): #reads Michael's GUI Path Output
     print("PATH READER")
     global numSteps
     numSteps = 0
@@ -148,20 +149,25 @@ def pathReader(file):
                 #slot2's col
                 slot2_col=int(line[11:13])
 
+                est_time = int(line[15:19])
+
                 # Name
-                n=(line[15:])
+                n=(line[20:])
 
                 global slot1
                 slot1 = (slot1_row, slot1_col)
                 slot2 = (slot2_row, slot2_col)
 
                 numSteps+=1
-                path_arr.append((slot1, slot2, n))
-                print("slot1 row,col:", slot1, "// slot2 row,col:", slot2, "Name:", n)
+                path_arr.append((slot1, slot2, n, est_time))
+                print("slot1 row,col:", slot1, "// slot2 row,col:", slot2, "Name:", n, "est time:", est_time)
 
         for i in range(len(path_arr)):
             print(path_arr[i])
         print("Total number of steps:", numSteps)
+        global totalTime
+        totalTime = est_time
+        print("Total Time:", totalTime)
 
 button_grid = []
 containers_arr = read_manifest("ShipCase4.txt")
@@ -380,6 +386,11 @@ def main():
         print("\n\nSTEP", i, path_arr[i])
         stepsLabel = Label(frameTopRight, text = f"STEP {i+1} OF {numSteps}", bg="white", font=("Arial", 12)).place(x=285, y=13) 
         operationLabel = Label(frameTopRight, text = f"Move container {path_arr[i][2]} from {path_arr[i][0]} to {path_arr[i][1]}", bg="white",font=("Arial", 12)).place(x=205, y=45)
+        if(i == 0):
+            curr_time = totalTime
+        else:
+            curr_time = totalTime - path_arr[i-1][3]
+        estimatedTimeLabel = Label(frameTopRight, text = f"Estimated Time Left: {curr_time} minutes", bg="white", font=("Arial", 12)).place(x=285, y=13) 
         slot1R, slot1C = path_arr[i][0]
         slot2R, slot2C = path_arr[i][1]
         name = path_arr[i][2]
