@@ -1,14 +1,15 @@
 import tkinter as tk
 from tkinter import *
 import ntplib
-import time
+from time import ctime
 import Balance
 # import GUIManifestReader
 import numpy as np
 
 root = tk.Tk()
-# root.attributes('-fullscreen', True)
+
 root.state("zoomed") # when window opens, it fills up whole screen
+
 global running
 running = True
 
@@ -24,6 +25,82 @@ def on_start():
 def on_stop():
    global running
    running = False
+
+def getLogComment():
+    # print("LOG COMMENT SUBMITTED", logCommentEntry.get())
+    comment = logCommentEntry.get()
+    logCommentEntry.delete(0, END)
+    # For Log Comments: (LogComment, Date & Time the log comment was submitted, Operator's Log Comment) 
+    if comment != "":
+        addLogEvent(("LogComment", getDateTime(), comment))
+    return comment
+
+def getDateTime():
+    c = ntplib.NTPClient()
+    response = c.request('us.pool.ntp.org')
+    currDateTime = ctime(response.tx_time)
+    month = currDateTime[4:10]
+    clock = currDateTime[11:16] 
+    year = currDateTime[20:]
+
+    # print(currDateTime)
+    logDateTime = month + " " + year + ": " + clock + " "
+    # print(logDateTime)
+    return logDateTime
+
+global log_events_arr
+log_events_arr = []
+def addLogEvent(logObj): # TODO: At the end of main, when the user finishes the last step, we should write the logUpdates array to a log file.
+    # each element in log_events_arr should be in this format using a tuple: 
+    # Type of event(s): LogComment, StepComplete, UserSwitch, CycleComplete
+
+    # 1) DONE For Log Comments: (LogComment, Date & Time the log comment was submitted, Operator's Log Comment) 
+    # 2) For when a step is completed: (StepComplete, Date & Time the step was completed, Description of step (e.g. "Cat" is offloaded.)) <-- NOT NEEDED FOR BALANCE
+    # 3) DONE For operator switch: (UserSwitch, Name of operator)
+    # 4) DONE For when a cycle is done: (CycleComplete, Date & Time, "Manifest <ship name> was written to desktop, and a reminder pop-up to operator to send file was displayed." ) 
+
+    
+
+    print("Added event to log event array", logObj)
+    log_events_arr.append(logObj)
+
+def updateLogFile():
+    f = open("LogFile.txt", "a")
+    print("start updateLogFile()")
+    for event in log_events_arr:
+        line = ""
+        eventType = event[0]
+        print(eventType)
+
+        currentDateTime = event[1]
+        # print("DateTime", event[1])
+        
+        if eventType == "LogComment" or eventType == "CycleComplete":
+            description = event[2]
+            line = currentDateTime + description + "\n"
+            f.write(line)
+            print(line)
+            # print("Description", event[2])
+        elif eventType == "UserSwitch":
+            signOut = event[2]
+            signIn = event[3] 
+            line = currentDateTime + signOut + "\n" # line for signout
+            print(line)
+            f.write(line)
+            
+            line = currentDateTime + signIn + "\n" #line for signin
+            print(line)
+            f.write(line)
+            
+            # print("sign out", signOut)
+            # print("sign in", signIn)
+
+    # print(len(log_events_arr))
+            
+        
+
+        # f.write("Now the file has more content!")
+        # f.close()
 
 # Left Frame
 frame = Frame(root)
@@ -41,26 +118,16 @@ nextButton_bg_frame.pack(side=BOTTOM, expand=1, fill=X)
 nextButton_frame = Frame(nextButton_bg_frame)#ship_bg_frame
 nextButton_frame.pack(side=BOTTOM, pady=10)
 
-
-# buffer_frame = Frame(frame, bg="light grey") #ship_bg_frame
-# buffer_frame.pack(side=TOP, expand=1,padx=4,pady=10) #RIGHT
-
-
-
-# frameForRight = Frame(frameRight, bg="pink")
-# frameForRight.pack(side=TOP, expand=1)
-
 # Top Right Frame
 frameTopRight = Frame(root, width=700, height=500,bg="grey")
 frameTopRight.pack(side=TOP, padx=10, pady=20)
-
-# frameForRight = Frame(frameRight, bg="pink")
-# frameForRight.pack(side=TOP, expand=1)
-
 logCommentLabel = Label(frameTopRight,
                   text = "Log Comment").place(x=20, y=120)
-logCommentEntry = Entry(frameTopRight, width=30).place(x=110, y=120)         # logCommentEntry = Text(frameTopRight, width=30, height=8).place(x=110, y=80) 
-logCommentSubmit = Button(frameTopRight,text="Submit Comment").place(x=300, y=120)  # Button(frameTopRight,text="Submit").place(x=215, y=213)
+logCommentEntry = tk.Entry(frameTopRight, width=30)        # logCommentEntry = Text(frameTopRight, width=30, height=8).place(x=110, y=80) 
+logCommentEntry.place(x=110, y=120) 
+logSubmitComment = Button(frameTopRight,text="Submit Comment", command=getLogComment).place(x=300, y=120)  # Button(frameTopRight,text="Submit").place(x=215, y=213)
+signInButton = Button(frameTopRight,text="Sign In", command=lambda: addLogEvent(("UserSwitch", getDateTime(), "OldOperatorName signs out", "NewOperatorName signs in")))
+signInButton.place(x=600, y=13)  # Button(frameTopRight,text="Submit").place(x=215, y=213)
 
 # Bottom Right Frame 
 frameBotRight= Frame(root, width=500, height=500,bg="pink")
@@ -68,7 +135,7 @@ frameBotRight.pack(side=TOP, padx=10, pady=20)
 buffer_frame = Frame(frameBotRight, bg="light grey") #ship_bg_frame
 buffer_frame.pack(side=TOP, expand=1,padx=4,pady=5) #RIGHT
 
-
+''' MAIN ANIMATION CODE BEGINS HERE '''
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 class container:
     def __init__(self, name, x, y, weight):
@@ -134,7 +201,7 @@ def pathReader(): # reads Balance's GUI Path Output
     # Run the Balance algorithm to retrieve the path solutions array 
     searchOBJ = Balance.CargoSearch()
     stateOBJ = Balance.ShipState()
-    returned_sol = searchOBJ.search(stateOBJ, "Balance\ShipCase4.txt") 
+    returned_sol = searchOBJ.search(stateOBJ, "Balance\ShipCase1.txt") 
     solution_paths = returned_sol.solution
     print(solution_paths)
 
@@ -175,7 +242,12 @@ def pathReader(): # reads Balance's GUI Path Output
 
 
 button_grid = []
-containers_arr = read_manifest("Balance\ShipCase4.txt")
+containers_arr = read_manifest("Balance\ShipCase1.txt")
+global manifestFile
+manifestFile = "Balance\ShipCase1.txt"
+global shipName
+shipName = manifestFile.split("\\")[-1].split(".")[0]
+
 def buildShipGrid():
     global containers_2D
     containers_2D = list(np.reshape(containers_arr, (8,12)))
@@ -192,13 +264,6 @@ def buildShipGrid():
             button.grid(row=i, column=j)
             button_row.append(button)
         button_grid.append(button_row)
-
-    #check containers_2D before updateNextGrid() occurs
-    print("containers_2D BEFORE UPDATE")
-    for i in range(len(containers_2D)):
-        print("ROW", i)
-        for j in range(12):
-            print("COL",j, containers_2D[i][j].button.cget('bg'), containers_2D[i][j].button.cget("text"), containers_2D[i][j].name, "weight:", containers_2D[i][j].weight, "row:", containers_2D[i][j].x, "col:", containers_2D[i][j].y)
 
 def computeRow(y):
     return y + ((-2 * y) + 8)
@@ -226,7 +291,7 @@ def maxY(slot1, slot2):
         for c in range(slot1_col+1, slot2_col+1): # moving horizontally X
             for r in range(slot1_row, -1, -1): # moving vertically Y
 
-                print(r,c)
+                # print(r,c)
                 if(button_grid[r][c].cget('bg') != "white" and button_grid[r][c].cget('bg') != "black"): #Find the max Y or row; decrements from slot1's row to the top/0th row
                     # print(button_grid[r][c].cget('bg'), r, c)
                     if(r <= maxRow):
@@ -243,7 +308,7 @@ def maxY(slot1, slot2):
         maxRow = slot1_row
         for c in range(slot1_col-1, slot2_col-1, -1): # moving horizontally X
             for r in range(slot1_row, -1, -1): # moving vertically Y
-                print(r,c)
+                # print(r,c)
                 if(button_grid[r][c].cget('bg') != "white" and button_grid[r][c].cget('bg') != "black"): #Find the max Y or row; decrements from slot1's row to the top/0th row
                     # print(button_grid[r][c].cget('bg'), r, c)
                     if(r <= maxRow):
@@ -338,7 +403,7 @@ def animateDown(slot2, moveMaxHeight, moveMaxDown):
         lightButton.update()
         root.after(timer)
 
-# TODO perform some updates on updateNextGrid() (information written below)!!!!!
+
 def updateNextGrid(slot1, slot2): # updates the 8x12 grid to reflect the current step's move/task has been completed once the user presses "Next"
     slot1_row, slot1_col = slot1
     slot2_row, slot2_col = slot2
@@ -359,7 +424,6 @@ def updateNextGrid(slot1, slot2): # updates the 8x12 grid to reflect the current
     updateSlot1Button.config(bg="white", text="UNUSED"+f"({slot1_row},{slot1_col})")
     updateSlot1Button.update()
 
-    
 
 def main():
     buildShipGrid()    
@@ -390,13 +454,13 @@ def main():
 
     for i in range(len(path_arr)):
         print("\n\nSTEP", i, path_arr[i])
-        stepsLabel = Label(frameTopRight, text = f"STEP {i+1} OF {numSteps}", bg="white", font=("Arial", 12)).place(x=285, y=13) 
-        operationLabel = Label(frameTopRight, text = f"Move container {path_arr[i][2]} from {path_arr[i][0]} to {path_arr[i][1]}", bg="white",font=("Arial", 12)).place(x=205, y=70)
+        stepsLabel = Label(frameTopRight, text = f"STEP {i+1} OF {numSteps}", bg="white", font=("Arial", 12)).place(x=295, y=13) 
+        operationLabel = Label(frameTopRight, text = f"Move container {path_arr[i][2]} from {path_arr[i][0]} to {path_arr[i][1]}", bg="white",font=("Arial", 12)).place(x=205, y=67)
         if(i == 0):
             curr_time = totalTime
         else:
             curr_time = totalTime - path_arr[i-1][3]
-        estimatedTimeLabel = Label(frameTopRight, text = f"Estimated Time Left: {curr_time} minutes", bg="white", font=("Arial", 12)).place(x=285, y=40) 
+        estimatedTimeLabel = Label(frameTopRight, text = f"Estimated Time Left: {curr_time} minutes", bg="white", font=("Arial", 12)).place(x=230, y=40) 
         slot1R, slot1C = path_arr[i][0]
         slot2R, slot2C = path_arr[i][1]
         name = path_arr[i][2]
@@ -424,16 +488,15 @@ def main():
             animateHorizontal(slot1, slot2, moveMaxHeight)
             animateDown(slot2, moveMaxHeight, moveMaxDown)
             if running == False:  #add condition for when user hits "Next", stop the loop so it can go to next step's new animation
-                updateNextGrid(slot1,slot2)       # TODO: replace "break" with updateNextGrid(slot1,slot2) here
+                updateNextGrid(slot1,slot2)
                 on_start()
                 break
 
-        print("--containers_2D AFTER UPDATE")
-        for i in range(len(containers_2D)):
-            print("ROW", i)
-            for j in range(12):
-                print("COL",j, containers_2D[i][j].button.cget('bg'), containers_2D[i][j].button.cget("text"), containers_2D[i][j].name, "weight:", containers_2D[i][j].weight, "row:", containers_2D[i][j].x, "col:", containers_2D[i][j].y)
-    
+    # Cycle Completed; need to log this to the Log File
+    # FORMAT: (CycleComplete, Date & Time, "Manifest <ship name> was written to desktop, and a reminder pop-up to operator to send file was displayed." )
+
+    addLogEvent(("CycleComplete", getDateTime(), f"Finished a Cycle. Manifest {shipName}OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed." ))
+    updateLogFile()
     print("Broke out of animation loop!") #break out of loop
     root.mainloop()
 
@@ -443,29 +506,3 @@ if __name__ == '__main__':
 #TODO 1: add a grid for displaying the buffer (can probably just do this in main() or outside main())
 #TODO 2: figure out how to make the animation stop immediately and go to the next grid (updateNextGrid()) when the user prints the "Next" button; right now, when the user presses the "Next" button, the animation has to finish its move first before updating to the next new grid/before (i.e. updateNextGrid) which is not very time-efficient
 #TODO 3: make the containers different colors where there is a unique color for each container_name (question: do i have to consider the weight too? like if they two containers have the same name but different weights, do i color them differently or the same color?)
-
-'''
-ship_bg_frame = Frame(root, bg="grey", width=300, height=400)  #
-ship_bg_frame.pack(side=TOP, expand=1)
-
-ship_frame = Frame(ship_bg_frame, bg="white", width=400, height=400)
-ship_frame.pack(side=LEFT, expand=1, padx=10, pady=10)
-
-nextButton_bg_frame = Frame(root, bg="light grey", height=5, width=5)  #
-nextButton_bg_frame.pack(side=BOTTOM, expand=1)
-
-nextButton_frame = Frame(nextButton_bg_frame, bg="light grey", height=1, width=2)
-nextButton_frame.pack(side=LEFT, padx=700, expand=1)
-
-# buffer_bg_frame = Frame(root, bg="grey", width=300, height=300)  #
-# buffer_bg_frame.pack(side=LEFT, expand=1)
-
-buffer_frame = Frame(ship_bg_frame, bg="light grey")
-buffer_frame.pack(side=RIGHT, padx=4)
-# buffer_bg_frame = Frame(root, bg="grey", width=300, height=300)  #
-# buffer_bg_frame.pack(side=LEFT, expand=1)
-
-# buffer_frame = Frame(buffer_bg_frame, bg="light grey", height=300, width=300)
-# buffer_frame.pack(side=LEFT, expand=1)
-'''
-
