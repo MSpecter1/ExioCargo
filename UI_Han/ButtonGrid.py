@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import *
 import ntplib
 import time
+import Balance
 # import GUIManifestReader
 import numpy as np
 
@@ -57,9 +58,9 @@ frameTopRight.pack(side=TOP, padx=10, pady=20)
 # frameForRight.pack(side=TOP, expand=1)
 
 logCommentLabel = Label(frameTopRight,
-                  text = "Log Comment").place(x=20, y=80)
-logCommentEntry = Entry(frameTopRight, width=30).place(x=110, y=80)         # logCommentEntry = Text(frameTopRight, width=30, height=8).place(x=110, y=80) 
-logCommentSubmit = Button(frameTopRight,text="Submit Comment").place(x=300, y=80)  # Button(frameTopRight,text="Submit").place(x=215, y=213)
+                  text = "Log Comment").place(x=20, y=120)
+logCommentEntry = Entry(frameTopRight, width=30).place(x=110, y=120)         # logCommentEntry = Text(frameTopRight, width=30, height=8).place(x=110, y=80) 
+logCommentSubmit = Button(frameTopRight,text="Submit Comment").place(x=300, y=120)  # Button(frameTopRight,text="Submit").place(x=215, y=213)
 
 # Bottom Right Frame 
 frameBotRight= Frame(root, width=500, height=500,bg="pink")
@@ -129,48 +130,52 @@ def createBuffer():
         buffer_grid.append(buffer_row)
 
 
-def pathReader(file): #reads Michael's GUI Path Output
+def pathReader(): # reads Balance's GUI Path Output
+    # Run the Balance algorithm to retrieve the path solutions array 
+    searchOBJ = Balance.CargoSearch()
+    stateOBJ = Balance.ShipState()
+    returned_sol = searchOBJ.search(stateOBJ, "Balance\ShipCase4.txt") 
+    solution_paths = returned_sol.solution
+    print(solution_paths)
+
     print("PATH READER")
+    for path in solution_paths:
+        # slot1's row
+        slot1_row=int(path[1:3]) 
+        # slot1's col
+        slot1_col=int(path[4:6])
+
+        #slot2's row
+        slot2_row=int(path[8:10])
+        #slot2's col
+        slot2_col=int(path[11:13])
+
+        est_time = int(path[15:19])
+
+        # Name
+        n=(path[20:])
+
+        global slot1
+        slot1 = (slot1_row, slot1_col)
+        slot2 = (slot2_row, slot2_col)
+
+        path_arr.append((slot1, slot2, n, est_time))
+        print("slot1 row,col:", slot1, "// slot2 row,col:", slot2, "Name:", n, "est time:", est_time)
+
+    for i in range(len(path_arr)):
+        print(path_arr[i])
+
     global numSteps
-    numSteps = 0
-    with open(file) as f:
-        while True:
-                line = f.readline()
-                if not line:
-                    break
-                line=line.strip()
-                # slot1's row
-                slot1_row=int(line[1:3]) 
-                # slot1's col
-                slot1_col=int(line[4:6])
+    numSteps = len(solution_paths)
+    print("Total number of steps:", numSteps)
+    
+    global totalTime
+    totalTime = est_time
+    print("Total Time:", totalTime)
 
-                #slot2's row
-                slot2_row=int(line[8:10])
-                #slot2's col
-                slot2_col=int(line[11:13])
-
-                est_time = int(line[15:19])
-
-                # Name
-                n=(line[20:])
-
-                global slot1
-                slot1 = (slot1_row, slot1_col)
-                slot2 = (slot2_row, slot2_col)
-
-                numSteps+=1
-                path_arr.append((slot1, slot2, n, est_time))
-                print("slot1 row,col:", slot1, "// slot2 row,col:", slot2, "Name:", n, "est time:", est_time)
-
-        for i in range(len(path_arr)):
-            print(path_arr[i])
-        print("Total number of steps:", numSteps)
-        global totalTime
-        totalTime = est_time
-        print("Total Time:", totalTime)
 
 button_grid = []
-containers_arr = read_manifest("ShipCase4.txt")
+containers_arr = read_manifest("Balance\ShipCase4.txt")
 def buildShipGrid():
     global containers_2D
     containers_2D = list(np.reshape(containers_arr, (8,12)))
@@ -377,20 +382,21 @@ def main():
     # pair1 = (2, 3)
     # pair2 = (2, 10)
 
-    pathReader("ShipCase4GUIPathOutput.txt")
+    pathReader()
     
     # path_arr = []
     # path_arr.append((pair1, pair2, "hello")) #DELETE THIS AFTER TESTING
     # path_arr.append(())
+
     for i in range(len(path_arr)):
         print("\n\nSTEP", i, path_arr[i])
         stepsLabel = Label(frameTopRight, text = f"STEP {i+1} OF {numSteps}", bg="white", font=("Arial", 12)).place(x=285, y=13) 
-        operationLabel = Label(frameTopRight, text = f"Move container {path_arr[i][2]} from {path_arr[i][0]} to {path_arr[i][1]}", bg="white",font=("Arial", 12)).place(x=205, y=45)
+        operationLabel = Label(frameTopRight, text = f"Move container {path_arr[i][2]} from {path_arr[i][0]} to {path_arr[i][1]}", bg="white",font=("Arial", 12)).place(x=205, y=70)
         if(i == 0):
             curr_time = totalTime
         else:
             curr_time = totalTime - path_arr[i-1][3]
-        estimatedTimeLabel = Label(frameTopRight, text = f"Estimated Time Left: {curr_time} minutes", bg="white", font=("Arial", 12)).place(x=285, y=13) 
+        estimatedTimeLabel = Label(frameTopRight, text = f"Estimated Time Left: {curr_time} minutes", bg="white", font=("Arial", 12)).place(x=285, y=40) 
         slot1R, slot1C = path_arr[i][0]
         slot2R, slot2C = path_arr[i][1]
         name = path_arr[i][2]
@@ -427,8 +433,6 @@ def main():
             print("ROW", i)
             for j in range(12):
                 print("COL",j, containers_2D[i][j].button.cget('bg'), containers_2D[i][j].button.cget("text"), containers_2D[i][j].name, "weight:", containers_2D[i][j].weight, "row:", containers_2D[i][j].x, "col:", containers_2D[i][j].y)
-
-            
     
     print("Broke out of animation loop!") #break out of loop
     root.mainloop()
