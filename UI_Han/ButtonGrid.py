@@ -30,6 +30,8 @@ def getLogComment():
     # print("LOG COMMENT SUBMITTED", logCommentEntry.get())
     comment = logCommentEntry.get()
     logCommentEntry.delete(0, END)
+
+    # LOG EVENT: LogComment; need to log this to the Log File
     # For Log Comments: (LogComment, Date & Time the log comment was submitted, Operator's Log Comment) 
     if comment != "":
         addLogEvent(("LogComment", getDateTime(), comment))
@@ -70,17 +72,15 @@ def updateLogFile():
     for event in log_events_arr:
         line = ""
         eventType = event[0]
-        print(eventType)
+        # print(eventType)
 
         currentDateTime = event[1]
-        # print("DateTime", event[1])
         
         if eventType == "LogComment" or eventType == "CycleComplete":
             description = event[2]
             line = currentDateTime + description + "\n"
             f.write(line)
             print(line)
-            # print("Description", event[2])
         elif eventType == "UserSwitch":
             signOut = event[2]
             signIn = event[3] 
@@ -91,16 +91,8 @@ def updateLogFile():
             line = currentDateTime + signIn + "\n" #line for signin
             print(line)
             f.write(line)
-            
-            # print("sign out", signOut)
-            # print("sign in", signIn)
 
-    # print(len(log_events_arr))
-            
-        
 
-        # f.write("Now the file has more content!")
-        # f.close()
 
 # Left Frame
 frame = Frame(root)
@@ -126,8 +118,13 @@ logCommentLabel = Label(frameTopRight,
 logCommentEntry = tk.Entry(frameTopRight, width=30)        # logCommentEntry = Text(frameTopRight, width=30, height=8).place(x=110, y=80) 
 logCommentEntry.place(x=110, y=120) 
 logSubmitComment = Button(frameTopRight,text="Submit Comment", command=getLogComment).place(x=300, y=120)  # Button(frameTopRight,text="Submit").place(x=215, y=213)
+
+# LOG EVENT: UserSwitch; need to log this to the Log File
 signInButton = Button(frameTopRight,text="Sign In", command=lambda: addLogEvent(("UserSwitch", getDateTime(), "OldOperatorName signs out", "NewOperatorName signs in")))
-signInButton.place(x=600, y=13)  # Button(frameTopRight,text="Submit").place(x=215, y=213)
+signInButton.place(x=585, y=40)  # Button(frameTopRight,text="Submit").place(x=215, y=213)
+# Button goes back to the MAIN MENU
+mainMenuButton = Button(frameTopRight,text="Exit to Main Menu")
+mainMenuButton.place(x=585, y=13)  # Button(frameTopRight,text="Submit").place(x=215, y=213)
 
 # Bottom Right Frame 
 frameBotRight= Frame(root, width=500, height=500,bg="pink")
@@ -179,9 +176,6 @@ def read_manifest(file):
                 n=(line[18:])
                 # create container
                 containers.append(container(n,x,y,w))
-        print(len(containers))
-        # for i in range(len(containers)):
-        #     print(containers[i].name, containers[i].weight)
 
         return containers
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------  
@@ -274,14 +268,8 @@ def computeCol(x):
 def maxY(slot1, slot2):
     moveUp = -1
     slot1_row, slot1_col = slot1
-    print("slot1's row:", slot1_row)
-    print("slot1's col:", slot1_col)
 
     slot2_row, slot2_col = slot2
-    print("slot2's row:", slot2_row)
-    print("slot2's col:", slot2_col)
-
-    # row_start = slot1_row
 
 #if there's nothing obstructing the horizontal path between slot1 and slot2, then just move horizontally...
     # Condition 1: move left to right; if slot1_col < slot2_col
@@ -299,8 +287,6 @@ def maxY(slot1, slot2):
                         # row_start = maxRow
                         moveUp = maxRow-1
                         print("MAXX height/row:", maxRow)
-                        
-                # print("new start", row_start)
 
     # Condition 2: move right to left; if slot1_col > slot2_col // here, instead of incrementing the c/col we, decrement it up to slot2_col
     if slot1_col > slot2_col: #TODO: TEST & FIX THIS NEXT
@@ -326,7 +312,6 @@ def maxY(slot1, slot2):
 
 def animateUp(y, slot1): # combine animateDown here 
     row, col = slot1
-    # print("y, row, col", y, row, col)
     
     # while True: #
     for i in range(row-1, y, -1): # i > y ; only up to y to avoid double counting/lighting the maxY button for animateUp
@@ -434,15 +419,6 @@ def main():
     # Move container from (2, 3) to (2, 10) => (6, 2) to (6, 9)
     # manifest/ship coord (a,b): (2,3) --> UI_X =  a + (-2a + 8), UI_Y = b - 1
 
-    # pair1 = (2, 10) # (2, 3)
-    # pair2 = (3, 12) # (2, 10)
-
-    # pair1 = (1, 3)
-    # pair2 = (1, 7)
-
-    # pair1 = (8, 5)
-    # pair2 = (2, 6)
-
     # pair1 = (2, 3)
     # pair2 = (2, 10)
 
@@ -473,14 +449,11 @@ def main():
         slot2_col = computeCol(slot2C) 
         slot2 = (slot2_row, slot2_col)
 
-        print("SLOT1", slot1, "; SLOT2", slot2)
         print(f"Moving container {name} from {slot1} to {slot2}")
 
 
         moveMaxHeight = maxY(slot1, slot2)
         moveMaxDown = maxDown(slot2, moveMaxHeight)
-        print(moveMaxDown)
-
 
         while True:
             animateUp(moveMaxHeight, slot1)
@@ -492,9 +465,8 @@ def main():
                 on_start()
                 break
 
-    # Cycle Completed; need to log this to the Log File
+    # LOG EVENT: Cycle Completed; need to log this to the Log File
     # FORMAT: (CycleComplete, Date & Time, "Manifest <ship name> was written to desktop, and a reminder pop-up to operator to send file was displayed." )
-
     addLogEvent(("CycleComplete", getDateTime(), f"Finished a Cycle. Manifest {shipName}OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed." ))
     updateLogFile()
     print("Broke out of animation loop!") #break out of loop
