@@ -27,9 +27,9 @@ offContainers = ["Hen", "Pig"]
 loadContainers = ["Nat", "Rat"]
 start = createGrid.newGrid(v, 0, offContainers, loadContainers, "", None, "")
 
-# print("INITIAL STATE:")
-# printGrid(createGrid.newGrid.getGrid(start))
-# print("Initial MH is: ", calcTotalMH(start.getGrid(), offContainers, loadContainers, False))
+print("INITIAL STATE:")
+printGrid(createGrid.newGrid.getGrid(start))
+print("Initial MH is: ", calcTotalMH(start.getGrid(), offContainers, loadContainers, False))
 
 finished = False
 
@@ -48,6 +48,8 @@ while pq:
     # printnum += 1
     node = pq.get()
     curr = node.getData()
+    # printGrid(createGrid.newGrid.getGrid(curr))
+    # print("MH: ", calcTotalMH(createGrid.newGrid.getGrid(curr), createGrid.newGrid.getOffContainers(curr), createGrid.newGrid.getLoadContainers(curr), createGrid.newGrid.getIsGrabbing(curr)))
     if isGoalState(createGrid.newGrid.getGrid(curr), createGrid.newGrid.getOffContainers(curr), createGrid.newGrid.getLoadContainers(curr), createGrid.newGrid.getIsGrabbing(curr)):
         solution = node
         break
@@ -58,6 +60,7 @@ while pq:
         if hash not in hmap:
             hmap[hash] = None
             createGrid.newGrid.setParentNode(n, curr)
+            # printGrid(createGrid.newGrid.getGrid(n))
             pq.put(PriorityEntry(tempMH, n))
 
 #priorityentry BS taken from https://stackoverflow.com/questions/40205223/priority-queue-with-tuples-and-dicts

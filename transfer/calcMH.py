@@ -11,6 +11,26 @@ def calcTotalMH(grid, offContainers, loadContainers, isGrabbing):    #'grid' ref
         grabbedContainer = cranePos - 39
         if(grid[grabbedContainer][1] not in offContainers):
             cost += calcLowestCost(grid, offContainers, grabbedContainer)
+            # print("calculating MH for isGrabbing: ", calcLowestCost(grid, offContainers, grabbedContainer))
+            # currently the algorithm repeats the cost for the container the crane is grabbing
+    else:
+        # print("crane is not grabbing")
+        nearest = []
+        for cell in range(390):
+            if grid[cell][1] == "CRANE":
+                cranePos = cell
+        for cell in range(351):
+            if grid[cell][1] in offContainers:
+                aboveLoc = copy.deepcopy(cell)
+                aboveLoc += 39
+                while(grid[aboveLoc][1] != "UNUSED" and grid[aboveLoc][1] != "CRANE"):
+                    aboveLoc += 39
+                nearest.append(calcDistanceFromCell(cranePos, aboveLoc))
+                # print("cost for crane to top of column: ", calcDistanceFromCell(cranePos, aboveLoc))
+        if(loadContainers):
+            nearest.append(calcDistanceFromTruck(cranePos))
+        if(nearest):
+            cost += min(nearest)
 
     for cell in range(351):     #DOESN'T WORK FOR OFFLOAD CONTAINERS IN BUFFER YET
         if grid[cell][1] in offContainers:
@@ -44,6 +64,12 @@ def calcTotalMH(grid, offContainers, loadContainers, isGrabbing):    #'grid' ref
 
 def calcLowestCost(grid, offContainers, cell):
     cost = []
+    # for i in range(24):
+    #     x = 156 + i
+    #     while(grid[x][1] != "UNUSED" and grid[x][1] != "CRANE"):
+    #         x += 39
+    #     if(x <= 296):
+    #         cost.append(calcDistanceFromCell(cell, x))
     for i in range(12):
         offContainerInColumn = False
         x = 27 + i
@@ -56,8 +82,19 @@ def calcLowestCost(grid, offContainers, cell):
     if(cost):
         return min(cost)
     else:
-        return 40
+        # return 40
+        return calcCostToBuffer(grid, cell)
     # return min(cost)
+
+def calcCostToBuffer(grid, cell):
+    cost = []
+    for i in range(24):
+        x = 156 + i
+        while(grid[x][1] != "UNUSED" and grid[x][1] != "CRANE"):
+            x += 39
+        if(x <= 296):
+            cost.append(calcDistanceFromCell(cell, x))
+    return min(cost)
 
 def calcDistanceFromTruck(cell):
     rows = cell // 39
