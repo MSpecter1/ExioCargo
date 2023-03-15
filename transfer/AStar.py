@@ -62,17 +62,22 @@ while pq:
 
 #priorityentry BS taken from https://stackoverflow.com/questions/40205223/priority-queue-with-tuples-and-dicts
 
+
+
 if(solution):
     print("Solution found")
     # printInstructions(solution)
     currNode = solution.getData()
+    finalNode = currNode
     newGrab = False
     containerPos = -1
     containerName = ""
     stack = []
     stackNames = []
     output = []
+    finalDepth = createGrid.newGrid.getDepth(finalNode)
     while currNode:
+        # printGrid(createGrid.newGrid.getGrid(currNode))
         if(createGrid.newGrid.getAction(currNode) == "grab"):
             if(newGrab == False):
                 newGrab = True
@@ -85,13 +90,16 @@ if(solution):
                 fRow = row + 1
                 col = (containerPos - ((row) * 39)) - 26
                 if col == -1:
-                    stack.append("(99,99)")
+                    depthObj = finalDepth - createGrid.newGrid.getDepth(currNode)
+                    stack.append(str(depthObj) + "(99,99)")
                 elif col < 10:
-                    str = "(0" + f'{fRow}' + ",0" + f'{col}' + ")"
-                    stack.append(str)
+                    depthObj = finalDepth - createGrid.newGrid.getDepth(currNode)
+                    Str = "(0" + f'{fRow}' + ",0" + f'{col}' + ")"
+                    stack.append(str(depthObj) + Str)
                 else:
-                    str = "(0" + f'{fRow}' + "," + f'{col}' + ")"
-                    stack.append(str)
+                    depthObj = finalDepth - createGrid.newGrid.getDepth(currNode)
+                    Str = "(0" + f'{fRow}' + "," + f'{col}' + ")"
+                    stack.append(str(depthObj) + Str)
         elif(createGrid.newGrid.getAction(currNode) == "release"):
             for cell in range(390):
                 if createGrid.newGrid.getGrid(currNode)[cell][1] == "CRANE":
@@ -104,24 +112,48 @@ if(solution):
                 stack.append("(99,99)")
                 stackNames.append(containerName)
             elif col < 10:
-                str = "(0" + f'{fRow}' + ",0" + f'{col}' + ")"
-                stack.append(str)
+                Str = "(0" + f'{fRow}' + ",0" + f'{col}' + ")"
+                stack.append(Str)
                 stackNames.append(containerName)
             else:
-                str = "(0" + f'{fRow}' + "," + f'{col}' + ")"
-                stack.append(str)
+                Str = "(0" + f'{fRow}' + "," + f'{col}' + ")"
+                stack.append(Str)
                 stackNames.append(containerName)
             newGrab = False
         currNode = createGrid.newGrid.getParentNode(currNode)
     while stack:
-        str = stack.pop() + stack.pop() + " " + stackNames.pop()
-        output.append(str)
+        Str = stack.pop() + stack.pop() + " " + stackNames.pop()
+        output.append(Str)
+    finalOutput = []
+    for i in range(len(output)):
+        firstParen = output[i].index("(")
+        remainingDepth = output[i][:firstParen]
+        fromLoc = output[i][firstParen:firstParen+7]
+        toLoc = output[i][firstParen+7:firstParen+14]
+        cName = output[i][firstParen+15:]
+        # print(remainingDepth, " ", fromLoc, " ", toLoc, " ", cName, "asdf", sep="")
+        mins = int(remainingDepth)
+        hours = mins // 60
+        days = hours // 24
+        hours = hours % 24
+        mins = mins % 60
+        if(fromLoc == "(99,99)"):
+            Str = fromLoc + toLoc + " [LOAD] " + "<" + f'{days:02}' + ":" + f'{hours:02}' + ":" + f'{mins:02}' + "> " + cName
+            finalOutput.append(Str)
+            # print(str)
+        elif(toLoc == "(99,99)"):
+            Str = fromLoc + toLoc + " [OFFLOAD] " + "<" + f'{days:02}' + ":" + f'{hours:02}' + ":" + f'{mins:02}' + "> " + cName
+            finalOutput.append(Str)
+        else:
+            Str = fromLoc + toLoc + " [MOVE WITHIN SHIP] " + "<" + f'{days:02}' + ":" + f'{hours:02}' + ":" + f'{mins:02}' + "> " + cName
+            finalOutput.append(Str)
+            # converting single digits to double digits from stackoverflow: https://stackoverflow.com/questions/3505831/in-python-how-do-i-convert-a-single-digit-number-into-a-double-digits-string (multiple commentors)
     f = open(filename + "GUIPathOutput.txt", "w")
-    f.write(output.pop(0))
-    while output:
+    f.write(finalOutput.pop(0))
+    while finalOutput:
         f.write("\n")
-        f.write(output.pop(0))
+        f.write(finalOutput.pop(0))
     f.close()
     # stack and queue from geeksforgeeks
 else:
-    print("No solution found :(")
+    print("No solution found")
