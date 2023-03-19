@@ -3,7 +3,7 @@ from tkinter import *
 import numpy as np
 
 root = tk.Tk()
-# root.state("zoomed")
+root.state("zoomed")
 
 # LEFT FRAME for 8x12 Grid
 frame = Frame(root)
@@ -15,7 +15,7 @@ ship_bg_frame.pack(side=TOP, expand=1)
 ship_frame = Frame(ship_bg_frame, bg="white")
 ship_frame.pack(side=LEFT, expand=1, padx=10, pady=10)
 
-doneButton_bg_frame = Frame(frame, bg="azure2")  #
+doneButton_bg_frame = Frame(frame, bg="light grey")  #
 doneButton_bg_frame.pack(side=TOP, expand=1, fill=BOTH)
 
 doneButton_frame = Frame(doneButton_bg_frame)#ship_bg_frame
@@ -23,17 +23,6 @@ doneButton_frame.pack(side=BOTTOM, expand=1, pady=10)
 doneButton = Button(doneButton_frame, text="DONE", height=5, width=7, bg='white',activebackground='lightgrey')
 doneButton.pack(side=TOP, expand=1)
 
-
-# doneButton.place(x=300, y=580)
-
-# # Top Right Frame
-# frameTopRight = Frame(root, width=700, height=500,bg="grey")
-# frameTopRight.pack(side=TOP, padx=10, pady=20)
-
-# global textContainerList
-# textContainerList = "Containers to load:"
-# containerListLabel = Label(frameTopRight, text = textContainerList, bg="white", font=("Arial", 12))
-# containerListLabel.place(x=295, y=13) 
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 class container:
     def __init__(self, name, x, y, weight):
@@ -128,8 +117,6 @@ def buildShipGrid():
         button_row = []
         for j in range(12):
             container = containers_2D[i][j]
-            # print(f"({container.x}, {container.y})", container.weight, container.name, container.button.cget('text'))
-            # container.button.config(text=container.name + f"\n({i},{j})", command=lambda row=i, column=j, container=container, container_x=container.x, container_y=container.y, container_weight=container.weight, container_name=container.name: [appendContainers(container, row, column), print("row:", row, "column:", column, "ManifestX:", container_x, "ManifestY:", container_y, "Name:", container_name, "Weight:", container_weight)])
             container.button.config(text=container.name + f"\n({i},{j})", command=lambda row=i, column=j, container=container, container_x=container.x, container_y=container.y, container_weight=container.weight, container_name=container.name: [appendContainers(container, row, column)])
             container.button.update()
             button = container.button
@@ -137,21 +124,12 @@ def buildShipGrid():
             button_row.append(button)
         button_grid.append(button_row)
 
-def computeRow(y):
-    return y + ((-2 * y) + 8)
-
-def computeCol(x):
-    return x-1
-
 def getLoadContainerList():
      return containers_list
 
 def main():
     buildShipGrid()
     
-
-
-
 if __name__ == '__main__':
     main()
     root.mainloop()
