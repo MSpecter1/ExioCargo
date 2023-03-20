@@ -67,7 +67,7 @@ def addLogEvent(logObj): # TODO: At the end of main, when the user finishes the 
     log_events_arr.append(logObj)
 
 def updateLogFile():
-    f = open("LogFile.txt", "a")
+    f = open("KeoghLongBeach2023.txt", "a")
     print("start updateLogFile()")
     for event in log_events_arr:
         line = ""
@@ -114,14 +114,14 @@ nextButton_frame.pack(side=BOTTOM, pady=10)
 frameTopRight = Frame(root, width=700, height=500,bg="grey")
 frameTopRight.pack(side=TOP, padx=10, pady=20)
 logCommentLabel = Label(frameTopRight,
-                  text = "Log Comment").place(x=20, y=120)
+                  text = "Log Comment", bg="grey", fg="white",font=("Cambria", 12, "bold")).place(x=3, y=200)
 logCommentEntry = tk.Entry(frameTopRight, width=30)        # logCommentEntry = Text(frameTopRight, width=30, height=8).place(x=110, y=80) 
-logCommentEntry.place(x=110, y=120) 
-logSubmitComment = Button(frameTopRight,text="Submit Comment", command=getLogComment).place(x=300, y=120)  # Button(frameTopRight,text="Submit").place(x=215, y=213)
+logCommentEntry.place(x=110, y=204) 
+logSubmitComment = Button(frameTopRight,text="Submit Comment", command=getLogComment).place(x=300, y=201)  # Button(frameTopRight,text="Submit").place(x=215, y=213)
 
 # LOG EVENT: UserSwitch; need to log this to the Log File
 signInButton = Button(frameTopRight,text="Sign In", command=lambda: addLogEvent(("UserSwitch", getDateTime(), "OldOperatorName signs out", "NewOperatorName signs in")))
-signInButton.place(x=585, y=40)  # Button(frameTopRight,text="Submit").place(x=215, y=213)
+signInButton.place(x=530, y=13)  # Button(frameTopRight,text="Submit").place(x=215, y=213)
 # Button goes back to the MAIN MENU
 mainMenuButton = Button(frameTopRight,text="Exit to Main Menu")
 mainMenuButton.place(x=585, y=13)  # Button(frameTopRight,text="Submit").place(x=215, y=213)
@@ -430,13 +430,16 @@ def main():
 
     for i in range(len(path_arr)):
         print("\n\nSTEP", i, path_arr[i])
-        stepsLabel = Label(frameTopRight, text = f"STEP {i+1} OF {numSteps}", bg="white", font=("Arial", 12)).place(x=295, y=13) 
-        operationLabel = Label(frameTopRight, text = f"Move container {path_arr[i][2]} from {path_arr[i][0]} to {path_arr[i][1]}", bg="white",font=("Arial", 12)).place(x=205, y=67)
+        stepsLabel = Label(frameTopRight, text = f"STEP {i+1} OF {numSteps}", bg="grey",fg="white", font=("Cambria", 14, "bold"))
+        stepsLabel.place(x=295, y=60) 
+        operationLabel = Label(frameTopRight, text = f"Move container {path_arr[i][2]} from {path_arr[i][0]} to {path_arr[i][1]}", bg="grey",fg="white",font=("Cambria", 14, "bold"))
+        operationLabel.place(x=175, y=114)
         if(i == 0):
             curr_time = totalTime
         else:
             curr_time = totalTime - path_arr[i-1][3]
-        estimatedTimeLabel = Label(frameTopRight, text = f"Estimated Time Left: {curr_time} minutes", bg="white", font=("Arial", 12)).place(x=230, y=40) 
+        estimatedTimeLabel = Label(frameTopRight, text = f"Estimated Time Left: {curr_time} minutes", bg="grey", fg="white", font=("Cambria", 14, "bold"))
+        estimatedTimeLabel.place(x=210, y=87) 
         slot1R, slot1C = path_arr[i][0]
         slot2R, slot2C = path_arr[i][1]
         name = path_arr[i][2]
@@ -467,6 +470,9 @@ def main():
 
     # LOG EVENT: Cycle Completed; need to log this to the Log File
     # FORMAT: (CycleComplete, Date & Time, "Manifest <ship name> was written to desktop, and a reminder pop-up to operator to send file was displayed." )
+    estimatedTimeLabel.config(text=f"Estimated Time Left: 0 minutes")
+    stepsLabel.config(text="Cycle complete!")
+    operationLabel.config(text="Select 'Exit to Main Menu' to begin a new cycle.")
     addLogEvent(("CycleComplete", getDateTime(), f"Finished a Cycle. Manifest {shipName}OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed." ))
     updateLogFile()
     print("Broke out of animation loop!") #break out of loop
