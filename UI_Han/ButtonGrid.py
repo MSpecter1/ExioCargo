@@ -2,9 +2,14 @@ import tkinter as tk
 from tkinter import *
 import ntplib
 from time import ctime
+import sys
+# adding UnloadProblem to system path
+sys.path.insert(0, 'UI_Han/UnloadProblem')
 import Balance
+
 # import GUIManifestReader
 import numpy as np
+
 
 root = tk.Tk()
 
@@ -409,6 +414,24 @@ def updateNextGrid(slot1, slot2): # updates the 8x12 grid to reflect the current
     updateSlot1Button.config(bg="white", text="UNUSED"+f"({slot1_row},{slot1_col})")
     updateSlot1Button.update()
 
+def popUpWindow():
+    root_x = root.winfo_x()
+    root_y = root.winfo_y()
+
+    popUp = tk.Toplevel()
+    popUp.title("Email Outbound Manifest Reminder")
+    w = popUp.winfo_width()
+    h = popUp.winfo_height()  
+    popUp.geometry("%dx%d+%d+%d" % (w, h, root_x+400, root_y+260))
+    popUp.geometry("750x300")
+    # popUpFrame = Frame(popUp)
+    # popUpFrame.pack(side=TOP, pady=100) #350
+    descriptionLabel = tk.Label(popUp, text = f"Manifest '{shipName}OUTBOUND.txt' was written to desktop.\n Make sure to send the file to the ship's captain.", font=("Cambria", 12, "bold"))
+    exitButton = tk.Button(popUp, text = "Exit", width=10, height=1, command = popUp.destroy)
+    descriptionLabel.pack(pady=60)
+    exitButton.pack()
+
+
 
 def main():
     buildShipGrid()    
@@ -470,17 +493,15 @@ def main():
 
     # LOG EVENT: Cycle Completed; need to log this to the Log File
     # FORMAT: (CycleComplete, Date & Time, "Manifest <ship name> was written to desktop, and a reminder pop-up to operator to send file was displayed." )
+    popUpWindow() # pop-up window for reminding the operator to email the new manifest to the ship's captain
     estimatedTimeLabel.config(text=f"Estimated Time Left: 0 minutes")
     stepsLabel.config(text="Cycle complete!")
     operationLabel.config(text="Select 'Exit to Main Menu' to begin a new cycle.")
     addLogEvent(("CycleComplete", getDateTime(), f"Finished a Cycle. Manifest {shipName}OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed." ))
     updateLogFile()
     print("Broke out of animation loop!") #break out of loop
+
     root.mainloop()
 
 if __name__ == '__main__':
     main()
-
-#TODO 1: add a grid for displaying the buffer (can probably just do this in main() or outside main())
-#TODO 2: figure out how to make the animation stop immediately and go to the next grid (updateNextGrid()) when the user prints the "Next" button; right now, when the user presses the "Next" button, the animation has to finish its move first before updating to the next new grid/before (i.e. updateNextGrid) which is not very time-efficient
-#TODO 3: make the containers different colors where there is a unique color for each container_name (question: do i have to consider the weight too? like if they two containers have the same name but different weights, do i color them differently or the same color?)
