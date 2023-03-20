@@ -3,14 +3,20 @@ from tkinter import *
 import numpy as np
 
 root = tk.Tk()
+root.title('Unload')
 root.state("zoomed")
 
 # LEFT FRAME for 8x12 Grid
 frame = Frame(root)
 frame.pack(side=TOP, pady=75)
 
+
+
 ship_bg_frame = Frame(frame, bg="grey")  #
 ship_bg_frame.pack(side=TOP, expand=1)
+
+screenTitle = Label(ship_bg_frame,
+                  text = "SELECT CONTAINERS TO UNLOAD", font=("Helvetica", 15, "bold"), bg="light grey").pack(side=TOP, expand=1, fill=BOTH)
 
 ship_frame = Frame(ship_bg_frame, bg="white")
 ship_frame.pack(side=LEFT, expand=1, padx=10, pady=10)
@@ -22,6 +28,7 @@ doneButton_frame = Frame(doneButton_bg_frame)#ship_bg_frame
 doneButton_frame.pack(side=BOTTOM, expand=1, pady=10)
 doneButton = Button(doneButton_frame, text="DONE", height=5, width=7, bg='white',activebackground='lightgrey')
 doneButton.pack(side=TOP, expand=1)
+
 
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 class container:
