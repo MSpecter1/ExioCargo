@@ -29,13 +29,13 @@ class Transfer:
         return self.array
 
     def run(self, Filename):
-        # filename = "ShipCase10"
+
         filename = Filename
 
         v = createBasic()
         v = modifyGrid(v, filename)
-        offContainers = ["Bat"]
-        loadContainers = []
+        offContainers = ["Cow"]
+        loadContainers = ["Bat", "Rat"]
         start = createGrid.newGrid(v, 0, offContainers, loadContainers, "", None, "", [])
 
         # print("INITIAL STATE:")
@@ -158,16 +158,16 @@ class Transfer:
                 toCol = toLoc[4:5]
                 # print(remainingDepth, " ", fromLoc, " ", toLoc, " ", cName, "asdf", sep="")
                 mins = int(remainingDepth)
-                hours = mins // 60
-                days = hours // 24
-                hours = hours % 24
-                mins = mins % 60
+                # hours = mins // 60
+                # days = hours // 24
+                # hours = hours % 24
+                # mins = mins % 60
                 if(fromLoc == "(99,99)"):
-                    Str = fromLoc + toLoc + " " + f'{days:02}' + ":" + f'{hours:02}' + ":" + f'{mins:02}' + " " + cName + " [LOAD]"
+                    Str = fromLoc + toLoc + " " + f'{mins:04}' + " " + cName + " [LOAD]"
                     finalOutput.append(Str)
                     # print(str)
                 elif(toLoc == "(99,99)"):
-                    Str = fromLoc + toLoc + " " + f'{days:02}' + ":" + f'{hours:02}' + ":" + f'{mins:02}' + " " + cName + " [OFFLOAD]"
+                    Str = fromLoc + toLoc + " " + f'{mins:04}' + " " + cName + " [OFFLOAD]"
                     finalOutput.append(Str)
                 elif(fromCol == "-"):
                     buffLoc = fromLoc.index("-")
@@ -179,20 +179,20 @@ class Transfer:
                         aasdf = toLoc[bbuffLoc:]
                         bbuffLoc2 = aasdf.index(")")
                         aasdfasdf = aasdf[0:bbuffLoc2]
-                        Str = fromLoc[0:buffLoc] + f'{int(asdfasdf) + 27}' + ")" + toLoc[0:bbuffLoc] + f'{int(aasdfasdf) + 27}' + ")" + " " + f'{days:02}' + ":" + f'{hours:02}' + ":" + f'{mins:02}' + " " + cName + " [MOVE WITHIN BUFFER]"
+                        Str = fromLoc[0:buffLoc] + f'{int(asdfasdf) + 27}' + ")" + toLoc[0:bbuffLoc] + f'{int(aasdfasdf) + 27}' + ")" + " " + f'{mins:04}' + " " + cName + " [MOVE WITHIN BUFFER]"
                         finalOutput.append(Str)
                     else:
-                        Str = fromLoc[0:buffLoc] + f'{int(asdfasdf) + 27}' + ")" + toLoc + " " + f'{days:02}' + ":" + f'{hours:02}' + ":" + f'{mins:02}' + " " + cName + " [MOVE FROM BUFFER TO SHIP]"
+                        Str = fromLoc[0:buffLoc] + f'{int(asdfasdf) + 27}' + ")" + toLoc + " " + f'{mins:04}' + " " + cName + " [MOVE FROM BUFFER TO SHIP]"
                         finalOutput.append(Str)
                 elif(toCol == "-"):
                     bbuffLoc = toLoc.index("-")
                     aasdf = toLoc[bbuffLoc:]
                     bbuffLoc2 = aasdf.index(")")
                     aasdfasdf = aasdf[0:bbuffLoc2]
-                    Str = fromLoc + toLoc[0:bbuffLoc] + f'{int(aasdfasdf) + 27}' + ")" + " " + f'{days:02}' + ":" + f'{hours:02}' + ":" + f'{mins:02}' + " " + cName + " [MOVE FROM SHIP TO BUFFER]"
+                    Str = fromLoc + toLoc[0:bbuffLoc] + f'{int(aasdfasdf) + 27}' + ")" + " " + f'{mins:04}' + " " + cName + " [MOVE FROM SHIP TO BUFFER]"
                     finalOutput.append(Str)
                 else:
-                    Str = fromLoc + toLoc + " " + f'{days:02}' + ":" + f'{hours:02}' + ":" + f'{mins:02}' + " " + cName + " [MOVE WITHIN SHIP]"
+                    Str = fromLoc + toLoc + " " + f'{mins:04}' + " " + cName + " [MOVE WITHIN SHIP]"
                     finalOutput.append(Str)
                     # converting single digits to double digits from stackoverflow: https://stackoverflow.com/questions/3505831/in-python-how-do-i-convert-a-single-digit-number-into-a-double-digits-string (multiple commentors)
             arr = []

@@ -6,6 +6,7 @@ def modifyGrid(list, filename):
 
     path = '../ExioCargo/tests/' + filename + '.txt'
     fileName = os.path.abspath(path)
+    print(fileName)
     # relative paths taken from Nicholas Jones on https://stackoverflow.com/questions/918154/relative-paths-in-python
 
     reader.set_manifest(fileName)
