@@ -43,6 +43,20 @@ def getLogComment():
         addLogEvent(("LogComment", getDateTime(), comment))
     return comment
 
+def getWeightEntry():
+    
+    weightEn = weightEntry.get()
+    if(weightEntryBool == True and len(weightEn) > 0):
+        print(f"Weight {int(weightEn)} is inputted!")
+        return int(weightEn)
+    
+    print("Weight not inputted")
+    return 0
+    # weightEn= int(weightEntry.get())
+    # weightEntry.delete(0, END)
+
+    # return weightEn
+
 def getDateTime():
     c = ntplib.NTPClient()
     response = c.request('us.pool.ntp.org')
@@ -136,13 +150,17 @@ nextButton_frame.pack(side=BOTTOM, pady=10)
 frameTopRight = Frame(root, width=1000, height=1000,bg="grey")
 frameTopRight.pack(side=TOP, padx=10, pady=20)
 logCommentLabel = Label(frameTopRight,
-                  text = "Log Comment", bg="grey", fg="white",font=("Cambria", 12, "bold"))#.place(x=3, y=200)
+                  text = "Log Comment:", bg="grey", fg="white",font=("Cambria", 12, "bold"))#.place(x=3, y=200)
 # logCommentLabel.pack()
 logCommentEntry = tk.Entry(frameTopRight, width=30)        # logCommentEntry = Text(frameTopRight, width=30, height=8).place(x=110, y=80) 
 # logCommentEntry.place(x=110, y=204) 
 # logCommentEntry.pack()
 logSubmitComment = Button(frameTopRight,text="Submit Comment", command=getLogComment)#.place(x=300, y=201)  # Button(frameTopRight,text="Submit").place(x=215, y=213)
 # logSubmitComment.pack()
+weightEntryLabel = Label(frameTopRight,
+                  text = "Enter weight (kg):", bg="grey", fg="white",font=("Cambria", 12, "bold"))#.place(x=3, y=200)
+weightEntry = tk.Entry(frameTopRight, width=30)
+# weightEntrySubmit = Button(frameTopRight,text="Submit weight", command=getWeightEntry)
 
 # Button goes back to the MAIN MENU
 mainMenuButton = Button(frameTopRight,text="Exit to Main Menu")
@@ -431,7 +449,7 @@ def animateDown(slot2, moveMaxHeight, moveMaxDown):
         root.after(timer)
 
 
-def updateNextGrid(slot1, slot2, op): # updates the 8x12 grid to reflect the current step's move/task has been completed once the user presses "Next"
+def updateNextGrid(slot1, slot2, op, updateName): # updates the 8x12 grid to reflect the current step's move/task has been completed once the user presses "Next"
     slot1_row, slot1_col = slot1
     slot2_row, slot2_col = slot2
 
@@ -462,7 +480,12 @@ def updateNextGrid(slot1, slot2, op): # updates the 8x12 grid to reflect the cur
         updateSlot1Button.update()
 
     if(op == "LOAD"):
-        print("TODO")
+        updateSlot2Button = button_grid[slot2_row][slot2_col]
+        slot2Container = containers_2D[slot2_row][slot2_col]
+        slot2Container.weight = getWeightEntry() #TODO: GET THE WEIGHT FROM ENTRY BOX <-- completed on 3-21-23 6AM
+        slot2Container.name = updateName
+        updateSlot2Button.config(bg="blue", text=updateName+f"\n {slot2Container.weight}")
+        updateSlot2Button.update()
 
 
 def animateOffload(slot1):
@@ -499,6 +522,16 @@ def updateEstTimeLabel(i):
     estimatedTimeLabel.pack()
     # estimatedTimeLabel.place(x=210, y=87)
 
+def clearPackWidgets():
+    operationLabel.pack_forget()
+    stepsLabel.pack_forget()
+    estimatedTimeLabel.pack_forget()
+    logCommentLabel.pack_forget()
+    logCommentEntry.pack_forget()
+    logSubmitComment.pack_forget()
+    weightEntryLabel.pack_forget()
+    weightEntry.pack_forget()
+    # weightEntrySubmit.pack_forget()
 
 def main():
     buildShipGrid()    
@@ -509,18 +542,23 @@ def main():
     pathReader()
 
     for i in range(len(path_arr)):
+        global weightEntryBool
+        weightEntryBool = False
+
+        container_weight = -1
         print("\n\nSTEP", i, path_arr[i])
         conName = path_arr[i][2]
 
+        global stepsLabel
         stepsLabel = Label(frameTopRight, text = f"STEP {i+1} OF {numSteps}", bg="grey",fg="white", font=("Cambria", 14, "bold"))
-        # stepsLabel.place(x=295, y=60) 
         stepsLabel.pack()
         updateEstTimeLabel(i)
-        operationLabel = Label(frameTopRight, text = f"Move container {path_arr[i][2]} from {path_arr[i][0]} to {path_arr[i][1]}", bg="grey",fg="white",font=("Cambria", 14, "bold"))
-        # operationLabel.place(x=175, y=114)
-        operationLabel.pack()
 
-        logCommentLabel.pack(pady=(45,0))
+        global operationLabel
+        operationLabel = Label(frameTopRight, text = f"Move container {path_arr[i][2]} from {path_arr[i][0]} to {path_arr[i][1]}", bg="grey",fg="white",font=("Cambria", 14, "bold"))
+        operationLabel.pack()
+                
+        logCommentLabel.pack(pady=(25,0))
         logCommentEntry.pack()
         logSubmitComment.pack(pady=3)
         
@@ -541,6 +579,8 @@ def main():
         print(f"Moving container {name} from {slot1} to {slot2}")
 
         if(operation == "MOVE WITHIN SHIP"):
+            
+
             moveMaxHeight = maxY(slot1, slot2)
             moveMaxDown = maxDown(slot2, moveMaxHeight)
 
@@ -550,7 +590,7 @@ def main():
                 animateHorizontal(slot1, slot2, moveMaxHeight)
                 animateDown(slot2, moveMaxHeight, moveMaxDown)
                 if running == False:  #add condition for when user hits "Next", stop the loop so it can go to next step's new animation
-                    updateNextGrid(slot1,slot2, operation)
+                    updateNextGrid(slot1,slot2, operation, "")
                     on_start()
                     break
         if(operation == "OFFLOAD"):
@@ -559,37 +599,31 @@ def main():
             while True:
                 animateOffload(slot1)
                 if running == False:  #add condition for when user hits "Next", stop the loop so it can go to next step's new animation
-                    updateNextGrid(slot1,slot2, operation)
+                    updateNextGrid(slot1,slot2, operation, "")
                     on_start()
                     break
-            operationLabel.pack_forget()
-            stepsLabel.pack_forget()
-            estimatedTimeLabel.pack_forget()
-            logCommentLabel.pack_forget()
-            logCommentEntry.pack_forget()
-            logSubmitComment.pack_forget()
+            clearPackWidgets()
 
         if(operation == "LOAD"):
             #TODO: ADD ANIMATION FUNCTION FOR LOADing animateLoad()
             #TODO: AFTER you are done with LOAD, push it to git repo and then you can continue onto the buffer...
+            weightEntryBool = True 
             
-
+            weightEntryLabel.pack(pady=(9,3))
+            weightEntry.pack(pady=(0,15))
+            # weightEntrySubmit.pack(pady=(3,0))
             operationLabel.config(text = f"Load container {path_arr[i][2]} to {path_arr[i][1]}")
             while True:
                 animateLoad(slot2, conName)
                 
                 if running == False:  #add condition for when user hits "Next", stop the loop so it can go to next step's new animation
-                    
-                    updateNextGrid(slot1,slot2, operation)
+
+                    updateNextGrid(slot1,slot2, operation, path_arr[i][2]) #path_arr[i][2] is the name of the container
                     on_start()
                     break
-            operationLabel.pack_forget()
-            stepsLabel.pack_forget()
-            estimatedTimeLabel.pack_forget()
-            logCommentLabel.pack_forget()
-            logCommentEntry.pack_forget()
-            logSubmitComment.pack_forget()
+            clearPackWidgets()
 
+        print("WEBool is...", weightEntryBool)
         # print("--containers_2D AFTER UPDATE")
         # for i in range(len(containers_2D)):
         #     print("ROW", i)
