@@ -2,14 +2,14 @@ import tkinter as tk
 from tkinter import *
 import ntplib
 from time import ctime
+import numpy as np
 import sys
+
 # adding UnloadProblem to system path
 # sys.path.append(r'C:\Users\hanna\CS179M\ExioCargo\UI_Han\TransferProblem')
 sys.path.append('UI_Han/TransferProblem')
 import AStar
-
-# import GUIManifestReader
-import numpy as np
+import SignInWindow
 
 
 root = tk.Tk()
@@ -31,6 +31,16 @@ def on_start():
 def on_stop():
    global running
    running = False
+
+#---------------------------------------------------------------------------------------------------------------------
+'''WINDOWS'''
+def signInWin():
+    # path = r"..\CS179M\ExioCargo\UI_Han\SignInWindow.py"
+    # os.system(f"python {path}")
+    
+    SignInWindow.startUp()
+
+#---------------------------------------------------------------------------------------------------------------------
 
 def getLogComment():
     # print("LOG COMMENT SUBMITTED", logCommentEntry.get())
@@ -168,7 +178,7 @@ mainMenuButton = Button(frameTopRight,text="Exit to Main Menu")
 mainMenuButton.pack(pady=(5,0))
 
 # LOG EVENT: UserSwitch; need to log this to the Log File
-signInButton = Button(frameTopRight,text="Sign In", command=lambda: addLogEvent(("UserSwitch", getDateTime(), "OldOperatorName signs out", "NewOperatorName signs in")))
+signInButton = Button(frameTopRight,text="Sign In", command=lambda: [signInWin(), addLogEvent(("UserSwitch", getDateTime(), "OldOperatorName signs out", f"{SignInWindow.username} signs in"))])
 # signInButton.place(x=530, y=13)  
 signInButton.pack(pady=(2,5))
 
@@ -605,8 +615,6 @@ def main():
             clearPackWidgets()
 
         if(operation == "LOAD"):
-            #TODO: ADD ANIMATION FUNCTION FOR LOADing animateLoad()
-            #TODO: AFTER you are done with LOAD, push it to git repo and then you can continue onto the buffer...
             weightEntryBool = True 
             
             weightEntryLabel.pack(pady=(9,3))
@@ -649,4 +657,5 @@ def main():
     root.mainloop()
 
 if __name__ == '__main__':
+    USER = "DEFAULT"
     main()
