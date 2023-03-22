@@ -3,14 +3,16 @@ from tkinter import *
 import ntplib
 from time import ctime
 import sys
-# adding UnloadProblem to system path
-sys.path.insert(0, 'UI_Han/UnloadProblem')
-import Balance
+import os
+import SignInWindow
 
-# import GUIManifestReader
+# adding UnloadProblem to system path
+sys.path.insert(0, 'UI_Han/BalanceProblem')
+import Balance
+# import menu
 import numpy as np
 
-
+global root
 root = tk.Tk()
 
 root.state("zoomed") # when window opens, it fills up whole screen
@@ -57,17 +59,7 @@ def getDateTime():
 
 global log_events_arr
 log_events_arr = []
-def addLogEvent(logObj): # TODO: At the end of main, when the user finishes the last step, we should write the logUpdates array to a log file.
-    # each element in log_events_arr should be in this format using a tuple: 
-    # Type of event(s): LogComment, StepComplete, UserSwitch, CycleComplete
-
-    # 1) DONE For Log Comments: (LogComment, Date & Time the log comment was submitted, Operator's Log Comment) 
-    # 2) For when a step is completed: (StepComplete, Date & Time the step was completed, Description of step (e.g. "Cat" is offloaded.)) <-- NOT NEEDED FOR BALANCE
-    # 3) DONE For operator switch: (UserSwitch, Name of operator)
-    # 4) DONE For when a cycle is done: (CycleComplete, Date & Time, "Manifest <ship name> was written to desktop, and a reminder pop-up to operator to send file was displayed." ) 
-
-    
-
+def addLogEvent(logObj):
     print("Added event to log event array", logObj)
     log_events_arr.append(logObj)
 
@@ -125,7 +117,7 @@ logCommentEntry.place(x=110, y=204)
 logSubmitComment = Button(frameTopRight,text="Submit Comment", command=getLogComment).place(x=300, y=201)  # Button(frameTopRight,text="Submit").place(x=215, y=213)
 
 # LOG EVENT: UserSwitch; need to log this to the Log File
-signInButton = Button(frameTopRight,text="Sign In", command=lambda: addLogEvent(("UserSwitch", getDateTime(), "OldOperatorName signs out", "NewOperatorName signs in")))
+signInButton = Button(frameTopRight,text="Sign In", command=lambda: [signInWin(), addLogEvent(("UserSwitch", getDateTime(), "OldOperatorName signs out", f"{SignInWindow.username} signs in"))])
 signInButton.place(x=530, y=13)  # Button(frameTopRight,text="Submit").place(x=215, y=213)
 # Button goes back to the MAIN MENU
 mainMenuButton = Button(frameTopRight,text="Exit to Main Menu")
@@ -136,6 +128,13 @@ frameBotRight= Frame(root, width=500, height=500,bg="pink")
 frameBotRight.pack(side=TOP, padx=10, pady=20)
 buffer_frame = Frame(frameBotRight, bg="light grey") #ship_bg_frame
 buffer_frame.pack(side=TOP, expand=1,padx=4,pady=5) #RIGHT
+
+def signInWin():
+    # path = r"..\CS179M\ExioCargo\UI_Han\SignInWindow.py"
+    # os.system(f"python {path}")
+    
+    SignInWindow.startUp()
+    
 
 ''' MAIN ANIMATION CODE BEGINS HERE '''
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -200,7 +199,7 @@ def pathReader(): # reads Balance's GUI Path Output
     # Run the Balance algorithm to retrieve the path solutions array 
     searchOBJ = Balance.CargoSearch()
     stateOBJ = Balance.ShipState()
-    returned_sol = searchOBJ.search(stateOBJ, "Balance\ShipCase1.txt") 
+    returned_sol = searchOBJ.search(stateOBJ, "tests\ShipCase4.txt") 
     solution_paths = returned_sol.solution
     print(solution_paths)
 
@@ -241,9 +240,9 @@ def pathReader(): # reads Balance's GUI Path Output
 
 
 button_grid = []
-containers_arr = read_manifest("Balance\ShipCase1.txt")
+containers_arr = read_manifest("tests\ShipCase4.txt")
 global manifestFile
-manifestFile = "Balance\ShipCase1.txt"
+manifestFile = "tests\ShipCase4.txt"
 global shipName
 shipName = manifestFile.split("\\")[-1].split(".")[0]
 
@@ -490,7 +489,7 @@ def main():
                 updateNextGrid(slot1,slot2)
                 on_start()
                 break
-
+        
     # LOG EVENT: Cycle Completed; need to log this to the Log File
     # FORMAT: (CycleComplete, Date & Time, "Manifest <ship name> was written to desktop, and a reminder pop-up to operator to send file was displayed." )
     popUpWindow() # pop-up window for reminding the operator to email the new manifest to the ship's captain
@@ -504,4 +503,5 @@ def main():
     root.mainloop()
 
 if __name__ == '__main__':
+    USER = "DEFAULT"
     main()
