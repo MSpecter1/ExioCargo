@@ -35,10 +35,13 @@ def on_stop():
 #---------------------------------------------------------------------------------------------------------------------
 '''WINDOWS'''
 def signInWin():
-    # path = r"..\CS179M\ExioCargo\UI_Han\SignInWindow.py"
-    # os.system(f"python {path}")
-    
+    global USER
     SignInWindow.startUp()
+    
+    USER = SignInWindow.username
+    userLabel.config(text=f"User: {USER}")
+    addLogEvent(("UserSwitch", getDateTime(), "OldOperatorName signs out", f"{USER} signs in"))
+    print("test USER", USER)
 
 #---------------------------------------------------------------------------------------------------------------------
 
@@ -172,13 +175,16 @@ weightEntryLabel = Label(frameTopRight,
 weightEntry = tk.Entry(frameTopRight, width=30)
 # weightEntrySubmit = Button(frameTopRight,text="Submit weight", command=getWeightEntry)
 
+labelPadding = Label(frameTopRight, text="", bg='grey')
+labelPadding.pack(pady=(0,15))
+
 # Button goes back to the MAIN MENU
 mainMenuButton = Button(frameTopRight,text="Exit to Main Menu")
 # mainMenuButton.place(x=585, y=13)  
 mainMenuButton.pack(pady=(5,0))
 
 # LOG EVENT: UserSwitch; need to log this to the Log File
-signInButton = Button(frameTopRight,text="Sign In", command=lambda: [signInWin(), addLogEvent(("UserSwitch", getDateTime(), "OldOperatorName signs out", f"{SignInWindow.username} signs in"))])
+signInButton = Button(frameTopRight,text="Sign In", command=lambda: [signInWin()])
 # signInButton.place(x=530, y=13)  
 signInButton.pack(pady=(2,5))
 
@@ -546,10 +552,15 @@ def clearPackWidgets():
 def main():
     buildShipGrid()    
     createBuffer()
+    
     button = tk.Button(nextButton_frame, text="Next",activebackground='lightgrey', height=1, width=8, command=on_stop)
     button.grid(row=0, column=0)
 
     pathReader()
+
+    global userLabel
+    userLabel = Label(frameTopRight, text = f"User: {USER}", bg="grey",fg="white", font=("Cambria", 10, "bold"))
+    userLabel.place(x=0, y=0)
 
     for i in range(len(path_arr)):
         global weightEntryBool
@@ -595,6 +606,7 @@ def main():
             moveMaxDown = maxDown(slot2, moveMaxHeight)
 
             while True:
+                # print(USER)
                 animateUp(moveMaxHeight, slot1)
                 # root.after(timer)
                 animateHorizontal(slot1, slot2, moveMaxHeight)
@@ -622,6 +634,7 @@ def main():
             # weightEntrySubmit.pack(pady=(3,0))
             operationLabel.config(text = f"Load container {path_arr[i][2]} to {path_arr[i][1]}")
             while True:
+                print(USER)
                 animateLoad(slot2, conName)
                 
                 if running == False:  #add condition for when user hits "Next", stop the loop so it can go to next step's new animation
