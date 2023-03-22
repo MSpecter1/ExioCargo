@@ -117,7 +117,7 @@ logCommentEntry.place(x=110, y=204)
 logSubmitComment = Button(frameTopRight,text="Submit Comment", command=getLogComment).place(x=300, y=201)  # Button(frameTopRight,text="Submit").place(x=215, y=213)
 
 # LOG EVENT: UserSwitch; need to log this to the Log File
-signInButton = Button(frameTopRight,text="Sign In", command=lambda: [signInWin(), addLogEvent(("UserSwitch", getDateTime(), "OldOperatorName signs out", f"{SignInWindow.username} signs in"))])
+signInButton = Button(frameTopRight,text="Sign In", command=lambda: [signInWin()])
 signInButton.place(x=530, y=13)  # Button(frameTopRight,text="Submit").place(x=215, y=213)
 # Button goes back to the MAIN MENU
 mainMenuButton = Button(frameTopRight,text="Exit to Main Menu")
@@ -130,10 +130,13 @@ buffer_frame = Frame(frameBotRight, bg="light grey") #ship_bg_frame
 buffer_frame.pack(side=TOP, expand=1,padx=4,pady=5) #RIGHT
 
 def signInWin():
-    # path = r"..\CS179M\ExioCargo\UI_Han\SignInWindow.py"
-    # os.system(f"python {path}")
-    
+    global USER
     SignInWindow.startUp()
+    
+    USER = SignInWindow.username
+    userLabel.config(text=f"User: {USER}")
+    addLogEvent(("UserSwitch", getDateTime(), "OldOperatorName signs out", f"{USER} signs in"))
+    print("test USER", USER)
     
 
 ''' MAIN ANIMATION CODE BEGINS HERE '''
@@ -449,7 +452,9 @@ def main():
     # path_arr = []
     # path_arr.append((pair1, pair2, "hello")) #DELETE THIS AFTER TESTING
     # path_arr.append(())
-
+    global userLabel
+    userLabel = Label(frameTopRight, text = f"User: {USER}", bg="grey",fg="white", font=("Cambria", 10, "bold"))
+    userLabel.place(x=0, y=0)
     for i in range(len(path_arr)):
         print("\n\nSTEP", i, path_arr[i])
         stepsLabel = Label(frameTopRight, text = f"STEP {i+1} OF {numSteps}", bg="grey",fg="white", font=("Cambria", 14, "bold"))
@@ -481,6 +486,7 @@ def main():
         moveMaxDown = maxDown(slot2, moveMaxHeight)
 
         while True:
+            print(USER)
             animateUp(moveMaxHeight, slot1)
             # root.after(timer)
             animateHorizontal(slot1, slot2, moveMaxHeight)
