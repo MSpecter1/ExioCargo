@@ -288,7 +288,7 @@ path_arr = []
 def pathReader(): # reads Balance's GUI Path Output
     # Run the Balance algorithm to retrieve the path solutions array 
     #['(08,07)(01,24) 00:01:06 Fat [MOVE FROM SHIP TO BUFFER]', '(07,07)(99,99) 00:00:35 Bat [OFFLOAD]', '(01,24)(07,07) 00:00:17 Fat [MOVE FROM BUFFER TO SHIP]']
-    solution_paths = AStar.Transfer("ShipCase1").array
+    solution_paths = AStar.Transfer("ShipCase3").array
 
     solution_paths.append('(99,99)(01,02) 0012 CUB [LOAD]')
     print(solution_paths)
@@ -337,12 +337,12 @@ def pathReader(): # reads Balance's GUI Path Output
 button_grid = []
 
 global manifestFile
-manifestFile = "tests\ShipCase1.txt"
+manifestFile = "tests\ShipCase3.txt"
 global shipName
 shipName = manifestFile.split("\\")[-1].split(".")[0]
 
 def buildShipGrid(frame):
-    containers_arr = read_manifest("tests\ShipCase1.txt", frame)
+    containers_arr = read_manifest("tests\ShipCase3.txt", frame)
     global containers_2D
     containers_2D = list(np.reshape(containers_arr, (8,12)))
 
@@ -646,6 +646,8 @@ def main():
                     updateNextGrid(slot1,slot2, operation, "")
                     on_start()
                     break
+            clearPackWidgets()
+            
         if(operation == "OFFLOAD"):
             # operationLabel = Label(frameTopRight, text = f"Offload container {path_arr[i][2]} at {path_arr[i][0]}", bg="grey",fg="white",font=("Cambria", 14, "bold"))
             operationLabel.config(text = f"Offload container {path_arr[i][2]} at {path_arr[i][0]}")
