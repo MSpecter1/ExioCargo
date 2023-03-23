@@ -9,7 +9,7 @@ import TransferScreen
 import ButtonGrid
 
 # USER = "DEFAULT"
-
+global MainMenuUser
 def appendLoadContainer(name):
     print('\n')
     name=name_var.get()
@@ -18,6 +18,10 @@ def appendLoadContainer(name):
     for i in loadInput:
         print(i)
 
+def assignPastUser():
+    SignInWindow.pastUser = SignInWindow.username
+    
+    # MainMenuUser = SignInWindow.username
 # MAIN MENU WINDOW (FIRST MENU)
 def mainMenu():
     global menuRoot
@@ -32,13 +36,14 @@ def mainMenu():
     mainMenuTitleLabel = Label(menuRoot, text= "Main Menu", bg='white', fg="black", font=("Cambria", 14, "bold"))
 
     # SIGN IN BUTTON
-    signInButton = tk.Button(menuRoot,text="Sign In Here",width=25,height=2, bg="black", fg="white", command=lambda: SignInWindow.startUp())
-
+    signInButton = tk.Button(menuRoot,text="Sign In Here",width=25,height=2, bg="black", fg="white", command=lambda: [ SignInWindow.startUp(), assignPastUser()])
+    
+    
     # TRANSFER BUTTON
     transferButton = Button(menuRoot,text="Transfer",width=25,height=2,bg="blue",fg="yellow",command = transferWin) # opens the window for Transfer
 
     # BALANCE BUTTON
-    balanceButton = tk.Button(menuRoot, text="Balance", width=25, height=2, bg="yellow", fg="blue", command=lambda: ButtonGrid.main()) #runBalance()
+    balanceButton = tk.Button(menuRoot, text="Balance", width=25, height=2, bg="yellow", fg="blue", command=lambda: ButtonGrid.main(SignInWindow.username)) #runBalance()
 
     mainMenuTitleLabel.pack(pady=10) 
     signInButton.pack(pady=5)
@@ -80,9 +85,14 @@ def transferWin():
 
     transferWindow.mainloop()
 
+def sendLoadContainers():
+    TransferScreen.main()
+    loadWindow.destroy
+
 # LOAD WINDOW 
 def loadWin():
     TRANSFER = True
+    global loadWindow
     loadWindow = tk.Toplevel()
     loadWindow.title("Load Containers")
     loadWindow.geometry("300x200")
@@ -91,7 +101,7 @@ def loadWin():
     enterBut =tk.Button(loadWindow, text= "Enter",width= 20, command= lambda: [appendLoadContainer(name_var), entry.delete(0, END)])
     
     
-    doneButton = tk.Button(loadWindow, text = "Done", command = loadWindow.destroy)
+    doneButton = tk.Button(loadWindow, text = "Done", command = lambda: sendLoadContainers())
    
     containerLoadLabel.pack(pady=(5,1))
     entry.pack(pady=5)
