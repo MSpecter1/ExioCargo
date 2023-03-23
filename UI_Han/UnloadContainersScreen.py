@@ -34,7 +34,7 @@ def unloadContainerStartUp():
     doneButton_frame.pack(side=BOTTOM, expand=1, pady=10)
 
     global doneButton
-    doneButton = Button(doneButton_frame, text="DONE", height=5, width=7, bg='white',activebackground='lightgrey')
+    doneButton = Button(doneButton_frame, text="DONE", height=5, width=7, bg='white',activebackground='lightgrey', command=root.destroy)
     doneButton.pack(side=TOP, expand=1)
 
     return ship_frame
@@ -97,18 +97,18 @@ def appendContainers(container, row, col):
     if(container.name != "UNUSED" and container.name != "NAN"):
         if(container.button.cget('bg') != "light grey"):
             container.button.config(bg="light grey") #on select, color selected container grey 
-            containers_list.append(container)
-            print("\nAPPENDED CONTAINER:", container.name, container.x, container.y)
+            containers_list.append(container.name)
+            # print("\nAPPENDED CONTAINER:", container.name, container.x, container.y)
             printContainerList()
         else:
              container.button.config(bg="blue")
-             deleteContainer(container)
+             deleteContainer(container.name)
     
     
 
 # Delete container from list if User selects on a greyed out button
 def deleteContainer(container):
-     print("\nDELETE CONTAINER:", container.name, container.x, container.y)
+    #  print("\nDELETE CONTAINER:", container.name, container.x, container.y)
      containers_list.remove(container)
     #  print("len", len(containers_list))
      printContainerList()
@@ -116,9 +116,8 @@ def deleteContainer(container):
 def printContainerList(): #just for debugging purposes
     global text
     print("printing current list:")
-    for i in range(len(containers_list)):
-        container = containers_list[i]
-        print(container.name, container.x, container.y)
+    for i in containers_list:
+        print(i)
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------  
 
 button_grid = []
