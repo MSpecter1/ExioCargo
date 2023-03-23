@@ -19,7 +19,7 @@ def saveUsername():
 def startUp():
     #window
     global tkWindow
-    # tkWindow = Toplevel()#tk.Tk()
+    tkWindow = tk.Tk()
     tkWindow.geometry('400x150')  
     tkWindow.title('Sign In')
 
