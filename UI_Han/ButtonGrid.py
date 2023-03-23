@@ -12,10 +12,68 @@ import Balance
 # import menu
 import numpy as np
 
-global root
-root = tk.Tk()
+def balanceStartUp():
+    global root
+    root = tk.Tk()
 
-root.state("zoomed") # when window opens, it fills up whole screen
+    root.state("zoomed") # when window opens, it fills up whole screen
+
+    global frame
+    frame = Frame(root)
+    frame.pack(side=LEFT, pady=20)
+    
+    global ship_bg_frame
+    ship_bg_frame = Frame(frame, bg="grey")  #
+    ship_bg_frame.pack(side=TOP, expand=1)
+
+    global ship_frame
+    ship_frame = Frame(ship_bg_frame, bg="white")
+    ship_frame.pack(side=LEFT, expand=1, padx=10, pady=10)
+
+    global nextButton_bg_frame
+    nextButton_bg_frame = Frame(frame, bg="light grey")  #
+    nextButton_bg_frame.pack(side=BOTTOM, expand=1, fill=X)
+
+    global nextButton_frame
+    nextButton_frame = Frame(nextButton_bg_frame)#ship_bg_frame
+    nextButton_frame.pack(side=BOTTOM, pady=10)
+
+    # Top Right Frame
+    global frameTopRight
+    frameTopRight = Frame(root, width=700, height=500,bg="grey")
+    frameTopRight.pack(side=TOP, padx=10, pady=20)
+
+    global logCommentLabel
+    logCommentLabel = Label(frameTopRight,
+                    text = "Log Comment", bg="grey", fg="white",font=("Cambria", 12, "bold")).place(x=3, y=200)
+    
+    global logCommentEntry
+    logCommentEntry = tk.Entry(frameTopRight, width=30)        # logCommentEntry = Text(frameTopRight, width=30, height=8).place(x=110, y=80) 
+    logCommentEntry.place(x=110, y=204) 
+
+    global logSubmitComment
+    logSubmitComment = Button(frameTopRight,text="Submit Comment", command=getLogComment).place(x=300, y=201)  # Button(frameTopRight,text="Submit").place(x=215, y=213)
+
+    global signInButton
+    # LOG EVENT: UserSwitch; need to log this to the Log File
+    signInButton = Button(frameTopRight,text="Sign In", command=lambda: [signInWin()])
+    signInButton.place(x=530, y=13)  # Button(frameTopRight,text="Submit").place(x=215, y=213)
+    # Button goes back to the MAIN MENU
+
+    global mainMenuButton
+    mainMenuButton = Button(frameTopRight,text="Exit to Main Menu")
+    mainMenuButton.place(x=585, y=13)  # Button(frameTopRight,text="Submit").place(x=215, y=213)
+
+    # Bottom Right Frame 
+    global frameBotRight
+    frameBotRight= Frame(root, width=500, height=500,bg="pink")
+    frameBotRight.pack(side=TOP, padx=10, pady=20)
+
+    global buffer_frame
+    buffer_frame = Frame(frameBotRight, bg="light grey") #ship_bg_frame
+    buffer_frame.pack(side=TOP, expand=1,padx=4,pady=5) #RIGHT
+
+    return ship_frame
 
 global running
 running = True
@@ -89,46 +147,6 @@ def updateLogFile():
             print(line)
             f.write(line)
 
-
-
-# Left Frame
-frame = Frame(root)
-frame.pack(side=LEFT, pady=20)
-
-ship_bg_frame = Frame(frame, bg="grey")  #
-ship_bg_frame.pack(side=TOP, expand=1)
-
-ship_frame = Frame(ship_bg_frame, bg="white")
-ship_frame.pack(side=LEFT, expand=1, padx=10, pady=10)
-
-nextButton_bg_frame = Frame(frame, bg="light grey")  #
-nextButton_bg_frame.pack(side=BOTTOM, expand=1, fill=X)
-
-nextButton_frame = Frame(nextButton_bg_frame)#ship_bg_frame
-nextButton_frame.pack(side=BOTTOM, pady=10)
-
-# Top Right Frame
-frameTopRight = Frame(root, width=700, height=500,bg="grey")
-frameTopRight.pack(side=TOP, padx=10, pady=20)
-logCommentLabel = Label(frameTopRight,
-                  text = "Log Comment", bg="grey", fg="white",font=("Cambria", 12, "bold")).place(x=3, y=200)
-logCommentEntry = tk.Entry(frameTopRight, width=30)        # logCommentEntry = Text(frameTopRight, width=30, height=8).place(x=110, y=80) 
-logCommentEntry.place(x=110, y=204) 
-logSubmitComment = Button(frameTopRight,text="Submit Comment", command=getLogComment).place(x=300, y=201)  # Button(frameTopRight,text="Submit").place(x=215, y=213)
-
-# LOG EVENT: UserSwitch; need to log this to the Log File
-signInButton = Button(frameTopRight,text="Sign In", command=lambda: [signInWin()])
-signInButton.place(x=530, y=13)  # Button(frameTopRight,text="Submit").place(x=215, y=213)
-# Button goes back to the MAIN MENU
-mainMenuButton = Button(frameTopRight,text="Exit to Main Menu")
-mainMenuButton.place(x=585, y=13)  # Button(frameTopRight,text="Submit").place(x=215, y=213)
-
-# Bottom Right Frame 
-frameBotRight= Frame(root, width=500, height=500,bg="pink")
-frameBotRight.pack(side=TOP, padx=10, pady=20)
-buffer_frame = Frame(frameBotRight, bg="light grey") #ship_bg_frame
-buffer_frame.pack(side=TOP, expand=1,padx=4,pady=5) #RIGHT
-
 def signInWin():
     global USER
     SignInWindow.startUp()
@@ -142,20 +160,21 @@ def signInWin():
 ''' MAIN ANIMATION CODE BEGINS HERE '''
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 class container:
-    def __init__(self, name, x, y, weight):
+    def __init__(self, name, x, y, weight, frame):
         self.name = name
         self.x = x
         self.y = y
         self.weight = weight
+        self.frame = frame
 
         if(self.name == "UNUSED"):
-                self.button = tk.Button(ship_frame, text=name, height=4, width=7, bg='white',activebackground='lightgrey')
+                self.button = tk.Button(frame, text=name, height=4, width=7, bg='white',activebackground='lightgrey')
 
         elif(self.name == "NAN"):
-                self.button = tk.Button(ship_frame, text="NAN", height=4, width=7, bg='black',activebackground='black')
+                self.button = tk.Button(frame, text="NAN", height=4, width=7, bg='black',activebackground='black')
 
         else:
-                self.button = tk.Button(ship_frame, text=name, height=4, width=7, bg='blue',activebackground='lightgrey')
+                self.button = tk.Button(frame, text=name, height=4, width=7, bg='blue',activebackground='lightgrey')
 
     def display_info(self):
         print("Position: [",self.x,",", self.y,"], Weight:", self.weight ,"kg, Name:",self.name)
@@ -164,7 +183,7 @@ class container:
         return self.name
 
 
-def read_manifest(file):
+def read_manifest(file, frame):
         containers = []
         with open(file) as f:
             # Per line
@@ -182,7 +201,7 @@ def read_manifest(file):
                 # Name
                 n=(line[18:])
                 # create container
-                containers.append(container(n,x,y,w))
+                containers.append(container(n,x,y,w, frame))
 
         return containers
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------  
@@ -243,13 +262,14 @@ def pathReader(): # reads Balance's GUI Path Output
 
 
 button_grid = []
-containers_arr = read_manifest("tests\ShipCase4.txt")
+
 global manifestFile
 manifestFile = "tests\ShipCase4.txt"
 global shipName
 shipName = manifestFile.split("\\")[-1].split(".")[0]
 
-def buildShipGrid():
+def buildShipGrid(frame):
+    containers_arr = read_manifest("tests\ShipCase4.txt", frame)
     global containers_2D
     containers_2D = list(np.reshape(containers_arr, (8,12)))
 
@@ -436,7 +456,8 @@ def popUpWindow():
 
 
 def main():
-    buildShipGrid()    
+    ship_fr = balanceStartUp()
+    buildShipGrid(ship_fr)    
     createBuffer()
     button = tk.Button(nextButton_frame, text="Next",activebackground='lightgrey', height=1, width=8, command=on_stop)
     button.grid(row=0, column=0)
