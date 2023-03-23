@@ -12,6 +12,9 @@ import Balance
 # import menu
 import numpy as np
 
+global USER
+# USER = MainMenu.MainMenuUser
+
 def balanceStartUp():
     global root
     root = tk.Tk()
@@ -104,7 +107,7 @@ def getLogComment():
 
 def getDateTime():
     c = ntplib.NTPClient()
-    response = c.request('us.pool.ntp.org')
+    response = c.request('pool.ntp.org')
     currDateTime = ctime(response.tx_time)
     month = currDateTime[4:10]
     clock = currDateTime[11:16] 
@@ -153,7 +156,9 @@ def signInWin():
     
     USER = SignInWindow.username
     userLabel.config(text=f"User: {USER}")
-    addLogEvent(("UserSwitch", getDateTime(), "OldOperatorName signs out", f"{USER} signs in"))
+    
+    addLogEvent(("UserSwitch", getDateTime(), f"{SignInWindow.pastUser} signs out", f"{USER} signs in"))
+    SignInWindow.pastUser = SignInWindow.username
     print("test USER", USER)
     
 
@@ -455,7 +460,8 @@ def popUpWindow():
 
 
 
-def main():
+def main(user_name):
+    USER = user_name
     ship_fr = balanceStartUp()
     buildShipGrid(ship_fr)    
     createBuffer()
@@ -530,5 +536,4 @@ def main():
     root.mainloop()
 
 if __name__ == '__main__':
-    USER = "DEFAULT"
     main()
