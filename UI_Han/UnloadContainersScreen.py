@@ -2,50 +2,63 @@ import tkinter as tk
 from tkinter import *
 import numpy as np
 
-root = tk.Tk()
-root.title('Unload')
-root.state("zoomed")
+def unloadContainerStartUp():
+    global root
+    root = tk.Tk()
+    root.title('Unload')
+    root.state("zoomed")
 
-# LEFT FRAME for 8x12 Grid
-frame = Frame(root)
-frame.pack(side=TOP, pady=75)
-
-
-
-ship_bg_frame = Frame(frame, bg="grey")  #
-ship_bg_frame.pack(side=TOP, expand=1)
-
-screenTitle = Label(ship_bg_frame,
-                  text = "SELECT CONTAINERS TO UNLOAD", font=("Helvetica", 15, "bold"), bg="light grey").pack(side=TOP, expand=1, fill=BOTH)
-
-ship_frame = Frame(ship_bg_frame, bg="white")
-ship_frame.pack(side=LEFT, expand=1, padx=10, pady=10)
-
-doneButton_bg_frame = Frame(frame, bg="light grey")  #
-doneButton_bg_frame.pack(side=TOP, expand=1, fill=BOTH)
-
-doneButton_frame = Frame(doneButton_bg_frame)#ship_bg_frame
-doneButton_frame.pack(side=BOTTOM, expand=1, pady=10)
-doneButton = Button(doneButton_frame, text="DONE", height=5, width=7, bg='white',activebackground='lightgrey')
-doneButton.pack(side=TOP, expand=1)
+    # LEFT FRAME for 8x12 Grid
+    global frame
+    frame = Frame(root)
+    frame.pack(side=TOP, pady=75)
 
 
+    global ship_bg_frame
+    ship_bg_frame = Frame(frame, bg="grey")  #
+    ship_bg_frame.pack(side=TOP, expand=1)
+
+    screenTitle = Label(ship_bg_frame,
+                    text = "SELECT CONTAINERS TO UNLOAD", font=("Helvetica", 15, "bold"), bg="light grey").pack(side=TOP, expand=1, fill=BOTH)
+
+    global ship_frame
+    ship_frame = Frame(ship_bg_frame, bg="white")
+    ship_frame.pack(side=LEFT, expand=1, padx=10, pady=10)
+
+    global doneButton_bg_frame
+    doneButton_bg_frame = Frame(frame, bg="light grey")  #
+    doneButton_bg_frame.pack(side=TOP, expand=1, fill=BOTH)
+
+    global doneButton_frame
+    doneButton_frame = Frame(doneButton_bg_frame)#ship_bg_frame
+    doneButton_frame.pack(side=BOTTOM, expand=1, pady=10)
+
+    global doneButton
+    doneButton = Button(doneButton_frame, text="DONE", height=5, width=7, bg='white',activebackground='lightgrey')
+    doneButton.pack(side=TOP, expand=1)
+
+    return ship_frame
+
+    
+
+    
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 class container:
-    def __init__(self, name, x, y, weight):
+    def __init__(self, name, x, y, weight, frame):
         self.name = name
         self.x = x
         self.y = y
         self.weight = weight
+        self.frame = frame
 
         if(self.name == "UNUSED"):
-                self.button = tk.Button(ship_frame, text=name, height=4, width=7, bg='white',activebackground='lightgrey')
+                self.button = tk.Button(frame, text=name, height=4, width=7, bg='white',activebackground='lightgrey')
 
         elif(self.name == "NAN"):
-                self.button = tk.Button(ship_frame, text="NAN", height=4, width=7, bg='black',activebackground='black')
+                self.button = tk.Button(frame, text="NAN", height=4, width=7, bg='black',activebackground='black')
 
         else:
-                self.button = tk.Button(ship_frame, text=name, height=4, width=7, bg='blue',activebackground='lightgrey')
+                self.button = tk.Button(frame, text=name, height=4, width=7, bg='blue',activebackground='lightgrey')
 
     def display_info(self):
         print("Position: [",self.x,",", self.y,"], Weight:", self.weight ,"kg, Name:",self.name)
@@ -54,7 +67,7 @@ class container:
         return self.name
 
 
-def read_manifest(file):
+def read_manifest(file, frame):
         containers = []
         with open(file) as f:
             # Per line
@@ -72,7 +85,7 @@ def read_manifest(file):
                 # Name
                 n=(line[18:])
                 # create container
-                containers.append(container(n,x,y,w))
+                containers.append(container(n,x,y,w, frame))
 
         return containers
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------  
@@ -109,13 +122,14 @@ def printContainerList(): #just for debugging purposes
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------  
 
 button_grid = []
-containers_arr = read_manifest("Balance\ShipCase2.txt")
+
 global manifestFile
-manifestFile = "Balance\ShipCase1.txt"
+manifestFile = "tests\ShipCase3.txt"
 global shipName
 shipName = manifestFile.split("\\")[-1].split(".")[0]
 
-def buildShipGrid():
+def buildShipGrid(frame):
+    containers_arr = read_manifest("tests\ShipCase3.txt", frame)
     global containers_2D
     containers_2D = list(np.reshape(containers_arr, (8,12)))
 
@@ -135,8 +149,10 @@ def getLoadContainerList():
      return containers_list
 
 def main():
-    buildShipGrid()
+    ship_fr = unloadContainerStartUp()
+    buildShipGrid(ship_fr) 
+    root.mainloop()
     
 if __name__ == '__main__':
     main()
-    root.mainloop()
+    
