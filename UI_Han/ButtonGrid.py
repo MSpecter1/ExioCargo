@@ -226,7 +226,7 @@ def pathReader(): # reads Balance's GUI Path Output
     # Run the Balance algorithm to retrieve the path solutions array 
     searchOBJ = Balance.CargoSearch()
     stateOBJ = Balance.ShipState()
-    returned_sol = searchOBJ.search(stateOBJ, "tests\ShipCase4.txt") 
+    returned_sol = searchOBJ.search(stateOBJ, "tests\ShipCase5.txt") 
     solution_paths = returned_sol.solution
     print(solution_paths)
 
@@ -269,12 +269,12 @@ def pathReader(): # reads Balance's GUI Path Output
 button_grid = []
 
 global manifestFile
-manifestFile = "tests\ShipCase4.txt"
+manifestFile = "tests\ShipCase5.txt"
 global shipName
 shipName = manifestFile.split("\\")[-1].split(".")[0]
 
 def buildShipGrid(frame):
-    containers_arr = read_manifest("tests\ShipCase4.txt", frame)
+    containers_arr = read_manifest("tests\ShipCase5.txt", frame)
     global containers_2D
     containers_2D = list(np.reshape(containers_arr, (8,12)))
 
@@ -458,7 +458,13 @@ def popUpWindow():
     descriptionLabel.pack(pady=60)
     exitButton.pack()
 
-
+def exportOutboundManifest():
+    filename = shipName
+    f = open(filename+"OUTBOUND.txt", "w")
+    for j in range(8):
+        for i in range(12):
+            c = containers_2D[j][i]
+            f.write('['+str("%02d"%(c.x))+','+str("%02d"%(c.y))+'], {'+str("%05d"%c.weight)+'}, '+str(c.name)+'\n') 
 
 def main(user_name):
     USER = user_name
@@ -531,8 +537,9 @@ def main(user_name):
     operationLabel.config(text="Select 'Exit to Main Menu' to begin a new cycle.")
     addLogEvent(("CycleComplete", getDateTime(), f"Finished a Cycle. Manifest {shipName}OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed." ))
     updateLogFile()
+    exportOutboundManifest()
     print("Broke out of animation loop!") #break out of loop
-
+    
     root.mainloop()
 
 if __name__ == '__main__':
