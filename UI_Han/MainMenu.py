@@ -65,19 +65,19 @@ def mainMenu():
     mainMenuTitleLabel = Label(menuRoot, text= "MAIN MENU", bg='white', fg="black", font=("Cambria", 20, "bold"))
 
     # SIGN IN BUTTON
-    signInButton = tk.Button(menuRoot,text="Sign In",width=25,height=2, bg="#0A369D", fg="black", command=lambda: [SignInWindow.startUp(), assignPastUser(), addSignInLogEvent()])
+    signInButton = tk.Button(menuRoot,text="Sign In",width=25,height=2, bg="#5465ff", fg="black", command=lambda: [SignInWindow.startUp(), assignPastUser(), addSignInLogEvent()])
 
     # IMPORT MANIFEST BUTTON
-    importFileButton = tk.Button(text="Import Manifest",command=importFile, width=25, height=2, bg="#4472CA", fg="black")
+    importFileButton = tk.Button(text="Import Manifest",command=importFile, width=25, height=2, bg="#788bff", fg="black")
     
     # TRANSFER BUTTON
-    transferButton = Button(menuRoot,text="Transfer",width=25,height=2,bg="#5E7CE2",fg="black",  command = transferWin) # opens the window for Transfer
+    transferButton = Button(menuRoot,text="Transfer",width=25,height=2,bg="#9bb1ff",fg="black",  command = transferWin) # opens the window for Transfer
 
     # BALANCE BUTTON
-    balanceButton = tk.Button(menuRoot, text="Balance", width=25, height=2, bg="#92B4F4", fg="black", command=lambda: ButtonGrid.main(SignInWindow.username)) #runBalance()
+    balanceButton = tk.Button(menuRoot, text="Balance", width=25, height=2, bg="#bfd7ff", fg="black", command=lambda: ButtonGrid.main(SignInWindow.username)) #runBalance()
 
     # FIND OUTBOUND MANIFEST BUTTON
-    buttonFile = tk.Button(text="Find Outbound Manifest", command=openFile, width=25, height=2, bg="#CFDEE7", fg='black')
+    buttonFile = tk.Button(text="Find Outbound Manifest", command=openFile, width=25, height=2, bg="#e2fdff", fg='black')
     
     
     
@@ -116,18 +116,19 @@ def transferWin():
     transferWindow = tk.Toplevel()
     transferWindow.title("TRANSFER")
     transferWindow.geometry("300x200")
+    transferWindow.configure(background="white")
 
     # TRANSFER TITLE
     transferLabel = tk.Label(transferWindow, text = "TRANSFER", bg='white', fg="black", font=("Cambria", 14, "bold"))
     
     # LOAD BUTTON
-    loadBut = tk.Button(transferWindow,text="Load",width=25,height=2,bg="yellow",fg="blue",command = loadWin)
+    loadBut = tk.Button(transferWindow,text="Load",width=25,height=2,bg="#5465ff",fg="black",command = loadWin)
 
     # UNLOAD BUTTON
-    unloadBut = tk.Button(transferWindow,text="Unload",width=25,height=2,bg="yellow",fg="red", command=lambda: UnloadContainersScreen.main())
+    unloadBut = tk.Button(transferWindow,text="Unload",width=25,height=2,bg="#788bff",fg="black", command=lambda: UnloadContainersScreen.main())
 
     # BEGIN ORDERING BUTTON
-    beginOrderBut = tk.Button(transferWindow,text="Begin Ordering", width=25,height=2, bg="yellow",fg="green", command=lambda: [printAllContainers(), TransferScreen.main(SignInWindow.username, loadInput, UnloadContainersScreen.containers_list)]) # printAllContainers()
+    beginOrderBut = tk.Button(transferWindow,text="Begin Ordering", width=25,height=2, bg="#9bb1ff",fg="black", command=lambda: [printAllContainers(), transferWindow.quit(), transferWindow.destroy(), TransferScreen.main(SignInWindow.username, loadInput, UnloadContainersScreen.containers_list)]) # printAllContainers()
 
     # EXIT BUTTON
     exitBut = tk.Button(transferWindow, text = "Exit", command = transferWindow.destroy)
