@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import *
 import os
 import sys
+from tkinter import filedialog
 import ntplib
 from time import ctime
 # sys.path.insert(0, 'UI_Han/BalanceProblem')
@@ -71,12 +72,23 @@ def mainMenu():
     # BALANCE BUTTON
     balanceButton = tk.Button(menuRoot, text="Balance", width=25, height=2, bg="yellow", fg="blue", command=lambda: ButtonGrid.main(SignInWindow.username)) #runBalance()
 
+    # UPLOAD MANIFEST BUTTON
+    buttonFile = tk.Button(text="Find Outbound Manifest", command=openFile, width=25, height=2, bg="green")
+    
+
     mainMenuTitleLabel.pack(pady=10) 
     signInButton.pack(pady=5)
     transferButton.pack(pady=5)
     balanceButton.pack(pady=5)
+    buttonFile.pack(pady=5)
  
     menuRoot.mainloop() 
+
+def openFile(): #https://www.youtube.com/watch?v=q8WDvrjPt0M
+    filepath = filedialog.askopenfilename(title= "Manifest File", filetypes= (("text files",".txt"), ("all files", ".*")))
+    file = open(filepath,'r')
+    print(file.read())
+    file.close()
 
 # TRANSFER PROBLEM WINDOW
 def transferWin():
