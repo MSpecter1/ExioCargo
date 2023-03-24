@@ -187,7 +187,7 @@ class container:
                 self.button = tk.Button(frame, text="NAN", height=4, width=7, bg='black',activebackground='black')
 
         else:
-                self.button = tk.Button(frame, text=name, height=4, width=7, bg='blue',activebackground='lightgrey')
+                self.button = tk.Button(frame, text=name, height=4, width=7, bg='#004fff',activebackground='lightgrey')
                 
         ToolTip(self.button, msg=f"{self.name}\n ({self.x}, {self.y}) \n Weight: {self.weight}", follow=True) 
 
@@ -364,7 +364,7 @@ def animateUp(y, slot1): # combine animateDown here
         # print('enter')
         # prevButton = button_grid[i][col]
         lightButton = button_grid[i][col]
-        lightButton.config(bg="blue")
+        lightButton.config(bg="cyan")
         lightButton.update()
         root.after(timer)
         lightButton.config(bg="white")
@@ -387,7 +387,7 @@ def animateHorizontal(slot1, slot2, moveMaxHeight):
         # print("Condition 1: moveRight")
         for i in range(slot1_col, slot2_col+1):
             lightButton = button_grid[moveMaxHeight][i]
-            lightButton.config(bg="blue")
+            lightButton.config(bg="cyan")
             lightButton.update()
             root.after(timer)
             lightButton.config(bg="white")
@@ -402,7 +402,7 @@ def animateHorizontal(slot1, slot2, moveMaxHeight):
         # print("Condition 2: moveLeft")
         for i in range(slot1_col, slot2_col-1, -1):
             lightButton = button_grid[moveMaxHeight][i]
-            lightButton.config(bg="blue")
+            lightButton.config(bg="cyan")
             lightButton.update()
             root.after(timer)
             lightButton.config(bg="white")
@@ -414,7 +414,7 @@ def maxDown(slot2, moveMaxHeight):
     
     downLimit = 7
     for i in range(moveMaxHeight, 8): #move from maxHeight to last row to search for next blue/USED or black/NAN block
-        if(button_grid[i][slot2_col].cget('bg') == "blue" or button_grid[i][slot2_col].cget('bg') == "black"):
+        if(button_grid[i][slot2_col].cget('bg') == "#004fff" or button_grid[i][slot2_col].cget('bg') == "black"):
                 downLimit = i-1
                 break # break out of loop once we find the first blue/USED or black/NAN block
     print("downLimit", downLimit)
@@ -428,7 +428,7 @@ def animateDown(slot2, moveMaxHeight, moveMaxDown):
 
     for i in range(moveMaxHeight+1, moveMaxDown+1): # move animation from maxHeight to the maxDown (i.e. the first blue or black box maxHeight)
         lightButton = button_grid[i][slot2_col]
-        lightButton.config(bg="blue")
+        lightButton.config(bg="cyan")
         lightButton.update()
         root.after(timer)
         lightButton.config(bg="white")
@@ -448,7 +448,7 @@ def updateNextGrid(slot1, slot2): # updates the 8x12 grid to reflect the current
     slot1_weight = containers_2D[slot1_row][slot1_col].weight # update container_2D's slot2 weight
     slot2Container.name = slot1_name
     slot2Container.weight = slot1_weight
-    updateSlot2Button.config(bg="blue", text=slot1_name)
+    updateSlot2Button.config(bg="#004fff", text=slot1_name)
     updateSlot2Button.update()
     updateToolTip(updateSlot2Button, slot2Container.name, slot2Container.weight, slot2Container.x, slot2Container.y)
     
