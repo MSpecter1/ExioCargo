@@ -458,7 +458,7 @@ def maxY(slot1, slot2):
     print("Max height/row:", moveUp)
     return moveUp
 
-def animateUp(y, slot1): # combine animateDown here 
+def animateUp(y, slot1, name): # combine animateDown here 
     row, col = slot1
     
     # while True: #
@@ -466,15 +466,15 @@ def animateUp(y, slot1): # combine animateDown here
         # print('enter')
         # prevButton = button_grid[i][col]
         lightButton = button_grid[i][col]
-        lightButton.config(bg="cyan")
+        lightButton.config(bg="cyan", text=name)
         lightButton.update()
         root.after(timer)
-        lightButton.config(bg="white")
+        lightButton.config(bg="white", text="UNUSED")
         lightButton.update()
         root.after(timer)
 
 
-def animateHorizontal(slot1, slot2, moveMaxHeight):
+def animateHorizontal(slot1, slot2, moveMaxHeight, name):
     slot1_row, slot1_col = slot1
     slot2_row, slot2_col = slot2
 
@@ -489,10 +489,10 @@ def animateHorizontal(slot1, slot2, moveMaxHeight):
         # print("Condition 1: moveRight")
         for i in range(slot1_col, slot2_col+1):
             lightButton = button_grid[moveMaxHeight][i]
-            lightButton.config(bg="cyan")
+            lightButton.config(bg="cyan", text=name)
             lightButton.update()
             root.after(timer)
-            lightButton.config(bg="white")
+            lightButton.config(bg="white",text="UNUSED")
             lightButton.update()
             root.after(timer)
 
@@ -504,10 +504,10 @@ def animateHorizontal(slot1, slot2, moveMaxHeight):
         # print("Condition 2: moveLeft")
         for i in range(slot1_col, slot2_col-1, -1):
             lightButton = button_grid[moveMaxHeight][i]
-            lightButton.config(bg="cyan")
+            lightButton.config(bg="cyan", text=name)
             lightButton.update()
             root.after(timer)
-            lightButton.config(bg="white")
+            lightButton.config(bg="white",text="UNUSED")
             lightButton.update()
             root.after(timer)
 
@@ -524,15 +524,15 @@ def maxDown(slot2, moveMaxHeight):
 
 # stay in slot2_col, move down from moveMaxHeight to next below blue box in the same slot2_col column
 # to find the next below blue box, start from moveMaxHeight then check for each box[i++][col]
-def animateDown(slot2, moveMaxHeight, moveMaxDown):
+def animateDown(slot2, moveMaxHeight, moveMaxDown,name):
     slot2_row, slot2_col = slot2
 
     for i in range(moveMaxHeight+1, moveMaxDown+1): # move animation from maxHeight to the maxDown (i.e. the first blue or black box maxHeight)
         lightButton = button_grid[i][slot2_col]
-        lightButton.config(bg="cyan")
+        lightButton.config(bg="cyan", text=name)
         lightButton.update()
         root.after(timer)
-        lightButton.config(bg="white")
+        lightButton.config(bg="white",text="UNUSED")
         lightButton.update()
         root.after(timer)
 
@@ -594,16 +594,16 @@ def updateNextGrid(slot1, slot2, op, updateName): # updates the 8x12 grid to ref
         updateSlot1Button.config(bg="white", text="UNUSED")
         updateSlot1Button.update()
 
-def animateOffload(slot1):
+def animateOffload(slot1, name):
     row, col = slot1
     for i in range(row-1, -1, -1): # i > y ; only up to y to avoid double counting/lighting the maxY button for animateUp
         # print('enter')
         # prevButton = button_grid[i][col]
         lightButton = button_grid[i][col]
-        lightButton.config(bg="cyan")
+        lightButton.config(bg="cyan", text=name)
         lightButton.update()
         root.after(timer)
-        lightButton.config(bg="white")
+        lightButton.config(bg="white", text="UNUSED")
         lightButton.update()
         root.after(timer)
 
@@ -719,10 +719,10 @@ def main(user_name, load_containers, unload_containers):
 
             while True:
                 # print(USER)
-                animateUp(moveMaxHeight, slot1)
+                animateUp(moveMaxHeight, slot1, name)
                 # root.after(timer)
-                animateHorizontal(slot1, slot2, moveMaxHeight)
-                animateDown(slot2, moveMaxHeight, moveMaxDown)
+                animateHorizontal(slot1, slot2, moveMaxHeight, name)
+                animateDown(slot2, moveMaxHeight, moveMaxDown, name)
                 if running == False:  #add condition for when user hits "Next", stop the loop so it can go to next step's new animation
                     updateNextGrid(slot1,slot2, operation, "")
                     on_start()
@@ -734,7 +734,7 @@ def main(user_name, load_containers, unload_containers):
             # operationLabel = Label(frameTopRight, text = f"Offload container {path_arr[i][2]} at {path_arr[i][0]}", bg="grey",fg="white",font=("Cambria", 14, "bold"))
             operationLabel.config(text = f"Offload container {path_arr[i][2]} at {path_arr[i][0]}")
             while True:
-                animateOffload(slot1)
+                animateOffload(slot1, name)
                 if running == False:  #add condition for when user hits "Next", stop the loop so it can go to next step's new animation
                     updateNextGrid(slot1,slot2, operation, "")
                     on_start()
@@ -790,7 +790,7 @@ def main(user_name, load_containers, unload_containers):
             operationLabel.config(text = f"Move container {path_arr[i][2]}\nfrom SHIP at {path_arr[i][0]} to BUFFER at {path_arr[i][1]}")
             while True:
                 conName = path_arr[i][2]
-                animateOffload(slot1)
+                animateOffload(slot1, name)
                 if running == False:  #add condition for when user hits "Next", stop the loop so it can go to next step's new animation
 
                     updateNextGrid(slot1,slot2, operation, "") #path_arr[i][2] is the name of the container
