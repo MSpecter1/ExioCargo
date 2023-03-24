@@ -11,6 +11,8 @@ import Balance
 # import menu
 import numpy as np
 import MainMenu
+from tktooltip import ToolTip
+
 
 global USER
 # USER = MainMenu.MainMenuUser
@@ -178,12 +180,15 @@ class container:
 
         if(self.name == "UNUSED"):
                 self.button = tk.Button(frame, text=name, height=4, width=7, bg='white',activebackground='lightgrey')
+                
 
         elif(self.name == "NAN"):
                 self.button = tk.Button(frame, text="NAN", height=4, width=7, bg='black',activebackground='black')
 
         else:
                 self.button = tk.Button(frame, text=name, height=4, width=7, bg='blue',activebackground='lightgrey')
+                
+        ToolTip(self.button, msg=f"{self.name}\n ({self.x}, {self.y}) \n Weight: {self.weight}", follow=True) 
 
     def display_info(self):
         print("Position: [",self.x,",", self.y,"], Weight:", self.weight ,"kg, Name:",self.name)
@@ -409,6 +414,7 @@ def maxDown(slot2, moveMaxHeight):
     print("downLimit", downLimit)
     return downLimit
 
+
 # stay in slot2_col, move down from moveMaxHeight to next below blue box in the same slot2_col column
 # to find the next below blue box, start from moveMaxHeight then check for each box[i++][col]
 def animateDown(slot2, moveMaxHeight, moveMaxDown):
@@ -423,6 +429,8 @@ def animateDown(slot2, moveMaxHeight, moveMaxDown):
         lightButton.update()
         root.after(timer)
 
+def updateToolTip(button, n, w, x, y):
+    ToolTip(button, msg=f"{n}\n({x}, {y})\nWeight: {w}", follow=True) 
 
 def updateNextGrid(slot1, slot2): # updates the 8x12 grid to reflect the current step's move/task has been completed once the user presses "Next"
     slot1_row, slot1_col = slot1
@@ -436,6 +444,8 @@ def updateNextGrid(slot1, slot2): # updates the 8x12 grid to reflect the current
     slot2Container.weight = slot1_weight
     updateSlot2Button.config(bg="blue", text=slot1_name+f"({slot2_row},{slot2_col})")
     updateSlot2Button.update()
+    updateToolTip(updateSlot2Button, slot2Container.name, slot2Container.weight, slot2Container.x, slot2Container.y)
+    
 
     updateSlot1Button = button_grid[slot1_row][slot1_col]
     slot1Container = containers_2D[slot1_row][slot1_col]
@@ -443,6 +453,7 @@ def updateNextGrid(slot1, slot2): # updates the 8x12 grid to reflect the current
     slot1Container.weight = 0
     updateSlot1Button.config(bg="white", text="UNUSED"+f"({slot1_row},{slot1_col})")
     updateSlot1Button.update()
+    updateToolTip(updateSlot1Button, slot1Container.name, slot1Container.weight, slot1_row, slot1_col)
 
 def popUpWindow():
     root_x = root.winfo_x()
