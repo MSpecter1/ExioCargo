@@ -5,15 +5,19 @@ from time import ctime
 import sys
 import os
 import SignInWindow
-
 # adding UnloadProblem to system path
 sys.path.insert(0, 'UI_Han/BalanceProblem')
 import Balance
 # import menu
 import numpy as np
+import MainMenu
 
 global USER
 # USER = MainMenu.MainMenuUser
+
+def assignManifest(f):
+    global manifest_filepath
+    manifest_filepath = f
 
 def balanceStartUp():
     global root
@@ -64,7 +68,7 @@ def balanceStartUp():
     # Button goes back to the MAIN MENU
 
     global mainMenuButton
-    mainMenuButton = Button(frameTopRight,text="Exit to Main Menu")
+    mainMenuButton = Button(frameTopRight,text="Exit to Main Menu", command=lambda:[root.quit(), root.destroy(), MainMenu.main()])
     mainMenuButton.place(x=585, y=13)  # Button(frameTopRight,text="Submit").place(x=215, y=213)
 
     # Bottom Right Frame 
@@ -226,7 +230,7 @@ def pathReader(): # reads Balance's GUI Path Output
     # Run the Balance algorithm to retrieve the path solutions array 
     searchOBJ = Balance.CargoSearch()
     stateOBJ = Balance.ShipState()
-    returned_sol = searchOBJ.search(stateOBJ, "tests\ShipCase5.txt") 
+    returned_sol = searchOBJ.search(stateOBJ, manifest_filepath) 
     solution_paths = returned_sol.solution
     print(solution_paths)
 
@@ -268,13 +272,12 @@ def pathReader(): # reads Balance's GUI Path Output
 
 button_grid = []
 
-global manifestFile
-manifestFile = "tests\ShipCase5.txt"
-global shipName
-shipName = manifestFile.split("\\")[-1].split(".")[0]
-
 def buildShipGrid(frame):
-    containers_arr = read_manifest("tests\ShipCase5.txt", frame)
+    global manifestFile
+    manifestFile = manifest_filepath
+    global shipName
+    shipName = manifestFile.split("\\")[-1].split(".")[0]
+    containers_arr = read_manifest(manifest_filepath, frame)
     global containers_2D
     containers_2D = list(np.reshape(containers_arr, (8,12)))
 
@@ -543,4 +546,4 @@ def main(user_name):
     root.mainloop()
 
 if __name__ == '__main__':
-    main()
+    main("DEFAULT")

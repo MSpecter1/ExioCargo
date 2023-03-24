@@ -2,6 +2,10 @@ import tkinter as tk
 from tkinter import *
 import numpy as np
 
+def assignManifest(f):
+    global manifest_filepath
+    manifest_filepath = f
+
 def unloadContainerStartUp():
     global root
     root = tk.Tk()
@@ -122,13 +126,14 @@ def printContainerList(): #just for debugging purposes
 
 button_grid = []
 
-global manifestFile
-manifestFile = "tests\ShipCase3.txt"
-global shipName
-shipName = manifestFile.split("\\")[-1].split(".")[0]
+
 
 def buildShipGrid(frame):
-    containers_arr = read_manifest("tests\ShipCase3.txt", frame)
+    global manifestFile
+    manifestFile = manifest_filepath
+    global shipName
+    shipName = manifestFile.split("\\")[-1].split(".")[0]
+    containers_arr = read_manifest(manifest_filepath, frame)
     global containers_2D
     containers_2D = list(np.reshape(containers_arr, (8,12)))
 

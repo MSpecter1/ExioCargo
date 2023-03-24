@@ -4,6 +4,8 @@ import ntplib
 from time import ctime
 import numpy as np
 import sys
+# from MainMenu import manifest_filepath
+# import MainMenu
 
 # adding UnloadProblem to system path
 # sys.path.append(r'C:\Users\hanna\CS179M\ExioCargo\UI_Han\TransferProblem')
@@ -12,6 +14,11 @@ import AStar
 import SignInWindow
 
 global USER 
+# global manifest_file
+def assignManifest(f):
+    global manifest_filepath
+    manifest_filepath = f
+
 
 def transferStartUp():
     global root
@@ -312,7 +319,7 @@ def pathReader(load_containers, unload_containers): # reads Balance's GUI Path O
     #['(08,07)(01,24) 00:01:06 Fat [MOVE FROM SHIP TO BUFFER]', '(07,07)(99,99) 00:00:35 Bat [OFFLOAD]', '(01,24)(07,07) 00:00:17 Fat [MOVE FROM BUFFER TO SHIP]']
     print("LOAD CONTAINERS PR", load_containers)
     print("UNLOAD CONTAINERS PR", unload_containers)
-    solution_paths = AStar.Transfer("ShipCase5", load_containers, unload_containers).array
+    solution_paths = AStar.Transfer(manifest_filepath, load_containers, unload_containers).array
 
     # # solution_paths.append('(99,99)(01,02) 0012 CUB [LOAD]')
     # solution_paths.append('(01,24)(03,05) 0010 CUBES [MOVE WITHIN BUFFER]')
@@ -363,13 +370,15 @@ def pathReader(load_containers, unload_containers): # reads Balance's GUI Path O
 
 button_grid = []
 
-global manifestFile
-manifestFile = "tests\ShipCase5.txt"
-global shipName
-shipName = manifestFile.split("\\")[-1].split(".")[0]
+
 
 def buildShipGrid(frame):
-    containers_arr = read_manifest("tests\ShipCase5.txt", frame)
+    global manifestFile
+    manifestFile = manifest_filepath
+    global shipName
+    shipName = manifestFile.split("\\")[-1].split(".")[0]
+    
+    containers_arr = read_manifest(manifest_filepath, frame)
     global containers_2D
     containers_2D = list(np.reshape(containers_arr, (8,12)))
 
@@ -697,7 +706,7 @@ def main(user_name, load_containers, unload_containers):
         print(f"Moving container {name} from {slot1} to {slot2}")
 
         if(operation == "MOVE WITHIN SHIP"):
-            
+            print("moving within ship")
 
             moveMaxHeight = maxY(slot1, slot2)
             moveMaxDown = maxDown(slot2, moveMaxHeight)
@@ -715,6 +724,7 @@ def main(user_name, load_containers, unload_containers):
             clearPackWidgets()
             
         if(operation == "OFFLOAD"):
+            print("offloading from ship")
             # operationLabel = Label(frameTopRight, text = f"Offload container {path_arr[i][2]} at {path_arr[i][0]}", bg="grey",fg="white",font=("Cambria", 14, "bold"))
             operationLabel.config(text = f"Offload container {path_arr[i][2]} at {path_arr[i][0]}")
             while True:
@@ -726,6 +736,7 @@ def main(user_name, load_containers, unload_containers):
             clearPackWidgets()
 
         if(operation == "LOAD"):
+            print("loading from ship")
             weightEntryBool = True 
             
             weightEntryLabel.pack(pady=(9,3))
@@ -744,6 +755,7 @@ def main(user_name, load_containers, unload_containers):
             clearPackWidgets()
 
         if(operation == "MOVE WITHIN BUFFER"):
+            print("moving within buffer")
             operationLabel.config(text = f"Inside the BUFFER, move container {path_arr[i][2]} from {path_arr[i][0]} to {path_arr[i][1]}")
             while True:
                 dummyAnimate()
@@ -755,6 +767,7 @@ def main(user_name, load_containers, unload_containers):
             clearPackWidgets()
 
         if(operation == "MOVE FROM BUFFER TO SHIP"):
+            print("moving from buffer to ship")
             operationLabel.config(text = f"Move container {path_arr[i][2]}\nfrom BUFFER at {path_arr[i][0]} to SHIP at {path_arr[i][1]}")
             while True:
                 conName = path_arr[i][2]
@@ -767,6 +780,7 @@ def main(user_name, load_containers, unload_containers):
             clearPackWidgets()
 
         if(operation == "MOVE FROM SHIP TO BUFFER"):
+            print("moving from ship to buffer")
             operationLabel.config(text = f"Move container {path_arr[i][2]}\nfrom SHIP at {path_arr[i][0]} to BUFFER at {path_arr[i][1]}")
             while True:
                 conName = path_arr[i][2]

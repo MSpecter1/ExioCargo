@@ -11,6 +11,7 @@ import SignInWindow
 import TransferScreen
 import ButtonGrid
 import UnloadContainersScreen
+import modifyGrid
 
 # USER = "DEFAULT"
 global MainMenuUser
@@ -56,28 +57,34 @@ def mainMenu():
     menuRoot.geometry("700x400")
     # menuRoot.eval('tk::PlaceWindow . top')
     menuRoot.title("Main Menu")
+    menuRoot.configure(background="white")
     global name_var
     name_var=tk.StringVar()
 
     # TITLE
-    mainMenuTitleLabel = Label(menuRoot, text= "Main Menu", bg='white', fg="black", font=("Cambria", 14, "bold"))
+    mainMenuTitleLabel = Label(menuRoot, text= "MAIN MENU", bg='white', fg="black", font=("Cambria", 20, "bold"))
 
     # SIGN IN BUTTON
-    signInButton = tk.Button(menuRoot,text="Sign In Here",width=25,height=2, bg="black", fg="white", command=lambda: [SignInWindow.startUp(), assignPastUser(), addSignInLogEvent()])
-    
+    signInButton = tk.Button(menuRoot,text="Sign In",width=25,height=2, bg="#0A369D", fg="black", command=lambda: [SignInWindow.startUp(), assignPastUser(), addSignInLogEvent()])
+
+    # IMPORT MANIFEST BUTTON
+    importFileButton = tk.Button(text="Import Manifest",command=importFile, width=25, height=2, bg="#4472CA", fg="black")
     
     # TRANSFER BUTTON
-    transferButton = Button(menuRoot,text="Transfer",width=25,height=2,bg="blue",fg="yellow",command = transferWin) # opens the window for Transfer
+    transferButton = Button(menuRoot,text="Transfer",width=25,height=2,bg="#5E7CE2",fg="black",  command = transferWin) # opens the window for Transfer
 
     # BALANCE BUTTON
-    balanceButton = tk.Button(menuRoot, text="Balance", width=25, height=2, bg="yellow", fg="blue", command=lambda: ButtonGrid.main(SignInWindow.username)) #runBalance()
+    balanceButton = tk.Button(menuRoot, text="Balance", width=25, height=2, bg="#92B4F4", fg="black", command=lambda: ButtonGrid.main(SignInWindow.username)) #runBalance()
 
-    # UPLOAD MANIFEST BUTTON
-    buttonFile = tk.Button(text="Find Outbound Manifest", command=openFile, width=25, height=2, bg="green")
+    # FIND OUTBOUND MANIFEST BUTTON
+    buttonFile = tk.Button(text="Find Outbound Manifest", command=openFile, width=25, height=2, bg="#CFDEE7", fg='black')
+    
+    
     
 
     mainMenuTitleLabel.pack(pady=10) 
     signInButton.pack(pady=5)
+    importFileButton.pack(pady=5) 
     transferButton.pack(pady=5)
     balanceButton.pack(pady=5)
     buttonFile.pack(pady=5)
@@ -85,10 +92,20 @@ def mainMenu():
     menuRoot.mainloop() 
 
 def openFile(): #https://www.youtube.com/watch?v=q8WDvrjPt0M
-    filepath = filedialog.askopenfilename(title= "Manifest File", filetypes= (("text files",".txt"), ("all files", ".*")))
-    file = open(filepath,'r')
+    filep = filedialog.askopenfilename(title= "Manifest File", filetypes= (("text files",".txt"), ("all files", ".*")))
+    file = open(filep,'r')
     print(file.read())
     file.close()
+
+def importFile(): 
+    global manifest_filepath
+    manifest_filepath = filedialog.askopenfilename()
+    print(manifest_filepath)
+    TransferScreen.assignManifest(manifest_filepath)
+    UnloadContainersScreen.assignManifest(manifest_filepath)
+    modifyGrid.assignManifest(manifest_filepath)
+    ButtonGrid.assignManifest(manifest_filepath)
+    return manifest_filepath
 
 # TRANSFER PROBLEM WINDOW
 def transferWin():
