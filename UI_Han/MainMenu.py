@@ -12,6 +12,7 @@ import TransferScreen
 import ButtonGrid
 import UnloadContainersScreen
 import modifyGrid
+import pathlib
 
 # USER = "DEFAULT"
 global MainMenuUser
@@ -101,6 +102,20 @@ def importFile():
     global manifest_filepath
     manifest_filepath = filedialog.askopenfilename()
     print(manifest_filepath)
+
+    f = open("KeoghLongBeach2023.txt", "a")
+    print("start addImportFileLogEvent()") 
+    # addLogEvent(("UserSwitch", getDateTime(), f"{SignInWindow.pastUser} signs out", f"{USER} signs in"))
+
+    path = pathlib.PurePath(manifest_filepath)
+    txtFile = path.name
+    file = txtFile.split(".txt")
+    shipName = file[0]
+
+    line = getDateTime() + f"Manifest {shipName}.txt is opened\n"
+    f.write(line)
+    print(line)
+
     TransferScreen.assignManifest(manifest_filepath)
     UnloadContainersScreen.assignManifest(manifest_filepath)
     modifyGrid.assignManifest(manifest_filepath)
