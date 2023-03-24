@@ -12,6 +12,7 @@ import Balance
 import numpy as np
 import MainMenu
 from tktooltip import ToolTip
+import pathlib 
 
 
 global USER
@@ -281,7 +282,12 @@ def buildShipGrid(frame):
     global manifestFile
     manifestFile = manifest_filepath
     global shipName
-    shipName = manifestFile.split("\\")[-1].split(".")[0]
+    
+    path = pathlib.PurePath(manifest_filepath)
+    txtFile = path.name
+    file = txtFile.split(".txt")
+    shipName = file[0]
+
     containers_arr = read_manifest(manifest_filepath, frame)
     global containers_2D
     containers_2D = list(np.reshape(containers_arr, (8,12)))
@@ -292,7 +298,7 @@ def buildShipGrid(frame):
         for j in range(12):
             container = containers_2D[i][j]
             # print(f"({container.x}, {container.y})", container.weight, container.name, container.button.cget('text'))
-            container.button.config(text=container.name + f"({i},{j})", command=lambda row=i, column=j, container_x=container.x, container_y=container.y, container_weight=container.weight, container_name=container.name: print("row:", row, "column:", column, "ManifestX:", container_x, "ManifestY:", container_y, "Name:", container_name, "Weight:", container_weight))
+            container.button.config(text=container.name, command=lambda row=i, column=j, container_x=container.x, container_y=container.y, container_weight=container.weight, container_name=container.name: print("row:", row, "column:", column, "ManifestX:", container_x, "ManifestY:", container_y, "Name:", container_name, "Weight:", container_weight))
             container.button.update()
             button = container.button
             button.grid(row=i, column=j)
@@ -442,7 +448,7 @@ def updateNextGrid(slot1, slot2): # updates the 8x12 grid to reflect the current
     slot1_weight = containers_2D[slot1_row][slot1_col].weight # update container_2D's slot2 weight
     slot2Container.name = slot1_name
     slot2Container.weight = slot1_weight
-    updateSlot2Button.config(bg="blue", text=slot1_name+f"({slot2_row},{slot2_col})")
+    updateSlot2Button.config(bg="blue", text=slot1_name)
     updateSlot2Button.update()
     updateToolTip(updateSlot2Button, slot2Container.name, slot2Container.weight, slot2Container.x, slot2Container.y)
     
@@ -451,7 +457,7 @@ def updateNextGrid(slot1, slot2): # updates the 8x12 grid to reflect the current
     slot1Container = containers_2D[slot1_row][slot1_col]
     slot1Container.name = "UNUSED"
     slot1Container.weight = 0
-    updateSlot1Button.config(bg="white", text="UNUSED"+f"({slot1_row},{slot1_col})")
+    updateSlot1Button.config(bg="white", text="UNUSED")
     updateSlot1Button.update()
     updateToolTip(updateSlot1Button, slot1Container.name, slot1Container.weight, slot1_row, slot1_col)
 
@@ -475,7 +481,7 @@ def popUpWindow():
 def exportOutboundManifest():
     filename = shipName
     f = open(filename+"OUTBOUND.txt", "w")
-    for j in range(8):
+    for j in range(7,-1,-1): 
         for i in range(12):
             c = containers_2D[j][i]
             f.write('['+str("%02d"%(c.x))+','+str("%02d"%(c.y))+'], {'+str("%05d"%c.weight)+'}, '+str(c.name)+'\n') 
