@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import *
 import numpy as np
+from tktooltip import ToolTip
 
 def assignManifest(f):
     global manifest_filepath
@@ -62,7 +63,8 @@ class container:
                 self.button = tk.Button(frame, text="NAN", height=4, width=7, bg='black',activebackground='black')
 
         else:
-                self.button = tk.Button(frame, text=name, height=4, width=7, bg='blue',activebackground='lightgrey')
+                self.button = tk.Button(frame, text=name, height=4, width=7, bg='#004fff',activebackground='lightgrey')
+        ToolTip(self.button, msg=f"{self.name}\n ({self.x}, {self.y}) \n Weight: {self.weight}", follow=True) 
 
     def display_info(self):
         print("Position: [",self.x,",", self.y,"], Weight:", self.weight ,"kg, Name:",self.name)
@@ -105,7 +107,7 @@ def appendContainers(container, row, col):
             # print("\nAPPENDED CONTAINER:", container.name, container.x, container.y)
             printContainerList()
         else:
-             container.button.config(bg="blue")
+             container.button.config(bg="#004fff")
              deleteContainer(container.name)
     
     
@@ -142,7 +144,7 @@ def buildShipGrid(frame):
         button_row = []
         for j in range(12):
             container = containers_2D[i][j]
-            container.button.config(text=container.name + f"\n({i},{j})", command=lambda row=i, column=j, container=container, container_x=container.x, container_y=container.y, container_weight=container.weight, container_name=container.name: [appendContainers(container, row, column)])
+            container.button.config(text=container.name, command=lambda row=i, column=j, container=container, container_x=container.x, container_y=container.y, container_weight=container.weight, container_name=container.name: [appendContainers(container, row, column)])
             container.button.update()
             button = container.button
             button.grid(row=i, column=j)
