@@ -105,11 +105,13 @@ path_arr = []
 
 # Define a function to start the loop
 def on_start():
+   print("on_start")
    global running
    running = True
 
 # Define a function to stop the loop
 def on_stop():
+   print("on_stop")
    global running
    running = False
 
@@ -311,6 +313,9 @@ def pathReader(): # reads Balance's GUI Path Output
     solution_paths = AStar.Transfer("ShipCase3").array
 
     # solution_paths.append('(99,99)(01,02) 0012 CUB [LOAD]')
+    solution_paths.append('(01,24)(03,05) 0010 CUBES [MOVE WITHIN BUFFER]')
+    solution_paths.append('(01,25)(01,05) 0023 ORANGES [MOVE FROM BUFFER TO SHIP]')
+    solution_paths.append('(01,05)(01,26) 0015 ORANGES [MOVE FROM SHIP TO BUFFER]')
     print(solution_paths)
     est_time = 0
 
@@ -553,6 +558,24 @@ def updateNextGrid(slot1, slot2, op, updateName): # updates the 8x12 grid to ref
         updateSlot2Button.config(bg="blue", text=updateName+f"\n {slot2Container.weight}")
         updateSlot2Button.update()
 
+    if(op == "MOVE WITHIN BUFFER"):
+        print()
+
+    if(op == "MOVE FROM BUFFER TO SHIP"):
+        updateSlot2Button = button_grid[slot2_row][slot2_col]
+        slot2Container = containers_2D[slot2_row][slot2_col]
+        # slot2Container.weight = getWeightEntry() #TODO: GET THE WEIGHT FROM ENTRY BOX <-- completed on 3-21-23 6AM
+        slot2Container.name = updateName
+        updateSlot2Button.config(bg="blue", text=updateName+f"\n {slot2Container.weight}")
+        updateSlot2Button.update()
+
+    if(op == "MOVE FROM SHIP TO BUFFER"):
+        updateSlot1Button = button_grid[slot1_row][slot1_col]
+        slot1Container = containers_2D[slot1_row][slot1_col]
+        slot1Container.name = "UNUSED"
+        slot1Container.weight = 0
+        updateSlot1Button.config(bg="white", text="UNUSED"+f"({slot1_row},{slot1_col})")
+        updateSlot1Button.update()
 
 def animateOffload(slot1):
     row, col = slot1
@@ -575,6 +598,17 @@ def animateLoad(targetSlot, name):
         lightButton.update()
         root.after(timer)
         lightButton.config(bg="white", text="UNUSED")
+        lightButton.update()
+        root.after(timer)
+
+def dummyAnimate():
+    row, col = (0,0)
+    for i in range(0, row+1): # move animation from maxHeight to the maxDown (i.e. the first blue or black box maxHeight)
+        lightButton = button_grid[i][col]
+        # lightButton.config(bg="blue", text=name)
+        lightButton.update()
+        root.after(timer)
+        # lightButton.config(bg="white", text="UNUSED")
         lightButton.update()
         root.after(timer)
 
@@ -697,6 +731,43 @@ def main(user_name):
                     on_start()
                     break
             clearPackWidgets()
+
+        if(operation == "MOVE WITHIN BUFFER"):
+            operationLabel.config(text = f"Inside the BUFFER, move container {path_arr[i][2]} from {path_arr[i][0]} to {path_arr[i][1]}")
+            while True:
+                dummyAnimate()
+                if running == False:  #add condition for when user hits "Next", stop the loop so it can go to next step's new animation
+
+                    updateNextGrid(slot1,slot2, operation, "") #path_arr[i][2] is the name of the container
+                    on_start()
+                    break
+            clearPackWidgets()
+
+        if(operation == "MOVE FROM BUFFER TO SHIP"):
+            operationLabel.config(text = f"Move container {path_arr[i][2]}\nfrom BUFFER at {path_arr[i][0]} to SHIP at {path_arr[i][1]}")
+            while True:
+                conName = path_arr[i][2]
+                animateLoad(slot2, conName)
+                if running == False:  #add condition for when user hits "Next", stop the loop so it can go to next step's new animation
+
+                    updateNextGrid(slot1,slot2, operation, conName) #path_arr[i][2] is the name of the container
+                    on_start()
+                    break
+            clearPackWidgets()
+
+        if(operation == "MOVE FROM SHIP TO BUFFER"):
+            operationLabel.config(text = f"Move container {path_arr[i][2]}\nfrom SHIP at {path_arr[i][0]} to BUFFER at {path_arr[i][1]}")
+            while True:
+                conName = path_arr[i][2]
+                animateOffload(slot1)
+                if running == False:  #add condition for when user hits "Next", stop the loop so it can go to next step's new animation
+
+                    updateNextGrid(slot1,slot2, operation, "") #path_arr[i][2] is the name of the container
+                    on_start()
+                    break
+            clearPackWidgets()
+
+
 
         print("WEBool is...", weightEntryBool)
         # print("--containers_2D AFTER UPDATE")
