@@ -73,7 +73,7 @@ def transferWin():
     unloadBut = tk.Button(transferWindow,text="Unload",width=25,height=2,bg="yellow",fg="red", command=lambda: UnloadContainersScreen.main())
 
     # BEGIN ORDERING BUTTON
-    beginOrderBut = tk.Button(transferWindow,text="Begin Ordering", width=25,height=2, bg="yellow",fg="green", command=lambda: [printAllContainers(), TransferScreen.main(SignInWindow.username)]) # printAllContainers()
+    beginOrderBut = tk.Button(transferWindow,text="Begin Ordering", width=25,height=2, bg="yellow",fg="green", command=lambda: [printAllContainers(), TransferScreen.main(SignInWindow.username, loadInput, UnloadContainersScreen.containers_list)]) # printAllContainers()
 
     # EXIT BUTTON
     exitBut = tk.Button(transferWindow, text = "Exit", command = transferWindow.destroy)

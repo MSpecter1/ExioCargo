@@ -307,10 +307,12 @@ def createBuffer():
 
 
 path_arr = []
-def pathReader(): # reads Balance's GUI Path Output
+def pathReader(load_containers, unload_containers): # reads Balance's GUI Path Output
     # Run the Balance algorithm to retrieve the path solutions array 
     #['(08,07)(01,24) 00:01:06 Fat [MOVE FROM SHIP TO BUFFER]', '(07,07)(99,99) 00:00:35 Bat [OFFLOAD]', '(01,24)(07,07) 00:00:17 Fat [MOVE FROM BUFFER TO SHIP]']
-    solution_paths = AStar.Transfer("ShipCase3").array
+    print("LOAD CONTAINERS PR", load_containers)
+    print("UNLOAD CONTAINERS PR", unload_containers)
+    solution_paths = AStar.Transfer("ShipCase3", load_containers, unload_containers).array
 
     # solution_paths.append('(99,99)(01,02) 0012 CUB [LOAD]')
     solution_paths.append('(01,24)(03,05) 0010 CUBES [MOVE WITHIN BUFFER]')
@@ -633,7 +635,7 @@ def clearPackWidgets():
     weightEntry.pack_forget()
     # weightEntrySubmit.pack_forget()
 
-def main(user_name):
+def main(user_name, load_containers, unload_containers):
     USER = user_name
     ship_fr = transferStartUp()
     buildShipGrid(ship_fr)    
@@ -642,7 +644,7 @@ def main(user_name):
     button = tk.Button(nextButton_frame, text="Next",activebackground='lightgrey', height=1, width=8, command=on_stop)
     button.grid(row=0, column=0)
 
-    pathReader()
+    pathReader(load_containers, unload_containers)
 
     global userLabel
     userLabel = Label(frameTopRight, text = f"User: {USER}", bg="grey",fg="white", font=("Cambria", 10, "bold"))
