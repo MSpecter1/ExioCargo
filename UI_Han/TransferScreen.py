@@ -226,6 +226,12 @@ def updateLogFile():
             line = currentDateTime + signIn + "\n" #line for signin
             print(line)
             f.write(line)
+        elif eventType == "ONLOADED" or eventType == "OFFLOADED": #addLogEvent(("ONLOADED", getDateTime(), f'"{conName}" is onloaded.'))
+            description = event[2]
+            line = currentDateTime + description + "\n"
+            print(line)
+            f.write(line)
+
 
 def popUpWindow():
     root_x = root.winfo_x()
@@ -594,6 +600,8 @@ def updateNextGrid(slot1, slot2, op, updateName): # updates the 8x12 grid to ref
         updateSlot1Button.config(bg="white", text="UNUSED")
         updateSlot1Button.update()
 
+    weightEntry.delete(0,END)
+
 def animateOffload(slot1, name):
     row, col = slot1
     for i in range(row-1, -1, -1): # i > y ; only up to y to avoid double counting/lighting the maxY button for animateUp
@@ -652,7 +660,7 @@ def clearPackWidgets():
 
 def exportOutboundManifest():
     filename = shipName
-    f = open(filename+"OUTBOUND.txt", "w")
+    f = open("ManifestFolder/"+filename+"OUTBOUND.txt", "w")
     for j in range(7,-1,-1): 
         for i in range(12):
             c = containers_2D[j][i]
@@ -665,7 +673,7 @@ def main(user_name, load_containers, unload_containers):
     buildShipGrid(ship_fr)    
     createBuffer()
     
-    button = tk.Button(nextButton_frame, text="Next",activebackground='lightgrey', height=1, width=8, command=on_stop)
+    button = tk.Button(nextButton_frame, text="Next",activebackground='lightgrey', height=1, width=8, command=lambda: [on_stop()])
     button.grid(row=0, column=0)
 
     pathReader(load_containers, unload_containers)
@@ -739,6 +747,7 @@ def main(user_name, load_containers, unload_containers):
                     updateNextGrid(slot1,slot2, operation, "")
                     on_start()
                     break
+            addLogEvent(("OFFLOADED", getDateTime(), f'"{name}" is offloaded.'))
             clearPackWidgets()
 
         if(operation == "LOAD"):
@@ -751,13 +760,14 @@ def main(user_name, load_containers, unload_containers):
             operationLabel.config(text = f"Load container {path_arr[i][2]} to {path_arr[i][1]}")
             while True:
                 print(USER)
-                animateLoad(slot2, conName)
+                animateLoad(slot2, name)
                 
                 if running == False:  #add condition for when user hits "Next", stop the loop so it can go to next step's new animation
 
                     updateNextGrid(slot1,slot2, operation, path_arr[i][2]) #path_arr[i][2] is the name of the container
                     on_start()
                     break
+            addLogEvent(("ONLOADED", getDateTime(), f'"{name}" is onloaded.'))
             clearPackWidgets()
 
         if(operation == "MOVE WITHIN BUFFER"):
