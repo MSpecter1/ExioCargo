@@ -312,12 +312,12 @@ def pathReader(load_containers, unload_containers): # reads Balance's GUI Path O
     #['(08,07)(01,24) 00:01:06 Fat [MOVE FROM SHIP TO BUFFER]', '(07,07)(99,99) 00:00:35 Bat [OFFLOAD]', '(01,24)(07,07) 00:00:17 Fat [MOVE FROM BUFFER TO SHIP]']
     print("LOAD CONTAINERS PR", load_containers)
     print("UNLOAD CONTAINERS PR", unload_containers)
-    solution_paths = AStar.Transfer("ShipCase3", load_containers, unload_containers).array
+    solution_paths = AStar.Transfer("ShipCase5", load_containers, unload_containers).array
 
-    # solution_paths.append('(99,99)(01,02) 0012 CUB [LOAD]')
-    solution_paths.append('(01,24)(03,05) 0010 CUBES [MOVE WITHIN BUFFER]')
-    solution_paths.append('(01,25)(01,05) 0023 ORANGES [MOVE FROM BUFFER TO SHIP]')
-    solution_paths.append('(01,05)(01,26) 0015 ORANGES [MOVE FROM SHIP TO BUFFER]')
+    # # solution_paths.append('(99,99)(01,02) 0012 CUB [LOAD]')
+    # solution_paths.append('(01,24)(03,05) 0010 CUBES [MOVE WITHIN BUFFER]')
+    # solution_paths.append('(01,25)(01,05) 0023 ORANGES [MOVE FROM BUFFER TO SHIP]')
+    # solution_paths.append('(01,05)(01,26) 0015 ORANGES [MOVE FROM SHIP TO BUFFER]')
     print(solution_paths)
     est_time = 0
 
@@ -364,12 +364,12 @@ def pathReader(load_containers, unload_containers): # reads Balance's GUI Path O
 button_grid = []
 
 global manifestFile
-manifestFile = "tests\ShipCase3.txt"
+manifestFile = "tests\ShipCase5.txt"
 global shipName
 shipName = manifestFile.split("\\")[-1].split(".")[0]
 
 def buildShipGrid(frame):
-    containers_arr = read_manifest("tests\ShipCase3.txt", frame)
+    containers_arr = read_manifest("tests\ShipCase5.txt", frame)
     global containers_2D
     containers_2D = list(np.reshape(containers_arr, (8,12)))
 
@@ -635,6 +635,15 @@ def clearPackWidgets():
     weightEntry.pack_forget()
     # weightEntrySubmit.pack_forget()
 
+def exportOutboundManifest():
+    filename = shipName
+    f = open(filename+"OUTBOUND.txt", "w")
+    for j in range(8):
+        for i in range(12):
+            c = containers_2D[j][i]
+            f.write('['+str("%02d"%(c.x))+','+str("%02d"%(c.y))+'], {'+str("%05d"%c.weight)+'}, '+str(c.name)+'\n') 
+
+
 def main(user_name, load_containers, unload_containers):
     USER = user_name
     ship_fr = transferStartUp()
@@ -792,10 +801,11 @@ def main(user_name, load_containers, unload_containers):
 
     addLogEvent(("CycleComplete", getDateTime(), f"Finished a Cycle. Manifest {shipName}OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed." ))
     updateLogFile()
+    exportOutboundManifest()
     print("Broke out of animation loop!") #break out of loop
 
     root.mainloop()
 
 if __name__ == '__main__':
     USER = "DEFAULT"
-    main(USER)
+    # main(USER)
