@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import *
 import os
 import sys
+import ntplib
+from time import ctime
 # sys.path.insert(0, 'UI_Han/BalanceProblem')
 import ButtonGrid
 import SignInWindow
@@ -23,6 +25,29 @@ def assignPastUser():
     SignInWindow.pastUser = SignInWindow.username
     
     # MainMenuUser = SignInWindow.username
+
+
+def addSignInLogEvent():
+    f = open("KeoghLongBeach2023.txt", "a")
+    print("start addSignInLogEvent()") 
+    # addLogEvent(("UserSwitch", getDateTime(), f"{SignInWindow.pastUser} signs out", f"{USER} signs in"))
+    line = getDateTime() + f"{SignInWindow.username} signs in\n"
+    f.write(line)
+    print(line)
+
+def getDateTime():
+    c = ntplib.NTPClient()
+    response = c.request('pool.ntp.org')
+    currDateTime = ctime(response.tx_time)
+    month = currDateTime[4:10]
+    clock = currDateTime[11:16] 
+    year = currDateTime[20:]
+
+    # print(currDateTime)
+    logDateTime = month + " " + year + ": " + clock + " "
+    # print(logDateTime)
+    return logDateTime
+
 # MAIN MENU WINDOW (FIRST MENU)
 def mainMenu():
     global menuRoot
@@ -37,7 +62,7 @@ def mainMenu():
     mainMenuTitleLabel = Label(menuRoot, text= "Main Menu", bg='white', fg="black", font=("Cambria", 14, "bold"))
 
     # SIGN IN BUTTON
-    signInButton = tk.Button(menuRoot,text="Sign In Here",width=25,height=2, bg="black", fg="white", command=lambda: [SignInWindow.startUp(), assignPastUser()])
+    signInButton = tk.Button(menuRoot,text="Sign In Here",width=25,height=2, bg="black", fg="white", command=lambda: [SignInWindow.startUp(), assignPastUser(), addSignInLogEvent()])
     
     
     # TRANSFER BUTTON
