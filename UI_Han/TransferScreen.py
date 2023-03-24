@@ -11,6 +11,7 @@ sys.path.append('UI_Han/TransferProblem')
 import AStar
 import SignInWindow
 
+global USER 
 
 def transferStartUp():
     global root
@@ -115,12 +116,22 @@ def on_stop():
 #---------------------------------------------------------------------------------------------------------------------
 '''WINDOWS'''
 def signInWin():
+    # global USER
+    # SignInWindow.startUp()
+    
+    # USER = SignInWindow.username
+    # userLabel.config(text=f"User: {USER}")
+    # addLogEvent(("UserSwitch", getDateTime(), "OldOperatorName signs out", f"{USER} signs in"))
+    # print("test USER", USER)
+
     global USER
     SignInWindow.startUp()
     
     USER = SignInWindow.username
     userLabel.config(text=f"User: {USER}")
-    addLogEvent(("UserSwitch", getDateTime(), "OldOperatorName signs out", f"{USER} signs in"))
+    
+    addLogEvent(("UserSwitch", getDateTime(), f"{SignInWindow.pastUser} signs out", f"{USER} signs in"))
+    SignInWindow.pastUser = SignInWindow.username
     print("test USER", USER)
 
 #---------------------------------------------------------------------------------------------------------------------
@@ -152,7 +163,7 @@ def getWeightEntry():
 
 def getDateTime():
     c = ntplib.NTPClient()
-    response = c.request('us.pool.ntp.org')
+    response = c.request('pool.ntp.org')
     currDateTime = ctime(response.tx_time)
     month = currDateTime[4:10]
     clock = currDateTime[11:16] 
@@ -248,6 +259,15 @@ class container:
 
     def getName(self):
         return self.name
+    
+    def getRow(self):
+        return self.x
+    
+    def getCol(self):
+        return self.y
+
+    def getWeight(self):
+        return self.weight
 
 
 def read_manifest(file, frame):
@@ -290,7 +310,7 @@ def pathReader(): # reads Balance's GUI Path Output
     #['(08,07)(01,24) 00:01:06 Fat [MOVE FROM SHIP TO BUFFER]', '(07,07)(99,99) 00:00:35 Bat [OFFLOAD]', '(01,24)(07,07) 00:00:17 Fat [MOVE FROM BUFFER TO SHIP]']
     solution_paths = AStar.Transfer("ShipCase3").array
 
-    solution_paths.append('(99,99)(01,02) 0012 CUB [LOAD]')
+    # solution_paths.append('(99,99)(01,02) 0012 CUB [LOAD]')
     print(solution_paths)
     est_time = 0
 
@@ -579,7 +599,8 @@ def clearPackWidgets():
     weightEntry.pack_forget()
     # weightEntrySubmit.pack_forget()
 
-def main():
+def main(user_name):
+    USER = user_name
     ship_fr = transferStartUp()
     buildShipGrid(ship_fr)    
     createBuffer()
@@ -704,4 +725,4 @@ def main():
 
 if __name__ == '__main__':
     USER = "DEFAULT"
-    main()
+    main(USER)
