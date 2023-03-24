@@ -480,7 +480,7 @@ def popUpWindow():
 
 def exportOutboundManifest():
     filename = shipName
-    f = open(filename+"OUTBOUND.txt", "w")
+    f = open("ManifestFolder/"+filename+"OUTBOUND.txt", "w")
     for j in range(7,-1,-1): 
         for i in range(12):
             c = containers_2D[j][i]
