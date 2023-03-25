@@ -9,7 +9,7 @@ All Outbound Manifests will be stored on the user's desktop.
 
 
 Created by Team Exio. 
-Michael He
-Hannah Bach
-Alexander Roh
-Erik Kanamori
+Michael He,
+Hannah Bach,
+Alexander Roh,
+Erik Kanamori,
