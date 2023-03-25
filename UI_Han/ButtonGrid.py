@@ -77,12 +77,16 @@ def balanceStartUp():
 
     # Bottom Right Frame 
     global frameBotRight
-    frameBotRight= Frame(root, width=500, height=500,bg="pink")
+    frameBotRight= Frame(root, width=500, height=500,bg="grey")
     frameBotRight.pack(side=TOP, padx=10, pady=20)
 
     global buffer_frame
     buffer_frame = Frame(frameBotRight, bg="light grey") #ship_bg_frame
     buffer_frame.pack(side=TOP, expand=1,padx=4,pady=5) #RIGHT
+
+    global bufferLabel
+    bufferLabel = Label(frameBotRight,  text = "BUFFER", font=("Cambria", 12, "bold"))
+    bufferLabel.pack(pady=5)
 
     return ship_frame
 
@@ -230,7 +234,9 @@ def createBuffer():
         buffer_row = []
         for j in range(24):
             global button
-            buffbutton = tk.Button(buffer_frame, text=f"{j}", height=1, width=2, bg='white')
+            buffbutton = tk.Button(buffer_frame, font=("Arial", 7), height=3, width=3, bg='white')
+            bufftip = Balloon(root)
+            bufftip.bind_widget(buffbutton, balloonmsg=f"(row, column)\n({4-i},{j+1})")
             buffbutton.grid(row=i, column=j)
             buffer_row.append(buffbutton)
         buffer_grid.append(buffer_row)
