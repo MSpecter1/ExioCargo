@@ -1,0 +1,12 @@
+Mar 25 2023: 00:04 Han signs in
+Mar 25 2023: 00:04 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 25 2023: 00:05 Han signs in
+Mar 25 2023: 00:05 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 25 2023: 00:05 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 25 2023: 00:06 "Bat " is onloaded.
+Mar 25 2023: 00:06 Doe has adent
+Mar 25 2023: 00:06 Han signs out
+Mar 25 2023: 00:06 Bee signs in
+Mar 25 2023: 00:06 "Cow " is offloaded.
+Mar 25 2023: 00:07 "Rat " is onloaded.
+Mar 25 2023: 00:07 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.

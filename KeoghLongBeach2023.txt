@@ -1,0 +1,458 @@
+Mar 24 2023: 09:24 Hannah signs in
+Mar 24 2023: 09:25 Manifest ShipCase3.txt is opened
+Mar 24 2023: 09:25 "Bat " is onloaded.
+Mar 24 2023: 09:25 Cow big
+Mar 24 2023: 09:25 "Cow " is offloaded.
+Mar 24 2023: 09:25 Hannah signs out
+Mar 24 2023: 09:25 Oscar signs in
+Mar 24 2023: 09:25 "Rat " is onloaded.
+Mar 24 2023: 09:25 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 09:34 Han signs in
+Mar 24 2023: 09:34 Manifest ShipCase3.txt is opened
+Mar 24 2023: 09:34 "Bat " is onloaded.
+Mar 24 2023: 09:34 Doe has a dent in it.
+Mar 24 2023: 09:35 Han signs out
+Mar 24 2023: 09:35 Reese signs in
+Mar 24 2023: 09:35 "Cow " is offloaded.
+Mar 24 2023: 09:35 "Rat " is onloaded.
+Mar 24 2023: 09:35 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 09:35 Ewe is heavier than expected.
+Mar 24 2023: 09:36 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 09:38 Yes signs in
+Mar 24 2023: 09:38 Manifest ShipCase3.txt is opened
+Mar 24 2023: 09:39 "Bat " is onloaded.
+Mar 24 2023: 09:39 "Cow " is offloaded.
+Mar 24 2023: 09:39 "Rat " is onloaded.
+Mar 24 2023: 09:39 "Walmart Plushies Loving It Testing This and Seeing how far it can go. woowoooweee " is onloaded.
+Mar 24 2023: 09:39 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 09:41 Re signs in
+Mar 24 2023: 09:41 Manifest ShipCase3.txt is opened
+Mar 24 2023: 09:42 Manifest ShipCase3.txt is opened
+Mar 24 2023: 09:42 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 09:42 a signs in
+Mar 24 2023: 09:42 Manifest ShipCase3.txt is opened
+Mar 24 2023: 09:43 a signs in
+Mar 24 2023: 09:43 Manifest ShipCase3.txt is opened
+Mar 24 2023: 09:44 Yan signs in
+Mar 24 2023: 09:44 Manifest ShipCase3.txt is opened
+Mar 24 2023: 09:45 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 09:46 Ya signs in
+Mar 24 2023: 09:47 Manifest DummyManifest.txt is opened
+Mar 24 2023: 09:47 a signs in
+Mar 24 2023: 09:48 Manifest ShipCase1.txt is opened
+Mar 24 2023: 09:48 Finished a Cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 15:40 Hsnnah signs in
+Mar 24 2023: 15:40 Manifest ShipCase4.txt is opened, there are 7 containers on the ship
+Mar 24 2023: 15:40 Finished a Cycle. Manifest ShipCase4OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 15:42 s signs in
+Mar 24 2023: 15:43 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 15:43 a signs in
+Mar 24 2023: 15:43 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 15:48 Reese signs in
+Mar 24 2023: 15:48 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 15:49 "Bat " is onloaded.
+Mar 24 2023: 15:49 Reese signs out
+Mar 24 2023: 15:49 REeses signs in
+Mar 24 2023: 15:49 op
+Mar 24 2023: 15:49 "Cow " is offloaded.
+Mar 24 2023: 15:50 "Rat " is onloaded.
+Mar 24 2023: 15:50 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 15:58 a signs in
+Mar 24 2023: 15:58 Manifest ShipCase4.txt is opened, there are 7 containers on the ship
+Mar 24 2023: 15:59 Rea signs in
+Mar 24 2023: 15:59 Manifest ShipCase4.txt is opened, there are 7 containers on the ship
+Mar 24 2023: 16:02 A signs in
+Mar 24 2023: 16:02 Manifest ShipCase4.txt is opened, there are 7 containers on the ship
+Mar 24 2023: 16:43 Rea signs in
+Mar 24 2023: 16:43 Manifest ShipCase4.txt is opened, there are 7 containers on the ship
+Mar 24 2023: 16:45 Re signs in
+Mar 24 2023: 16:45 Manifest ShipCase4.txt is opened, there are 7 containers on the ship
+Mar 24 2023: 16:47 Re signs in
+Mar 24 2023: 16:47 Manifest ShipCase4.txt is opened, there are 7 containers on the ship
+Mar 24 2023: 16:52 Han signs in
+Mar 24 2023: 16:52 Manifest ShipCase4.txt is opened, there are 7 containers on the ship
+Mar 24 2023: 16:54 Han signs in
+Mar 24 2023: 16:54 Manifest ShipCase4.txt is opened, there are 7 containers on the ship
+Mar 24 2023: 16:55 REe signs in
+Mar 24 2023: 16:55 Manifest ShipCase4.txt is opened, there are 7 containers on the ship
+Mar 24 2023: 16:57 Re signs in
+Mar 24 2023: 16:57 Manifest ShipCase4.txt is opened, there are 7 containers on the ship
+Mar 24 2023: 16:58 REA signs in
+Mar 24 2023: 16:58 Manifest ShipCase4.txt is opened, there are 7 containers on the ship
+Mar 24 2023: 16:59 RE signs in
+Mar 24 2023: 16:59 Manifest ShipCase4.txt is opened, there are 7 containers on the ship
+Mar 24 2023: 16:59 a signs in
+Mar 24 2023: 16:59 Manifest ShipCase4.txt is opened, there are 7 containers on the ship
+Mar 24 2023: 17:00 Finished a Cycle. Manifest ShipCase4OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 17:00 RE signs in
+Mar 24 2023: 17:00 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 17:07 RE signs in
+Mar 24 2023: 17:07 Manifest ShipCase4.txt is opened, there are 7 containers on the ship
+Mar 24 2023: 17:09 RE signs in
+Mar 24 2023: 17:09 Manifest ShipCase4.txt is opened, there are 7 containers on the ship
+Mar 24 2023: 17:10 Finished a Cycle. Manifest ShipCase4OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 17:11 TR signs in
+Mar 24 2023: 17:11 Manifest ShipCase4.txt is opened, there are 7 containers on the ship
+Mar 24 2023: 17:17 Re signs in
+Mar 24 2023: 17:17 Manifest ShipCase4.txt is opened, there are 7 containers on the ship
+Mar 24 2023: 17:18 Re signs in
+Mar 24 2023: 17:18 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 17:19 RE signs in
+Mar 24 2023: 17:19 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 17:20 e signs in
+Mar 24 2023: 17:20 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 17:20 Reese signs in
+Mar 24 2023: 17:20 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 17:20 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 17:20 Reese signs in
+Mar 24 2023: 17:23 re signs in
+Mar 24 2023: 17:23 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 17:23 r signs in
+Mar 24 2023: 17:23 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 17:25 Rat signs in
+Mar 24 2023: 17:25 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 17:26 Re signs in
+Mar 24 2023: 17:26 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 17:27 r signs in
+Mar 24 2023: 17:27 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 17:27 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 17:27 ee signs in
+Mar 24 2023: 17:27 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 17:30 r signs in
+Mar 24 2023: 17:30 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 17:31 RE signs in
+Mar 24 2023: 17:31 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 17:37 ah signs in
+Mar 24 2023: 17:37 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 17:38 "Bat " is onloaded.
+Mar 24 2023: 17:39 "Cow " is offloaded.
+Mar 24 2023: 17:39 "Rat " is onloaded.
+Mar 24 2023: 17:39 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 17:43 R signs in
+Mar 24 2023: 17:43 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 17:44 Re signs in
+Mar 24 2023: 17:45 ee signs in
+Mar 24 2023: 17:45 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 17:45 "Bat " is onloaded.
+Mar 24 2023: 17:45 "Cow " is offloaded.
+Mar 24 2023: 17:45 "Rat " is onloaded.
+Mar 24 2023: 17:46 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 17:48 RES signs in
+Mar 24 2023: 17:48 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 17:49 eea signs in
+Mar 24 2023: 17:49 Manifest ShipCase3.txt is opened, there are 7 containers on the ship
+Mar 24 2023: 17:49 "Bat " is onloaded.
+Mar 24 2023: 17:49 "Cow " is offloaded.
+Mar 24 2023: 17:50 "Rat " is onloaded.
+Mar 24 2023: 17:52 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 17:54 re signs in
+Mar 24 2023: 17:54 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 17:55 "Bat " is onloaded.
+Mar 24 2023: 17:55 "Cow " is offloaded.
+Mar 24 2023: 17:55 "Rat " is onloaded.
+Mar 24 2023: 17:55 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 17:55 r signs in
+Mar 24 2023: 17:55 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 17:56 "Bat " is onloaded.
+Mar 24 2023: 17:56 "Cow " is offloaded.
+Mar 24 2023: 17:56 "Rat " is onloaded.
+Mar 24 2023: 17:56 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 17:56 Ha signs in
+Mar 24 2023: 17:56 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 17:56 "Bat " is onloaded.
+Mar 24 2023: 17:57 "Cow " is offloaded.
+Mar 24 2023: 17:57 "Rat " is onloaded.
+Mar 24 2023: 17:57 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 17:57 RE signs in
+Mar 24 2023: 17:57 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 17:59 t signs in
+Mar 24 2023: 17:59 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 17:59 "Bat " is onloaded.
+Mar 24 2023: 17:59 "Cow " is offloaded.
+Mar 24 2023: 17:59 "Rat " is onloaded.
+Mar 24 2023: 18:00 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 18:03 Eat signs in
+Mar 24 2023: 18:03 Manifest ShipCase4.txt is opened, there are 7 containers on the ship
+Mar 24 2023: 18:03 Finished a Cycle. Manifest ShipCase4OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 18:05 e signs in
+Mar 24 2023: 18:06 Manifest ShipCase4.txt is opened, there are 7 containers on the ship
+Mar 24 2023: 18:06 Manifest ShipCase4.txt is opened, there are 7 containers on the ship
+Mar 24 2023: 18:07 a signs in
+Mar 24 2023: 18:07 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 18:07 "Bat " is onloaded.
+Mar 24 2023: 18:07 "Cow " is offloaded.
+Mar 24 2023: 18:07 "Rat " is onloaded.
+Mar 24 2023: 18:07 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 18:08 Re signs in
+Mar 24 2023: 18:08 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 18:08 "Bat " is onloaded.
+Mar 24 2023: 18:08 "Cow " is offloaded.
+Mar 24 2023: 18:08 "Rat " is onloaded.
+Mar 24 2023: 18:08 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 18:22 Hannah Bach signs in
+Mar 24 2023: 18:23 Manifest ShipCase4.txt is opened, there are 7 containers on the ship
+Mar 24 2023: 18:25 Reese signs in
+Mar 24 2023: 18:25 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 18:25 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 18:26 Bah signs in
+Mar 24 2023: 18:26 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 18:27 Bah signs out
+Mar 24 2023: 18:27 Roy signs in
+Mar 24 2023: 18:27 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 18:28 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 18:29 "Bat " is onloaded.
+Mar 24 2023: 18:29 Roy signs out
+Mar 24 2023: 18:29 Hera signs in
+Mar 24 2023: 18:29 "Cow " is offloaded.
+Mar 24 2023: 18:29 "Rat " is onloaded.
+Mar 24 2023: 18:29 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 18:31 Han signs in
+Mar 24 2023: 18:31 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 18:31 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 18:31 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 18:32 "Bat " is onloaded.
+Mar 24 2023: 18:32 "Cow " is offloaded.
+Mar 24 2023: 18:32 "Rat " is onloaded.
+Mar 24 2023: 18:32 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 18:33 a signs in
+Mar 24 2023: 18:33 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 18:33 a signs in
+Mar 24 2023: 18:33 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 18:35 Bana signs in
+Mar 24 2023: 18:35 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 18:35 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 18:36 Ree signs in
+Mar 24 2023: 18:36 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 18:36 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 18:37 Hann signs in
+Mar 24 2023: 18:37 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 18:38 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 18:38 "Bat " is onloaded.
+Mar 24 2023: 18:38 "Cow " is offloaded.
+Mar 24 2023: 18:38 "Rat " is onloaded.
+Mar 24 2023: 18:38 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 18:39 Manifest ShipCase4.txt is opened, there are 7 containers on the ship
+Mar 24 2023: 18:40 Hannah signs in
+Mar 24 2023: 18:40 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 18:40 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 18:41 "Bat " is onloaded.
+Mar 24 2023: 18:41 Cow fat
+Mar 24 2023: 18:41 "Cow " is offloaded.
+Mar 24 2023: 18:41 "Rat " is onloaded.
+Mar 24 2023: 18:41 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 18:41 Manifest ShipCase4.txt is opened, there are 7 containers on the ship
+Mar 24 2023: 18:42 Han signs in
+Mar 24 2023: 18:42 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 18:43 Manifest ShipCase2.txt is opened, there are 4 containers on the ship
+Mar 24 2023: 18:43 REE signs in
+Mar 24 2023: 18:43 Manifest ShipCase2.txt is opened, there are 4 containers on the ship
+Mar 24 2023: 18:44 Hann signs in
+Mar 24 2023: 18:44 Manifest ShipCase2.txt is opened, there are 4 containers on the ship
+Mar 24 2023: 18:47 Rees signs in
+Mar 24 2023: 18:47 Manifest ShipCase2.txt is opened, there are 4 containers on the ship
+Mar 24 2023: 18:47 Han signs in
+Mar 24 2023: 18:47 Manifest ShipCase2.txt is opened, there are 4 containers on the ship
+Mar 24 2023: 18:49 Re signs in
+Mar 24 2023: 18:49 Manifest ShipCase2.txt is opened, there are 4 containers on the ship
+Mar 24 2023: 18:51 Res signs in
+Mar 24 2023: 18:51 Manifest ShipCase2.txt is opened, there are 4 containers on the ship
+Mar 24 2023: 18:51 Han signs in
+Mar 24 2023: 18:51 Manifest ShipCase2.txt is opened, there are 4 containers on the ship
+Mar 24 2023: 18:52 "Bat " is onloaded.
+Mar 24 2023: 18:52 Finished a Cycle. Manifest ShipCase2OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 18:52 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 18:52 Finished a Cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 18:53 Han signs in
+Mar 24 2023: 18:53 Manifest ShipCase4.txt is opened, there are 7 containers on the ship
+Mar 24 2023: 18:54 "Doe " is offloaded.
+Mar 24 2023: 18:54 "Nat " is onloaded.
+Mar 24 2023: 18:54 Finished a Cycle. Manifest ShipCase4OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 18:55 Finished a Cycle. Manifest ShipCase4OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 18:55 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 18:55 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 18:57 Ree signs in
+Mar 24 2023: 18:57 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 18:57 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 18:58 "Bat " is onloaded.
+Mar 24 2023: 18:58 "Cow " is offloaded.
+Mar 24 2023: 18:58 "Rat " is onloaded.
+Mar 24 2023: 18:58 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 18:59 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 19:00 Han signs in
+Mar 24 2023: 19:01 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 19:01 "Bat " is onloaded.
+Mar 24 2023: 19:01 "Cow " is offloaded.
+Mar 24 2023: 19:01 RATT
+Mar 24 2023: 19:01 "Rat " is onloaded.
+Mar 24 2023: 19:01 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 19:01 Manifest ShipCase2.txt is opened, there are 4 containers on the ship
+Mar 24 2023: 19:02 Finished a Cycle. Manifest ShipCase2OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 19:13 Han signs in
+Mar 24 2023: 19:13 Manifest ShipCase2.txt is opened, there are 4 containers on the ship
+Mar 24 2023: 19:13 Han signs out
+Mar 24 2023: 19:13 rau signs in
+Mar 24 2023: 19:13 Finished a Cycle. Manifest ShipCase2OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 19:13 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 19:14 "Bat " is onloaded.
+Mar 24 2023: 19:14 Doe dentttttt
+Mar 24 2023: 19:14 rau signs out
+Mar 24 2023: 19:14 osar signs in
+Mar 24 2023: 19:14 "Cow " is offloaded.
+Mar 24 2023: 19:14 "Rat " is onloaded.
+Mar 24 2023: 19:14 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 19:17 r signs in
+Mar 24 2023: 19:17 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 19:19 Rea signs in
+Mar 24 2023: 19:20 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 19:20 a signs in
+Mar 24 2023: 19:20 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 19:21 Han signs in
+Mar 24 2023: 19:21 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 19:22 Han signs in
+Mar 24 2023: 19:22 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 19:22 Finished a Cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 19:24 Hann signs in
+Mar 24 2023: 19:24 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 19:24 Finished a Cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 19:24 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 19:26 Han signs in
+Mar 24 2023: 19:26 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 19:26 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 19:26 a signs in
+Mar 24 2023: 19:26 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 19:28 Ha signs in
+Mar 24 2023: 19:28 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 19:29 Rea signs in
+Mar 24 2023: 19:29 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 19:29 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 19:29 Han signs in
+Mar 24 2023: 19:29 REa signs in
+Mar 24 2023: 19:29 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 19:30 a signs in
+Mar 24 2023: 19:30 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 19:31 Ha signs in
+Mar 24 2023: 19:31 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 19:32 R signs in
+Mar 24 2023: 19:32 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 19:33 a signs in
+Mar 24 2023: 19:33 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 19:33 Han signs in
+Mar 24 2023: 19:33 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 19:33 a signs in
+Mar 24 2023: 19:33 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 19:34 Han signs in
+Mar 24 2023: 19:34 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 19:34 Han signs in
+Mar 24 2023: 19:34 Han signs in
+Mar 24 2023: 19:34 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 19:35 a signs in
+Mar 24 2023: 19:35 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 19:35 Han signs in
+Mar 24 2023: 19:35 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 19:36 Finished a Cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 19:36 "Cat " is offloaded.
+Mar 24 2023: 19:36 Finished a Cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 19:39 Han signs in
+Mar 24 2023: 19:39 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 19:40 Han signs in
+Mar 24 2023: 19:41 Ha signs in
+Mar 24 2023: 19:41 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 19:42 A signs in
+Mar 24 2023: 19:42 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 19:43 a signs in
+Mar 24 2023: 19:43 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 19:47 H signs in
+Mar 24 2023: 19:47 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 19:47 Finished a Cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 19:47 Hannah signs in
+Mar 24 2023: 19:48 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 19:48 Finished a Cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 19:49 Han signs in
+Mar 24 2023: 19:49 Manifest ShipCase2.txt is opened, there are 4 containers on the ship
+Mar 24 2023: 19:49 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 19:49 Finished a Cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 19:49 Han signs in
+Mar 24 2023: 19:49 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 19:50 Manifest ShipCase2.txt is opened, there are 4 containers on the ship
+Mar 24 2023: 19:50 Finished a Cycle. Manifest ShipCase2OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 19:55 HAn signs in
+Mar 24 2023: 19:55 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 19:55 Finished a Cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 19:57 Han signs in
+Mar 24 2023: 19:57 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 19:59 Han signs in
+Mar 24 2023: 19:59 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 19:59 Finished a Cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 19:59 Manifest ShipCase2.txt is opened, there are 4 containers on the ship
+Mar 24 2023: 20:21 Hannah signs in
+Mar 24 2023: 21:09 Hannah signs in
+Mar 24 2023: 21:09 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 21:09 Finished a Cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 21:10 Reese signs in
+Mar 24 2023: 21:10 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 21:10 "Cat " is offloaded.
+Mar 24 2023: 21:10 Finished a Cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 21:10 Yello signs in
+Mar 24 2023: 21:11 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 21:11 "Bat " is onloaded.
+Mar 24 2023: 21:11 "Cow " is offloaded.
+Mar 24 2023: 21:11 "Rat " is onloaded.
+Mar 24 2023: 21:11 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 21:12 Hannah signs in
+Mar 24 2023: 21:12 Manifest ShipCase4.txt is opened, there are 7 containers on the ship
+Mar 24 2023: 21:13 "Doe " is offloaded.
+Mar 24 2023: 21:13 "Nat " is onloaded.
+Mar 24 2023: 21:13 Finished a Cycle. Manifest ShipCase4OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 21:45 hs signs in
+Mar 24 2023: 21:45 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 22:15 a signs in
+Mar 24 2023: 22:15 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 22:16 Finished a Cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 22:18 Hannah signs in
+Mar 24 2023: 22:18 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 22:18 Finished a Cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 22:19 Han signs in
+Mar 24 2023: 22:19 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 22:19 Finished a Cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 22:21 Hannah signs in
+Mar 24 2023: 22:21 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 22:22 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 22:23 Hannah signs in
+Mar 24 2023: 22:23 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 22:23 "Bat " is onloaded.
+Mar 24 2023: 22:24 "Cow " is offloaded.
+Mar 24 2023: 22:24 "Rat " is onloaded.
+Mar 24 2023: 22:24 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 22:33 Hannah signs in
+Mar 24 2023: 22:33 Manifest ShipCase1.txt is opened, there are 2 containers on the ship
+Mar 24 2023: 22:33 Finished a Cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 22:33 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 22:34 han signs in
+Mar 24 2023: 22:34 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 22:35 Han signs in
+Mar 24 2023: 22:35 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 22:35 "Nat " is onloaded.
+Mar 24 2023: 22:35 "Cow " is offloaded.
+Mar 24 2023: 22:35 "Rat " is onloaded.
+Mar 24 2023: 22:35 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 22:38 Han signs in
+Mar 24 2023: 23:31 Hannah signs in
+Mar 24 2023: 23:31 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 23:31 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 23:32 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 23:32 "Bat " is onloaded.
+Mar 24 2023: 23:32 "Cow " is offloaded.
+Mar 24 2023: 23:32 "Rat " is onloaded.
+Mar 24 2023: 23:32 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 23:35 Hannah signs in
+Mar 24 2023: 23:35 Manifest ShipCase4.txt is opened, there are 7 containers on the ship
+Mar 24 2023: 23:36 Hannah signs in
+Mar 24 2023: 23:36 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 23:36 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 23:37 Manifest ShipCase3.txt is opened, there are 6 containers on the ship
+Mar 24 2023: 23:37 "Bat " is onloaded.
+Mar 24 2023: 23:37 "Cow " is offloaded.
+Mar 24 2023: 23:37 "Rat " is onloaded.
+Mar 24 2023: 23:37 Finished a Cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed.
+Mar 24 2023: 23:48 han signs in
+Mar 24 2023: 23:48 Manifest ShipCase3.txt is opened, there are 6 containers on the ship

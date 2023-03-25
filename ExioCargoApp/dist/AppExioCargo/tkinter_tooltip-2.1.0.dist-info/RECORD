@@ -1,0 +1,17 @@
+tkinter_tooltip-2.1.0.dist-info/INSTALLER,sha256=zuuue4knoyJ-UwPPXg8fezS7VCrXJQrAP7zeNuwvFQg,4
+tkinter_tooltip-2.1.0.dist-info/LICENSE,sha256=rfsX0WmI6BGErK52wH9PXL3ZHhd7pCIY9TSlTQhcDE8,1063
+tkinter_tooltip-2.1.0.dist-info/METADATA,sha256=aWhKJo4cLUWguUK3fn3Bgu887qX-IVDS_3j3V91Li20,7304
+tkinter_tooltip-2.1.0.dist-info/RECORD,,
+tkinter_tooltip-2.1.0.dist-info/REQUESTED,sha256=47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU,0
+tkinter_tooltip-2.1.0.dist-info/WHEEL,sha256=G16H4A3IeoQmnOrYV4ueZGKSjhipXx8zc8nu9FGlvMA,92
+tkinter_tooltip-2.1.0.dist-info/top_level.txt,sha256=iyXiD-z1MmnT3kN1nsVLu88Mf4k06MUZ24PByw1uIuE,10
+tktooltip/__init__.py,sha256=O15agPjqZ7p7hhLpwHNNf069qN3mNnfsX6_RKLSZKRY,353
+tktooltip/__pycache__/__init__.cpython-39.pyc,,
+tktooltip/__pycache__/_version.cpython-39.pyc,,
+tktooltip/__pycache__/demo.cpython-39.pyc,,
+tktooltip/__pycache__/tooltip.cpython-39.pyc,,
+tktooltip/__pycache__/version.cpython-39.pyc,,
+tktooltip/_version.py,sha256=eOENqAtxL6ppbmJidvdtvkJ8Ebd34Z-0m9SNg-idtSo,142
+tktooltip/demo.py,sha256=WKoaZWN5MOb1VlUqTsMxwN2zZ8g2LkfcUz8JpeHs42M,1622
+tktooltip/tooltip.py,sha256=NXMmp-mw4r5FJ4QwwqY-JJaaNCuqQf5uDnXboURt7zE,5679
+tktooltip/version.py,sha256=JQxtormJhJDgotx3wDnHgjh2T4UU8DRvmV0_NAU6kz0,349
