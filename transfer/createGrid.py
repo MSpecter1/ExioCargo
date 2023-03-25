@@ -1,5 +1,5 @@
 class newGrid:
-    def __init__(self, grid, depth, offContainers, loadContainers, isGrabbing, parentNode, action):
+    def __init__(self, grid, depth, offContainers, loadContainers, isGrabbing, parentNode, action, offloadedContainers):
         self.grid = grid
         self.depth = depth
         self.offContainers = offContainers
@@ -7,6 +7,7 @@ class newGrid:
         self.isGrabbing = isGrabbing
         self.parentNode = parentNode
         self.action = action
+        self.offloadedContainers = offloadedContainers
 
     def getGrid(self):
         return self.grid
@@ -31,6 +32,9 @@ class newGrid:
     
     def getAction(self):
         return self.action
+    
+    def getOffloadedContainers(self):
+        return self.offloadedContainers
 
     def calcHash(self):
         ret = 0
