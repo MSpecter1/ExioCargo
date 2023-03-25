@@ -6,6 +6,9 @@ import numpy as np
 import sys
 import pathlib
 from tktooltip import ToolTip
+from tkinter.tix import *
+from tkinter import tix
+
 # from MainMenu import manifest_filepath
 # import MainMenu
 
@@ -24,7 +27,7 @@ def assignManifest(f):
 
 def transferStartUp():
     global root
-    root = tk.Tk()
+    root = tix.Tk()
 
     root.state("zoomed") # when window opens, it fills up whole screen
 
@@ -261,6 +264,7 @@ class container:
         self.y = y
         self.weight = weight
         self.frame = frame # frame is the ship_frame from the transferStartUp() function
+        self.tip = Balloon(root)
 
         if(self.name == "UNUSED"):
                 self.button = tk.Button(frame, text=name, height=4, width=7, bg='white',activebackground='lightgrey')
@@ -271,6 +275,7 @@ class container:
         else:
                 self.button = tk.Button(frame, text=name, height=4, width=7, bg='#004fff',activebackground='lightgrey')
 
+        self.tip.bind_widget(self.button, balloonmsg=f"{self.name}\n ({self.x}, {self.y}) \n Weight: {self.weight}")
     def display_info(self):
         print("Position: [",self.x,",", self.y,"], Weight:", self.weight ,"kg, Name:",self.name)
 
@@ -331,8 +336,8 @@ def pathReader(load_containers, unload_containers): # reads Balance's GUI Path O
 
     # # solution_paths.append('(99,99)(01,02) 0012 CUB [LOAD]')
     # solution_paths.append('(01,24)(03,05) 0010 CUBES [MOVE WITHIN BUFFER]')
-    # solution_paths.append('(01,25)(01,05) 0023 ORANGES [MOVE FROM BUFFER TO SHIP]')
-    # solution_paths.append('(01,05)(01,26) 0015 ORANGES [MOVE FROM SHIP TO BUFFER]')
+    # solution_paths.append('(01,25)(01,10) 0023 ORANGESORANGESORANGESORANGESORANGESORANGESORANGESORANGESORANGESORANGESORANGESORANGESORANGES ORANGESORANGESORANGES ORANGES [MOVE FROM BUFFER TO SHIP]')
+    # solution_paths.append('(01,05)(01,26) 0015 ORANGESORANGESORANGESORANGESORANGESORANGESORANGESORANGESORANGESORANGESORANGESORANGESORANGES ORANGESORANGESORANGES CaAT [MOVE FROM SHIP TO BUFFER]')
     print(solution_paths)
     est_time = 0
 
@@ -542,12 +547,22 @@ def animateDown(slot2, moveMaxHeight, moveMaxDown,name):
         lightButton.update()
         root.after(timer)
 
+def updateToolTip(op, button, n, w, x, y, containerObj):
+    # print("DESTROY", op)
+    # if(op == "MOVE WITHIN SHIP"):
+        # print("DESTROY", op)
+        containerObj.tip.destroy()
+        newTip = Balloon(root)
+        containerObj.tip = newTip
+        newTip.bind_widget(button, balloonmsg=f"{n}\n({x}, {y})\nWeight: {w}")
+    
+        
 
 def updateNextGrid(slot1, slot2, op, updateName): # updates the 8x12 grid to reflect the current step's move/task has been completed once the user presses "Next"
     slot1_row, slot1_col = slot1
     slot2_row, slot2_col = slot2
 
-    root.after(500)
+    # root.after(500)
     if(op == "MOVE WITHIN SHIP"):
         updateSlot2Button = button_grid[slot2_row][slot2_col]
         slot2Container = containers_2D[slot2_row][slot2_col]
@@ -557,6 +572,7 @@ def updateNextGrid(slot1, slot2, op, updateName): # updates the 8x12 grid to ref
         slot2Container.weight = slot1_weight
         updateSlot2Button.config(bg="#004fff", text=slot1_name)
         updateSlot2Button.update()
+        updateToolTip(op, updateSlot2Button, slot2Container.name, slot2Container.weight, slot2Container.x, slot2Container.y, slot2Container)
 
         updateSlot1Button = button_grid[slot1_row][slot1_col]
         slot1Container = containers_2D[slot1_row][slot1_col]
@@ -564,6 +580,7 @@ def updateNextGrid(slot1, slot2, op, updateName): # updates the 8x12 grid to ref
         slot1Container.weight = 0
         updateSlot1Button.config(bg="white", text="UNUSED")
         updateSlot1Button.update()
+        updateToolTip(op, updateSlot1Button, slot1Container.name, slot1Container.weight, slot1Container.x, slot1Container.y, slot1Container)
 
     if(op == "OFFLOAD"):
         updateSlot1Button = button_grid[slot1_row][slot1_col]
@@ -572,6 +589,7 @@ def updateNextGrid(slot1, slot2, op, updateName): # updates the 8x12 grid to ref
         slot1Container.weight = 0
         updateSlot1Button.config(bg="white", text="UNUSED")
         updateSlot1Button.update()
+        updateToolTip(op, updateSlot1Button, slot1Container.name, slot1Container.weight, slot1Container.x, slot1Container.y, slot1Container)
 
     if(op == "LOAD"):
         updateSlot2Button = button_grid[slot2_row][slot2_col]
@@ -580,6 +598,7 @@ def updateNextGrid(slot1, slot2, op, updateName): # updates the 8x12 grid to ref
         slot2Container.name = updateName
         updateSlot2Button.config(bg="#004fff", text=updateName)
         updateSlot2Button.update()
+        updateToolTip(op, updateSlot2Button, slot2Container.name, slot2Container.weight, slot2Container.x, slot2Container.y, slot2Container)
 
     if(op == "MOVE WITHIN BUFFER"):
         print()
@@ -591,6 +610,7 @@ def updateNextGrid(slot1, slot2, op, updateName): # updates the 8x12 grid to ref
         slot2Container.name = updateName
         updateSlot2Button.config(bg="#004fff", text=updateName)
         updateSlot2Button.update()
+        updateToolTip(op, updateSlot2Button, slot2Container.name, slot2Container.weight, slot2Container.x, slot2Container.y, slot2Container)
 
     if(op == "MOVE FROM SHIP TO BUFFER"):
         updateSlot1Button = button_grid[slot1_row][slot1_col]
@@ -599,6 +619,7 @@ def updateNextGrid(slot1, slot2, op, updateName): # updates the 8x12 grid to ref
         slot1Container.weight = 0
         updateSlot1Button.config(bg="white", text="UNUSED")
         updateSlot1Button.update()
+        updateToolTip(op, updateSlot1Button, slot1Container.name, slot1Container.weight, slot1Container.x, slot1Container.y, slot1Container)
 
     weightEntry.delete(0,END)
 
@@ -696,7 +717,7 @@ def main(user_name, load_containers, unload_containers):
         updateEstTimeLabel(i)
 
         global operationLabel
-        operationLabel = Label(frameTopRight, text = f"Move container {path_arr[i][2]} from {path_arr[i][0]} to {path_arr[i][1]}", bg="grey",fg="white",font=("Cambria", 14, "bold"))
+        operationLabel = Label(frameTopRight, text = f"Move container\n{path_arr[i][2]}\nfrom {path_arr[i][0]} to {path_arr[i][1]}", bg="grey",fg="white",font=("Cambria", 14, "bold"))
         operationLabel.pack()
                 
         logCommentLabel.pack(pady=(25,0))
@@ -740,7 +761,7 @@ def main(user_name, load_containers, unload_containers):
         if(operation == "OFFLOAD"):
             print("offloading from ship")
             # operationLabel = Label(frameTopRight, text = f"Offload container {path_arr[i][2]} at {path_arr[i][0]}", bg="grey",fg="white",font=("Cambria", 14, "bold"))
-            operationLabel.config(text = f"Offload container {path_arr[i][2]} at {path_arr[i][0]}")
+            operationLabel.config(text = f"Offload container\n{path_arr[i][2]}\nat {path_arr[i][0]}")
             while True:
                 animateOffload(slot1, name)
                 if running == False:  #add condition for when user hits "Next", stop the loop so it can go to next step's new animation
@@ -757,7 +778,7 @@ def main(user_name, load_containers, unload_containers):
             weightEntryLabel.pack(pady=(9,3))
             weightEntry.pack(pady=(0,15))
             # weightEntrySubmit.pack(pady=(3,0))
-            operationLabel.config(text = f"Load container {path_arr[i][2]} to {path_arr[i][1]}")
+            operationLabel.config(text = f"Load container\n{path_arr[i][2]}\nto {path_arr[i][1]}")
             while True:
                 print(USER)
                 animateLoad(slot2, name)
@@ -772,7 +793,7 @@ def main(user_name, load_containers, unload_containers):
 
         if(operation == "MOVE WITHIN BUFFER"):
             print("moving within buffer")
-            operationLabel.config(text = f"Inside the BUFFER, move container {path_arr[i][2]} from {path_arr[i][0]} to {path_arr[i][1]}")
+            operationLabel.config(text = f"Inside the BUFFER, move container\n{path_arr[i][2]}\nfrom {path_arr[i][0]} to {path_arr[i][1]}")
             while True:
                 dummyAnimate()
                 if running == False:  #add condition for when user hits "Next", stop the loop so it can go to next step's new animation
@@ -784,7 +805,7 @@ def main(user_name, load_containers, unload_containers):
 
         if(operation == "MOVE FROM BUFFER TO SHIP"):
             print("moving from buffer to ship")
-            operationLabel.config(text = f"Move container {path_arr[i][2]}\nfrom BUFFER at {path_arr[i][0]} to SHIP at {path_arr[i][1]}")
+            operationLabel.config(text = f"Move container\n{path_arr[i][2]}\nfrom BUFFER at {path_arr[i][0]} to SHIP at {path_arr[i][1]}")
             while True:
                 conName = path_arr[i][2]
                 animateLoad(slot2, conName)
@@ -797,7 +818,7 @@ def main(user_name, load_containers, unload_containers):
 
         if(operation == "MOVE FROM SHIP TO BUFFER"):
             print("moving from ship to buffer")
-            operationLabel.config(text = f"Move container {path_arr[i][2]}\nfrom SHIP at {path_arr[i][0]} to BUFFER at {path_arr[i][1]}")
+            operationLabel.config(text = f"Move container\n{path_arr[i][2]}\nfrom SHIP at {path_arr[i][0]} to BUFFER at {path_arr[i][1]}")
             while True:
                 conName = path_arr[i][2]
                 animateOffload(slot1, name)
