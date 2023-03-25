@@ -106,13 +106,14 @@ def importFile():
     f = open("KeoghLongBeach2023.txt", "a")
     print("start addImportFileLogEvent()") 
     # addLogEvent(("UserSwitch", getDateTime(), f"{SignInWindow.pastUser} signs out", f"{USER} signs in"))
+    containerCount = countContainers(manifest_filepath)
 
     path = pathlib.PurePath(manifest_filepath)
     txtFile = path.name
     file = txtFile.split(".txt")
     shipName = file[0]
 
-    line = getDateTime() + f"Manifest {shipName}.txt is opened\n"
+    line = getDateTime() + f"Manifest {shipName}.txt is opened, there are {containerCount} containers on the ship\n"
     f.write(line)
     print(line)
 
@@ -121,6 +122,26 @@ def importFile():
     modifyGrid.assignManifest(manifest_filepath)
     ButtonGrid.assignManifest(manifest_filepath)
     return manifest_filepath
+
+def countContainers(m):
+        count = 0
+        with open(m) as f:
+            # Per line
+            while True:
+                line = f.readline()
+                if not line:
+                    break
+                line=line.strip()
+
+                # Weight - kilograms
+                w=int(line[10:15])
+                # Name
+                n=(line[18:])
+
+                if w != 0:
+                    count+=1
+        print(count)
+        return count
 
 # TRANSFER PROBLEM WINDOW
 def transferWin():
