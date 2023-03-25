@@ -93,6 +93,8 @@ class ShipState:
         self.depth += 1
 
     # Find heuristic for balance
+    # Basis for deficit taken from professor Keogh's slides on search
+    # https://www.dropbox.com/s/k0eo95kixkyln2p/Thoughts%20on%20N-column%20Container%20Search.pptx?dl=0
     def getHeuristic(self):
         #  Get list of all containers on each side and find the deficit
         left_sum = 0
