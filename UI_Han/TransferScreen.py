@@ -8,6 +8,8 @@ import pathlib
 from tktooltip import ToolTip
 from tkinter.tix import *
 from tkinter import tix
+import MainMenu
+import UnloadContainersScreen
 
 # from MainMenu import manifest_filepath
 # import MainMenu
@@ -86,7 +88,7 @@ def transferStartUp():
 
     global mainMenuButton
     # Button goes back to the MAIN MENU
-    mainMenuButton = Button(frameTopRight,text="Exit to Main Menu")
+    mainMenuButton = Button(frameTopRight,text="Exit to Main Menu", command=lambda:[root.quit(), root.destroy(), MainMenu.main()])
     # mainMenuButton.place(x=585, y=13)  
     mainMenuButton.pack(pady=(5,0))
 
@@ -689,6 +691,7 @@ def exportOutboundManifest():
 
 
 def main(user_name, load_containers, unload_containers):
+
     USER = user_name
     ship_fr = transferStartUp()
     buildShipGrid(ship_fr)    
@@ -853,6 +856,7 @@ def main(user_name, load_containers, unload_containers):
     addLogEvent(("CycleComplete", getDateTime(), f"Finished a Cycle. Manifest {shipName}OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed." ))
     updateLogFile()
     exportOutboundManifest()
+    UnloadContainersScreen.containers_list = []
     print("Broke out of animation loop!") #break out of loop
 
     root.mainloop()

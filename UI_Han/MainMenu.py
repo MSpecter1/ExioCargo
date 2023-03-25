@@ -72,10 +72,10 @@ def mainMenu():
     importFileButton = tk.Button(text="Import Manifest",command=importFile, width=25, height=2, bg="#788bff", fg="black")
     
     # TRANSFER BUTTON
-    transferButton = Button(menuRoot,text="Transfer",width=25,height=2,bg="#9bb1ff",fg="black",  command = transferWin) # opens the window for Transfer
+    transferButton = Button(menuRoot,text="Transfer",width=25,height=2,bg="#9bb1ff",fg="black",  command = lambda:[transferWin()]) # opens the window for Transfer
 
     # BALANCE BUTTON
-    balanceButton = tk.Button(menuRoot, text="Balance", width=25, height=2, bg="#bfd7ff", fg="black", command=lambda: ButtonGrid.main(SignInWindow.username)) #runBalance()
+    balanceButton = tk.Button(menuRoot, text="Balance", width=25, height=2, bg="#bfd7ff", fg="black", command=lambda: [menuRoot.quit(), menuRoot.destroy(), ButtonGrid.main(SignInWindow.username)]) #runBalance()
 
     # FIND OUTBOUND MANIFEST BUTTON
     buttonFile = tk.Button(text="Find Outbound Manifest", command=openFile, width=25, height=2, bg="#e2fdff", fg='black')
@@ -149,7 +149,7 @@ def transferWin():
     loadInput = []
     TRANSFER = True
     print("After TRANSFER is selected it is", TRANSFER)
-    transferWindow = tk.Toplevel()
+    transferWindow = tk.Tk()
     transferWindow.title("TRANSFER")
     transferWindow.geometry("300x200")
     transferWindow.configure(background="white")
@@ -164,7 +164,7 @@ def transferWin():
     unloadBut = tk.Button(transferWindow,text="Unload",width=25,height=2,bg="#788bff",fg="black", command=lambda: UnloadContainersScreen.main())
 
     # BEGIN ORDERING BUTTON
-    beginOrderBut = tk.Button(transferWindow,text="Begin Ordering", width=25,height=2, bg="#9bb1ff",fg="black", command=lambda: [printAllContainers(), transferWindow.quit(), transferWindow.destroy(), TransferScreen.main(SignInWindow.username, loadInput, UnloadContainersScreen.containers_list)]) # printAllContainers()
+    beginOrderBut = tk.Button(transferWindow,text="Begin Ordering", width=25,height=2, bg="#9bb1ff",fg="black", command=lambda: [printAllContainers(), transferWindow.quit(), transferWindow.destroy(), menuRoot.quit(), menuRoot.destroy(), TransferScreen.main(SignInWindow.username, loadInput, UnloadContainersScreen.containers_list)]) # printAllContainers()
 
     # EXIT BUTTON
     exitBut = tk.Button(transferWindow, text = "Exit", command = transferWindow.destroy)
@@ -178,6 +178,7 @@ def transferWin():
     transferWindow.mainloop()
 
 def printAllContainers():
+    
     print('\n CONTAINERS TO LOAD: ')
     for i in loadInput:
         print(i)
