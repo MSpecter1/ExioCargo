@@ -10,7 +10,7 @@ from tkinter.tix import *
 from tkinter import tix
 import MainMenu
 import UnloadContainersScreen
-
+import os
 # from MainMenu import manifest_filepath
 # import MainMenu
 
@@ -687,7 +687,11 @@ def clearPackWidgets():
 
 def exportOutboundManifest():
     filename = shipName
-    f = open("ManifestFolder/"+filename+"OUTBOUND.txt", "w")
+    print(os.environ['USERPROFILE'])
+    desktop = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')
+    print(desktop)
+    f = open(desktop+f"\{filename}"+"OUTBOUND.txt", "w")
+    print(desktop+f"\{filename}"+"OUTBOUND.txt")
     for j in range(7,-1,-1): 
         for i in range(12):
             c = containers_2D[j][i]
